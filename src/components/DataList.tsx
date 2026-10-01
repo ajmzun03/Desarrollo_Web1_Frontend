@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-export const DataList = ({ data = [] }) => {
+export const DataList = ({ data = [] }: { data?: string[] }) => {
   const inputId = useId(); // Genera un ID único para evitar duplicados en la página
 
   return (

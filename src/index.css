@@ -16,7 +16,6 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
   color: var(--color-carbon);
   background-color: var(--color-bg-main);
 
@@ -109,4 +108,8 @@
   /* Violeta fondo */
   --color-pink-light: #fef0fe;
   /* Rosa muy claro */
+}
+
+body {
+  cursor: url('/cursor_espatula.svg') 0 0, auto;
 }
