@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { getCookie } from "../utils/cookies";
 
-const API_URL = 'https://desarrollo-web1-backend.onrender.com';
+const archivo_url = '/public/mockups/usuario.json';
+//const API_URL = 'https://desarrollo-web1-backend.onrender.com';
 
 type Usuario = {
     id: number;
-    usuario: String;
-    correo_electronico: String;
-    rol: String;
-    creado_en: String;
+    usuario: string;
+    correo_electronico: string;
+    rol: string;
+    creado_en: string;
 }
 
 export default function Usuarios(){
@@ -22,7 +23,7 @@ export default function Usuarios(){
     useEffect(()=> {
         const token = getCookie('token');
 
-        fetch(`${API_URL}/usuarios`, {
+        fetch(`${archivo_url}`, {
             headers: {
                 Authorization: `Bearer ${token}` // Agrega el token de autenticación en el encabezado
             }
