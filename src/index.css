@@ -109,3 +109,7 @@
   --color-pink-light: #fef0fe;
   /* Rosa muy claro */
 }
+
+body {
+  cursor: url('/cursor_espatula.svg') 0 0, auto;
+}
