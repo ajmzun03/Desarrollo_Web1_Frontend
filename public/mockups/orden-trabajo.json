@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "sucursal_id": 1, "receta_id": 1, "cantidad_produccion": 10, "estado": "GENERADA" },
+    { "id": 2, "sucursal_id": 2, "receta_id": 2, "cantidad_produccion": 12, "estado": "EN_PROCESO" },
+    { "id": 3, "sucursal_id": 3, "receta_id": 3, "cantidad_produccion": 20, "estado": "FINALIZADA" },
+    { "id": 4, "sucursal_id": 4, "receta_id": 4, "cantidad_produccion": 15, "estado": "ANULADA" },
+    { "id": 5, "sucursal_id": 5, "receta_id": 5, "cantidad_produccion": 8, "estado": "GENERADA" },
+    { "id": 6, "sucursal_id": 6, "receta_id": 6, "cantidad_produccion": 30, "estado": "EN_PROCESO" },
+    { "id": 7, "sucursal_id": 7, "receta_id": 7, "cantidad_produccion": 25, "estado": "FINALIZADA" },
+    { "id": 8, "sucursal_id": 8, "receta_id": 8, "cantidad_produccion": 10, "estado": "GENERADA" }
+  ],
+  "error": null
+}

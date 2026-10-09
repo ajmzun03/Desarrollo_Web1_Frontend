@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "bodega_id": 1, "lote_id": 1, "tipo_movimiento": "INGRESO", "cantidad": 100, "fecha_movimiento": "2026-02-01T08:00:00.000Z" },
+    { "id": 2, "bodega_id": 1, "lote_id": 1, "tipo_movimiento": "SALIDA", "cantidad": 20, "fecha_movimiento": "2026-02-05T09:30:00.000Z" },
+    { "id": 3, "bodega_id": 2, "lote_id": 2, "tipo_movimiento": "INGRESO", "cantidad": 200, "fecha_movimiento": "2026-02-02T08:00:00.000Z" },
+    { "id": 4, "bodega_id": 3, "lote_id": 3, "tipo_movimiento": "MERMA", "cantidad": 5, "fecha_movimiento": "2026-02-06T10:00:00.000Z" },
+    { "id": 5, "bodega_id": 4, "lote_id": 4, "tipo_movimiento": "VENCIMIENTO", "cantidad": 120, "fecha_movimiento": "2026-02-07T07:45:00.000Z" },
+    { "id": 6, "bodega_id": 5, "lote_id": 6, "tipo_movimiento": "TRASLADO", "cantidad": 50, "fecha_movimiento": "2026-02-08T11:15:00.000Z" },
+    { "id": 7, "bodega_id": 6, "lote_id": 7, "tipo_movimiento": "SALIDA", "cantidad": 5, "fecha_movimiento": "2026-02-09T12:00:00.000Z" },
+    { "id": 8, "bodega_id": 7, "lote_id": 8, "tipo_movimiento": "INGRESO", "cantidad": 80, "fecha_movimiento": "2026-02-10T08:20:00.000Z" }
+  ],
+  "error": null
+}

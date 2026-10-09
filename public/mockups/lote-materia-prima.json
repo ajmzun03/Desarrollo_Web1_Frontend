@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "materia_prima_id": 1, "fecha_vencimiento": "2026-12-31", "cantidad_inicial": 100, "cantidad_actual": 80, "estado": "VIGENTE", "creado_en": "2026-02-01T08:00:00.000Z" },
+    { "id": 2, "materia_prima_id": 2, "fecha_vencimiento": "2026-11-30", "cantidad_inicial": 200, "cantidad_actual": 200, "estado": "VIGENTE", "creado_en": "2026-02-02T08:00:00.000Z" },
+    { "id": 3, "materia_prima_id": 3, "fecha_vencimiento": "2026-10-20", "cantidad_inicial": 50, "cantidad_actual": 10, "estado": "VIGENTE", "creado_en": "2026-02-03T08:00:00.000Z" },
+    { "id": 4, "materia_prima_id": 4, "fecha_vencimiento": "2026-09-01", "cantidad_inicial": 120, "cantidad_actual": 0, "estado": "AGOTADO", "creado_en": "2026-02-04T08:00:00.000Z" },
+    { "id": 5, "materia_prima_id": 5, "fecha_vencimiento": "2027-01-15", "cantidad_inicial": 300, "cantidad_actual": 250, "estado": "VIGENTE", "creado_en": "2026-02-05T08:00:00.000Z" },
+    { "id": 6, "materia_prima_id": 6, "fecha_vencimiento": "2027-06-30", "cantidad_inicial": 500, "cantidad_actual": 400, "estado": "VIGENTE", "creado_en": "2026-02-06T08:00:00.000Z" },
+    { "id": 7, "materia_prima_id": 7, "fecha_vencimiento": "2026-10-15", "cantidad_inicial": 60, "cantidad_actual": 5, "estado": "VIGENTE", "creado_en": "2026-02-07T08:00:00.000Z" },
+    { "id": 8, "materia_prima_id": 8, "fecha_vencimiento": "2026-08-01", "cantidad_inicial": 80, "cantidad_actual": 0, "estado": "VENCIDO", "creado_en": "2026-02-08T08:00:00.000Z" }
+  ],
+  "error": null
+}

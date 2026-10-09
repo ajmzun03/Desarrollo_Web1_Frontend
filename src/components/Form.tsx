@@ -1,46 +1,50 @@
-import { setCookie } from "../utils/cookies";
+import { useState } from "react";
 import type { FormEvent } from "react";
+import { setCookie } from "../utils/cookies";
+import { authService } from "../services/auth.service";
 import { Checkbox } from "./Checkbox";
 import { DataList } from "./DataList";
 import { Input } from "./Input";
 
 const roles = ['Administrador', 'Cajero', 'Mesero', 'Cocinero'];
 
-const API_URL = 'https://desarrollo-web1-backend.onrender.com';
+// Ruta inicial según el rol del usuario que inició sesión.
+const primeraRuta = (rol: string): string => {
+  if (rol === "ADMIN" || rol === "CAJERO") return "/copac/ventas";
+  if (rol === "BODEGUERO") return "/copac/cocina";
+  if (rol === "DESPACHADOR") return "/copac/despacho";
+  return "/copac/notificaciones";
+};
 
 export const Form = () => {
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const [error, setError] = useState<string | null>(null);
+  const [cargando, setCargando] = useState(false);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
+    setCargando(true);
+
     const formData = new FormData(e.currentTarget);
 
-    fetch(`${API_URL}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        usuario: formData.get('usuario'),
-        contrasenia: formData.get('contrasenia')
-      })
-    })
-      .then(res => res.json())
-            .then(data => {
-        if (data.error) {
-          console.error('Credenciales inválidas', data.error);
-          return;
-        }
+    try {
+      const sesion = await authService.login(
+        String(formData.get("usuario") ?? ""),
+        String(formData.get("contrasenia") ?? "")
+      );
 
-        const recordar = formData.get('remember') === 'on';
-        const UN_DIA = 60 * 60 * 24; // el token dura 24 h
+      const recordar = formData.get("remember") === "on";
+      const UN_DIA = 60 * 60 * 24; // el token dura 24 h
 
-        // Con "Recordar sesión" la cookie dura 1 día; sin ella, se borra al cerrar el navegador
-        setCookie('token', data.data.token, recordar ? UN_DIA : undefined);
-        setCookie('usuario', JSON.stringify(data.data.usuario), recordar ? UN_DIA : undefined);
+      // Con "Recordar sesión" la cookie dura 1 día; sin ella, se borra al cerrar el navegador
+      setCookie("token", sesion.token, recordar ? UN_DIA : undefined);
+      setCookie("usuario", JSON.stringify(sesion.usuario), recordar ? UN_DIA : undefined);
 
-        console.log('Sesión guardada', data.data.usuario);
-      })
-
-      .catch(error => console.error(error));
+      window.location.assign(primeraRuta(sesion.usuario.rol));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No se pudo iniciar sesión.");
+      setCargando(false);
+    }
   };
 
   return (
@@ -60,6 +64,8 @@ export const Form = () => {
 
       <DataList data={roles} />
 
+      {error && <div className="login__error">{error}</div>}
+
       <div className="form__remember">
         <Checkbox
           label="Recordar sesión"
@@ -67,7 +73,9 @@ export const Form = () => {
         <a href="#reset-password">¿Olvidaste tu contraseña?</a>
       </div>
 
-      <button type="submit">Ingresar al sistema</button>
+      <button type="submit" disabled={cargando}>
+        {cargando ? "Ingresando…" : "Ingresar al sistema"}
+      </button>
     </form>
   );
 };

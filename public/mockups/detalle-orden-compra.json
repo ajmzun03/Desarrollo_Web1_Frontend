@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "orden_compra_id": 1, "materia_prima_id": 1, "cantidad_solicitada": 50, "precio_unitario": 6.5, "subtotal": 325.0 },
+    { "id": 2, "orden_compra_id": 1, "materia_prima_id": 5, "cantidad_solicitada": 100, "precio_unitario": 4.0, "subtotal": 400.0 },
+    { "id": 3, "orden_compra_id": 2, "materia_prima_id": 4, "cantidad_solicitada": 80, "precio_unitario": 8.0, "subtotal": 640.0 },
+    { "id": 4, "orden_compra_id": 3, "materia_prima_id": 3, "cantidad_solicitada": 60, "precio_unitario": 35.0, "subtotal": 2100.0 },
+    { "id": 5, "orden_compra_id": 5, "materia_prima_id": 2, "cantidad_solicitada": 120, "precio_unitario": 3.5, "subtotal": 420.0 },
+    { "id": 6, "orden_compra_id": 6, "materia_prima_id": 6, "cantidad_solicitada": 200, "precio_unitario": 1.0, "subtotal": 200.0 },
+    { "id": 7, "orden_compra_id": 7, "materia_prima_id": 7, "cantidad_solicitada": 40, "precio_unitario": 12.0, "subtotal": 480.0 },
+    { "id": 8, "orden_compra_id": 8, "materia_prima_id": 8, "cantidad_solicitada": 90, "precio_unitario": 2.5, "subtotal": 225.0 }
+  ],
+  "error": null
+}

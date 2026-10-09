@@ -12,6 +12,17 @@ dist
 dist-ssr
 *.local
 
+# Entorno y variables
+.env
+.env.*
+!.env.example
+
+# Tooling y cachés
+vite.config.ts.timestamp-*
+*.tsbuildinfo
+.eslintcache
+coverage
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

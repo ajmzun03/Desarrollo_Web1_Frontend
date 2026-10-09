@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "sucursal_id": 1, "bodega": "Bodega Central Zona 1" },
+    { "id": 2, "sucursal_id": 2, "bodega": "Bodega Antigua" },
+    { "id": 3, "sucursal_id": 3, "bodega": "Bodega Escuintla" },
+    { "id": 4, "sucursal_id": 4, "bodega": "Bodega Quetzaltenango" },
+    { "id": 5, "sucursal_id": 5, "bodega": "Bodega Flores" },
+    { "id": 6, "sucursal_id": 6, "bodega": "Bodega Puerto Barrios" },
+    { "id": 7, "sucursal_id": 7, "bodega": "Bodega Cobán" },
+    { "id": 8, "sucursal_id": 8, "bodega": "Bodega Esquipulas" }
+  ],
+  "error": null
+}

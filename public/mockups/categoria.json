@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "categoria_id": 1, "descripcion": "Bebidas", "creado_en": "2026-01-05T09:00:00.000Z" },
+    { "id": 2, "categoria_id": 2, "descripcion": "Carnes", "creado_en": "2026-01-05T09:05:00.000Z" },
+    { "id": 3, "categoria_id": 3, "descripcion": "Verduras", "creado_en": "2026-01-05T09:10:00.000Z" },
+    { "id": 4, "categoria_id": 4, "descripcion": "Lácteos", "creado_en": "2026-01-05T09:15:00.000Z" },
+    { "id": 5, "categoria_id": 5, "descripcion": "Granos", "creado_en": "2026-01-05T09:20:00.000Z" },
+    { "id": 6, "categoria_id": 6, "descripcion": "Especias", "creado_en": "2026-01-05T09:25:00.000Z" },
+    { "id": 7, "categoria_id": 7, "descripcion": "Limpieza", "creado_en": "2026-01-05T09:30:00.000Z" },
+    { "id": 8, "categoria_id": 8, "descripcion": "Panadería", "creado_en": "2026-01-05T09:35:00.000Z" }
+  ],
+  "error": null
+}

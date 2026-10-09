@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "unidad": "Unidad", "abreviatura": "UND", "creado_en": "2026-01-05T09:00:00.000Z" },
+    { "id": 2, "unidad": "Libra", "abreviatura": "LB", "creado_en": "2026-01-05T09:05:00.000Z" },
+    { "id": 3, "unidad": "Kilogramo", "abreviatura": "KG", "creado_en": "2026-01-05T09:10:00.000Z" },
+    { "id": 4, "unidad": "Litro", "abreviatura": "L", "creado_en": "2026-01-05T09:15:00.000Z" },
+    { "id": 5, "unidad": "Mililitro", "abreviatura": "ML", "creado_en": "2026-01-05T09:20:00.000Z" },
+    { "id": 6, "unidad": "Caja", "abreviatura": "CJA", "creado_en": "2026-01-05T09:25:00.000Z" },
+    { "id": 7, "unidad": "Docena", "abreviatura": "DOC", "creado_en": "2026-01-05T09:30:00.000Z" },
+    { "id": 8, "unidad": "Gramo", "abreviatura": "G", "creado_en": "2026-01-05T09:35:00.000Z" }
+  ],
+  "error": null
+}

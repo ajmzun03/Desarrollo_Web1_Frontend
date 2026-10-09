@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "hoja_recepcion_id": 1, "materia_prima_id": 1, "cantidad_recibida": 50, "fecha_vencimiento": "2026-12-30T00:00:00.000Z", "merma": 0, "saldo": 50, "estado": "COMPLETA" },
+    { "id": 2, "hoja_recepcion_id": 1, "materia_prima_id": 5, "cantidad_recibida": 100, "fecha_vencimiento": "2027-03-15T00:00:00.000Z", "merma": 0, "saldo": 100, "estado": "COMPLETA" },
+    { "id": 3, "hoja_recepcion_id": 2, "materia_prima_id": 1, "cantidad_recibida": 20, "fecha_vencimiento": "2026-12-30T00:00:00.000Z", "merma": 2, "saldo": 18, "estado": "INCOMPLETA" },
+    { "id": 4, "hoja_recepcion_id": 3, "materia_prima_id": 3, "cantidad_recibida": 60, "fecha_vencimiento": "2026-10-25T00:00:00.000Z", "merma": 0, "saldo": 60, "estado": "COMPLETA" },
+    { "id": 5, "hoja_recepcion_id": 4, "materia_prima_id": 4, "cantidad_recibida": 40, "fecha_vencimiento": "2026-11-10T00:00:00.000Z", "merma": 5, "saldo": 35, "estado": "INCOMPLETA" },
+    { "id": 6, "hoja_recepcion_id": 5, "materia_prima_id": 2, "cantidad_recibida": 120, "fecha_vencimiento": "2026-12-05T00:00:00.000Z", "merma": 0, "saldo": 120, "estado": "COMPLETA" },
+    { "id": 7, "hoja_recepcion_id": 6, "materia_prima_id": 6, "cantidad_recibida": 150, "fecha_vencimiento": "2027-06-30T00:00:00.000Z", "merma": 10, "saldo": 140, "estado": "INCOMPLETA" },
+    { "id": 8, "hoja_recepcion_id": 7, "materia_prima_id": 7, "cantidad_recibida": 40, "fecha_vencimiento": "2026-11-20T00:00:00.000Z", "merma": 0, "saldo": 40, "estado": "COMPLETA" }
+  ],
+  "error": null
+}

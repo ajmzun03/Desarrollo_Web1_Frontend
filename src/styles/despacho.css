@@ -1,0 +1,577 @@
+/* ============ CentroDespacho (src/pages/Despacho.tsx) ============ */
+.desp {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ---- Tab bar ---- */
+.desp__tabbar {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.25rem;
+  padding: 0 1.5rem;
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.desp__tab {
+  padding: 0.65rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.desp__tab:hover {
+  color: var(--color-carbon);
+}
+
+.desp__tab--active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.desp__tab-count {
+  margin-left: 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-white);
+  background-color: var(--color-primary);
+  border-radius: 999px;
+  padding: 0.1rem 0.45rem;
+}
+
+/* ---- Layout interno ---- */
+.desp__content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.desp__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-carbon);
+}
+
+.desp__subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.25rem;
+}
+
+.desp__section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.desp__btn--success {
+  background-color: var(--color-success);
+  color: var(--color-white);
+}
+
+.desp__btn--success:hover {
+  background-color: var(--color-success-text-dark);
+}
+
+/* ---- Pedidos listos: tarjetas ---- */
+.desp__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.desp__card {
+  border: 1px solid var(--color-border);
+  border-radius: 0.9rem;
+  background-color: var(--color-white);
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(33, 29, 27, 0.06);
+}
+
+.desp__card--ruta {
+  opacity: 0.6;
+}
+
+.desp__card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.desp__card-id {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.desp__card-time {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.desp__card-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.desp__card-line--b {
+  font-weight: 700;
+  color: var(--color-carbon);
+}
+
+.desp__card-line--m {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.desp__card-items {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.desp__card-obs {
+  margin-top: 0.5rem;
+  padding: 0.55rem;
+  border-radius: 0.5rem;
+  background-color: rgba(232, 160, 68, 0.15);
+  border: 1px solid rgba(232, 160, 68, 0.3);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-carbon);
+}
+
+.desp__card-obs-icon {
+  vertical-align: -2px;
+  margin-right: 0.3rem;
+}
+
+.desp__card-ruta {
+  margin-top: 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-carbon);
+}
+
+.desp__card-foot {
+  margin-top: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.desp__monto {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--color-carbon);
+}
+
+/* ---- Modal asignar repartidor ---- */
+.desp__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(33, 29, 27, 0.5);
+}
+
+.desp__modal {
+  width: min(540px, 92vw);
+  max-height: 86vh;
+  overflow-y: auto;
+  border-radius: 1rem;
+  background-color: var(--color-white);
+  padding: 1.25rem;
+  box-shadow: 0 20px 45px rgba(33, 29, 27, 0.28);
+}
+
+.desp__modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.35rem;
+}
+
+.desp__modal-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-carbon);
+}
+
+.desp__modal-close {
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 0.15rem;
+}
+
+.desp__modal-close:hover {
+  color: var(--color-carbon);
+}
+
+.desp__modal-sub {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 1rem;
+}
+
+.desp__rider-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-bottom: 1rem;
+}
+
+.desp__rider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: 0.7rem;
+  border: 2px solid var(--color-border);
+  background-color: var(--color-white);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.desp__rider:hover {
+  border-color: var(--color-text-secondary);
+}
+
+.desp__rider--selected {
+  border-color: var(--color-primary);
+  background-color: var(--color-error-bg);
+}
+
+.desp__rider-avatar {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 999px;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.desp__rider-main {
+  flex: 1;
+}
+
+.desp__rider-main {
+  flex: 1;
+}
+
+.desp__rider-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-carbon);
+}
+
+.desp__rider-meta {
+  font-size: 0.72rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.15rem;
+}
+
+.desp__rider-arrow {
+  color: var(--color-text-secondary);
+}
+
+.desp__modal-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+/* ---- Repartidores: leyenda + tarjetas ---- */
+.desp__legend {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+  padding: 0.65rem 1rem;
+  border-radius: 0.7rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-white);
+}
+
+.desp__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-carbon);
+}
+
+.desp__legend-dot {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 999px;
+}
+
+.desp__legend-dot--available { background-color: var(--color-success); }
+.desp__legend-dot--on-route { background-color: var(--color-info); }
+.desp__legend-dot--busy { background-color: var(--color-warning); }
+
+.desp__riders-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.desp__ridercard {
+  border: 1px solid var(--color-border);
+  border-radius: 0.9rem;
+  background-color: var(--color-white);
+  padding: 1rem;
+}
+
+.desp__ridercard--off {
+  opacity: 0.6;
+}
+
+.desp__ridercard-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.desp__ridercard-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-carbon);
+}
+
+.desp__ridercard-meta {
+  font-size: 0.72rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.15rem;
+}
+
+.desp__rbadge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+}
+
+.desp__rbadge--available { background-color: var(--color-success-bg); color: var(--color-success-text-dark); }
+.desp__rbadge--on-route { background-color: var(--color-info-bg); color: var(--color-info); }
+.desp__rbadge--busy { background-color: var(--color-warning-bg); color: var(--color-warning-text-dark); }
+
+.desp__ridercard-activos {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.4rem;
+}
+
+.desp__cap-bar {
+  height: 0.45rem;
+  border-radius: 999px;
+  background-color: var(--color-bg-soft);
+  overflow: hidden;
+}
+
+.desp__cap-fill {
+  height: 100%;
+  border-radius: 999px;
+  background-color: var(--color-success);
+}
+
+.desp__cap-fill--alert {
+  background-color: var(--color-error);
+}
+
+/* ---- Turno: apertura / cierre ---- */
+.desp__box {
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.desp__form-title {
+  margin-bottom: 0.75rem;
+}
+
+.desp__form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.desp__form-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  align-items: center;
+}
+
+.desp__form-field--mb {
+  margin-bottom: 0.75rem;
+}
+
+.desp__toggle {
+  display: inline-flex;
+  border: 1px solid var(--color-border);
+  border-radius: 0.6rem;
+  overflow: hidden;
+  margin-bottom: 1.25rem;
+}
+
+.desp__toggle-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  background-color: var(--color-white);
+  border: none;
+  cursor: pointer;
+}
+
+.desp__toggle-btn + .desp__toggle-btn {
+  border-left: 1px solid var(--color-border);
+}
+
+.desp__toggle-btn--on {
+  color: var(--color-white);
+  background-color: var(--color-primary);
+}
+
+.desp__turno-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.desp__turno-info-item {
+  flex: 1 1 200px;
+  border: 1px solid var(--color-border);
+  border-radius: 0.7rem;
+  background-color: var(--color-white);
+  padding: 0.75rem 1rem;
+}
+
+.desp__turno-info-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.desp__turno-info-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-carbon);
+  margin-top: 0.25rem;
+}
+
+.desp__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.desp__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-carbon);
+}
+
+.desp__kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.desp__kpi {
+  border-radius: 0.75rem;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-soft);
+}
+
+.desp__kpi-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.desp__kpi-value {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--color-carbon);
+  margin-top: 0.35rem;
+}
+
+.desp__turno-total {
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background-color: var(--color-carbon);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.desp__turno-total-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.desp__turno-total-value {
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.desp__diff {
+  border-radius: 0.75rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--color-border);
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.desp__diff--ok {
+  background-color: var(--color-success-bg);
+  color: var(--color-success-text-dark);
+  border-color: rgba(46, 139, 87, 0.35);
+}
+
+.desp__diff--bad {
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
+  border-color: rgba(192, 57, 43, 0.35);
+}

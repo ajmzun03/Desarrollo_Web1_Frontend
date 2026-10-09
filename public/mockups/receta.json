@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "producto_id": 1, "nombre": "Receta Pizza Margarita", "cantidad_lote": 10, "creada_en": "2026-02-01T08:00:00.000Z" },
+    { "id": 2, "producto_id": 2, "nombre": "Receta Hamburguesa Clásica", "cantidad_lote": 12, "creada_en": "2026-02-01T08:05:00.000Z" },
+    { "id": 3, "producto_id": 3, "nombre": "Receta Tacos al Pastor", "cantidad_lote": 20, "creada_en": "2026-02-01T08:10:00.000Z" },
+    { "id": 4, "producto_id": 4, "nombre": "Receta Ensalada César", "cantidad_lote": 15, "creada_en": "2026-02-01T08:15:00.000Z" },
+    { "id": 5, "producto_id": 5, "nombre": "Receta Sopa de Tortilla", "cantidad_lote": 8, "creada_en": "2026-02-01T08:20:00.000Z" },
+    { "id": 6, "producto_id": 6, "nombre": "Receta Refresco Natural", "cantidad_lote": 30, "creada_en": "2026-02-01T08:25:00.000Z" },
+    { "id": 7, "producto_id": 7, "nombre": "Receta Café Americano", "cantidad_lote": 25, "creada_en": "2026-02-01T08:30:00.000Z" },
+    { "id": 8, "producto_id": 8, "nombre": "Receta Postre de Chocolate", "cantidad_lote": 10, "creada_en": "2026-02-01T08:35:00.000Z" }
+  ],
+  "error": null
+}

@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "sucursal_id": 1, "tipo": "CAJA_CHICA", "nombre": "Caja Principal Zona 1" },
+    { "id": 2, "sucursal_id": 2, "tipo": "GASTOS_REPRESENTACION", "nombre": "Caja Gastos Antigua" },
+    { "id": 3, "sucursal_id": 3, "tipo": "TRANSITO", "nombre": "Caja Tránsito Escuintla" },
+    { "id": 4, "sucursal_id": 4, "tipo": "CAJA_CHICA", "nombre": "Caja Principal Quetzaltenango" },
+    { "id": 5, "sucursal_id": 5, "tipo": "GASTOS_REPRESENTACION", "nombre": "Caja Gastos Flores" },
+    { "id": 6, "sucursal_id": 6, "tipo": "TRANSITO", "nombre": "Caja Tránsito Puerto Barrios" },
+    { "id": 7, "sucursal_id": 7, "tipo": "CAJA_CHICA", "nombre": "Caja Principal Cobán" },
+    { "id": 8, "sucursal_id": 8, "tipo": "CAJA_CHICA", "nombre": "Caja Principal Esquipulas" }
+  ],
+  "error": null
+}

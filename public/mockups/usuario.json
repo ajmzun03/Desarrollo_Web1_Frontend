@@ -1,13 +1,13 @@
-[{
-    "id": 1,
-    "usuario": "john_doe",
-    "correo_electronico": "john@example.com",
-    "rol": "administrador"
-},
 {
-    "id": 2,
-    "usuario": "jane_smith",
-    "correo_electronico": "jane@example.com",
-    "rol": "usuario"
+  "data": [
+    { "id": 1, "usuario": "angel.admin", "correo_electronico": "angel.admin@copac.com", "rol": "ADMIN", "creado_en": "2026-01-05T09:00:00.000Z" },
+    { "id": 2, "usuario": "maria.admin", "correo_electronico": "maria.admin@copac.com", "rol": "ADMIN", "creado_en": "2026-01-06T09:15:00.000Z" },
+    { "id": 3, "usuario": "carlos.bodega", "correo_electronico": "carlos.bodega@copac.com", "rol": "BODEGUERO", "creado_en": "2026-01-07T10:00:00.000Z" },
+    { "id": 4, "usuario": "adrian.bodega", "correo_electronico": "adrian.bodega@copac.com", "rol": "BODEGUERO", "creado_en": "2026-01-08T10:30:00.000Z" },
+    { "id": 5, "usuario": "lucia.despacho", "correo_electronico": "lucia.despacho@copac.com", "rol": "DESPACHADOR", "creado_en": "2026-01-09T11:00:00.000Z" },
+    { "id": 6, "usuario": "pedro.reparto", "correo_electronico": "pedro.reparto@copac.com", "rol": "REPARTIDOR", "creado_en": "2026-01-10T11:30:00.000Z" },
+    { "id": 7, "usuario": "sofia.reparto", "correo_electronico": "sofia.reparto@copac.com", "rol": "REPARTIDOR", "creado_en": "2026-01-11T12:00:00.000Z" },
+    { "id": 8, "usuario": "jorge.caja", "correo_electronico": "jorge.caja@copac.com", "rol": "CAJERO", "creado_en": "2026-01-12T12:30:00.000Z" }
+  ],
+  "error": null
 }
-]

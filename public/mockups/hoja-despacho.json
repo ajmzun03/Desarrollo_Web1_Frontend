@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "pedido_id": 1, "sucursal_despacho": 1, "despachado_en": "2026-09-25T12:30:00.000Z" },
+    { "id": 2, "pedido_id": 2, "sucursal_despacho": 2, "despachado_en": "2026-09-25T12:50:00.000Z" },
+    { "id": 3, "pedido_id": 3, "sucursal_despacho": 3, "despachado_en": "2026-09-25T13:10:00.000Z" },
+    { "id": 4, "pedido_id": 4, "sucursal_despacho": 4, "despachado_en": "2026-09-25T13:30:00.000Z" },
+    { "id": 5, "pedido_id": 6, "sucursal_despacho": 5, "despachado_en": "2026-09-26T11:20:00.000Z" },
+    { "id": 6, "pedido_id": 7, "sucursal_despacho": 6, "despachado_en": "2026-09-26T11:50:00.000Z" },
+    { "id": 7, "pedido_id": 8, "sucursal_despacho": 7, "despachado_en": "2026-09-26T12:20:00.000Z" },
+    { "id": 8, "pedido_id": null, "sucursal_despacho": 8, "despachado_en": "2026-09-27T09:00:00.000Z" }
+  ],
+  "error": null
+}
