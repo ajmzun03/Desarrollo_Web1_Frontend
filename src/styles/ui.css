@@ -1,0 +1,165 @@
+/* Primitivas de UI compartidas entre las vistas (CSS plano, solo desktop). */
+.ui-panel {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.ui-btn--primary {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.ui-btn--primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.ui-btn--secondary {
+  background-color: var(--color-white);
+  color: var(--color-carbon);
+  border-color: var(--color-border-strong);
+}
+
+.ui-btn--secondary:hover {
+  background-color: var(--color-bg-soft);
+}
+
+.ui-btn--ghost {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border-color: var(--color-border);
+}
+
+.ui-btn--ghost:hover {
+  background-color: var(--color-bg-soft);
+  color: var(--color-carbon);
+}
+
+.ui-btn--block {
+  width: 100%;
+}
+
+.ui-btn:disabled {
+  background-color: var(--color-border-strong);
+  color: var(--color-white);
+  cursor: not-allowed;
+}
+
+.ui-field {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-carbon);
+  margin-bottom: 0.4rem;
+}
+
+.ui-input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-white);
+  font-size: 0.9rem;
+  color: var(--color-carbon);
+}
+
+.ui-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.ui-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ui-table thead {
+  background-color: var(--color-bg-main);
+}
+
+.ui-table th {
+  text-align: left;
+  padding: 0.6rem 1rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.ui-table td {
+  padding: 0.7rem 1rem;
+  font-size: 0.8rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.ui-table tbody tr:hover {
+  background-color: var(--color-bg-soft);
+}
+
+.ui-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.ui-badge__dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+}
+
+/* Estados de pedido */
+.ui-badge--creado { background-color: var(--color-bg-cool-gray); color: var(--color-slate-gray); }
+.ui-badge--creado .ui-badge__dot { background-color: var(--color-text-secondary); }
+.ui-badge--listo { background-color: var(--color-warning-bg); color: var(--color-warning-text-dark); }
+.ui-badge--listo .ui-badge__dot { background-color: var(--color-warning); }
+.ui-badge--anulado { background-color: var(--color-error-bg); color: var(--color-error); }
+.ui-badge--anulado .ui-badge__dot { background-color: var(--color-error); }
+.ui-badge--en-ruta { background-color: var(--color-info-bg); color: var(--color-info); }
+.ui-badge--en-ruta .ui-badge__dot { background-color: var(--color-petroleum); }
+.ui-badge--entregado { background-color: var(--color-success-bg); color: var(--color-success-text-dark); }
+.ui-badge--entregado .ui-badge__dot { background-color: var(--color-success); }
+
+.ui-select {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-main);
+  font-size: 0.9rem;
+  color: var(--color-carbon);
+}
+
+.ui-select:focus {
+  outline: none;
+  background-color: var(--color-white);
+  border-color: var(--color-primary);
+}
+
+.ui-error {
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-error-bg);
+  color: var(--color-error);
+  font-size: 0.75rem;
+}

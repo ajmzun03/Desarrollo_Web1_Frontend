@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "pedido_id": 1, "producto_id": 1, "precio_unitario": 65.0, "cantidad": 1 },
+    { "id": 2, "pedido_id": 1, "producto_id": 2, "precio_unitario": 45.0, "cantidad": 1 },
+    { "id": 3, "pedido_id": 2, "producto_id": 3, "precio_unitario": 35.0, "cantidad": 1 },
+    { "id": 4, "pedido_id": 2, "producto_id": 5, "precio_unitario": 28.0, "cantidad": 1 },
+    { "id": 5, "pedido_id": 3, "producto_id": 1, "precio_unitario": 65.0, "cantidad": 1 },
+    { "id": 6, "pedido_id": 3, "producto_id": 6, "precio_unitario": 15.0, "cantidad": 1 },
+    { "id": 7, "pedido_id": 4, "producto_id": 4, "precio_unitario": 30.0, "cantidad": 2 },
+    { "id": 8, "pedido_id": 6, "producto_id": 2, "precio_unitario": 45.0, "cantidad": 1 }
+  ],
+  "error": null
+}

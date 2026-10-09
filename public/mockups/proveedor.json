@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "no_nit": "12345678", "proveedor": "Distribuidora La Cosecha", "direccion": "Zona 12, Guatemala" },
+    { "id": 2, "no_nit": "23456789", "proveedor": "Lácteos del Valle", "direccion": "Quesada, Jutiapa" },
+    { "id": 3, "no_nit": "34567890", "proveedor": "Carnes Premium", "direccion": "Zona 4, Guatemala" },
+    { "id": 4, "no_nit": "45678901", "proveedor": "Verduras Frescas", "direccion": "Mixco, Guatemala" },
+    { "id": 5, "no_nit": "56789012", "proveedor": "Granos y Más", "direccion": "Amatitlán, Guatemala" },
+    { "id": 6, "no_nit": "67890123", "proveedor": "Especias del Mundo", "direccion": "Zona 9, Guatemala" },
+    { "id": 7, "no_nit": "78901234", "proveedor": "Limpieza Total", "direccion": "Villa Nueva, Guatemala" },
+    { "id": 8, "no_nit": "89012345", "proveedor": "Panificadora Central", "direccion": "Ciudad de Guatemala" }
+  ],
+  "error": null
+}

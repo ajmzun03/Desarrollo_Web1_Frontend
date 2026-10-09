@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "municipio_id": 1, "sucursal": "COPAC Zona 1", "direccion": "6a Avenida 12-34, Zona 1" },
+    { "id": 2, "municipio_id": 2, "sucursal": "COPAC Antigua", "direccion": "5a Calle Poniente 20" },
+    { "id": 3, "municipio_id": 3, "sucursal": "COPAC Escuintla", "direccion": "Km 62 Carretera CA-9" },
+    { "id": 4, "municipio_id": 4, "sucursal": "COPAC Quetzaltenango", "direccion": "14 Avenida 3-11, Zona 1" },
+    { "id": 5, "municipio_id": 5, "sucursal": "COPAC Flores", "direccion": "Calle Central 8" },
+    { "id": 6, "municipio_id": 6, "sucursal": "COPAC Puerto Barrios", "direccion": "7a Avenida 15-02" },
+    { "id": 7, "municipio_id": 7, "sucursal": "COPAC Cobán", "direccion": "2a Calle 4-56, Zona 2" },
+    { "id": 8, "municipio_id": 8, "sucursal": "COPAC Esquipulas", "direccion": "Ruta al Santuario Km 1" }
+  ],
+  "error": null
+}

@@ -91,6 +91,17 @@
           color: var(--color-text-secondary)
         }
       }
+
+      .login__error {
+        width: 100%;
+        padding: 0.6rem 0.8rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: var(--color-error);
+        background-color: var(--color-error-bg);
+        border-radius: 0.35rem;
+        text-align: left;
+      }
     }
 
     .login__footer {

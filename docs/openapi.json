@@ -1,0 +1,5386 @@
+
+window.onload = function() {
+  // Build a system
+  var url = window.location.search.match(/url=([^&]+)/);
+  if (url && url.length > 1) {
+    url = decodeURIComponent(url[1]);
+  } else {
+    url = window.location.origin;
+  }
+  var options = {
+  "swaggerDoc": {
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API Restaurant",
+      "version": "1.0.0",
+      "description": "API REST para McChapin 2.0"
+    },
+    "servers": [
+      {
+        "url": "https://desarrollo-web1-backend.onrender.com",
+        "description": "Servidor de producción (Render)"
+      },
+      {
+        "url": "http://localhost:3000",
+        "description": "Servidor local de desarrollo"
+      }
+    ],
+    "components": {
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    },
+    "tags": [
+      {
+        "name": "Auth",
+        "description": "Login, logout y sesión actual"
+      },
+      {
+        "name": "Categorías",
+        "description": "Catálogo de categorías de productos"
+      },
+      {
+        "name": "Usuarios",
+        "description": "Gestión de usuarios"
+      }
+    ],
+    "paths": {
+      "/usuarios": {
+        "get": {
+          "summary": "Listar todos los usuarios (solo ADMIN)",
+          "tags": [
+            "Usuarios"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de usuarios"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear un nuevo usuario (solo ADMIN)",
+          "tags": [
+            "Usuarios"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "usuario",
+                    "correo_electronico",
+                    "contrasenia",
+                    "rol"
+                  ],
+                  "properties": {
+                    "usuario": {
+                      "type": "string",
+                      "example": "carlos123"
+                    },
+                    "correo_electronico": {
+                      "type": "string",
+                      "format": "email",
+                      "example": "carlos@correo.com"
+                    },
+                    "contrasenia": {
+                      "type": "string",
+                      "format": "password",
+                      "example": "claveSegura123"
+                    },
+                    "rol": {
+                      "type": "string",
+                      "description": "Debe coincidir con un valor del enum de roles definido en db.schema.ts",
+                      "example": "ADMIN"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Usuario creado"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            }
+          }
+        }
+      },
+      "/usuarios/{id}": {
+        "get": {
+          "summary": "Obtener un usuario por ID (solo ADMIN)",
+          "tags": [
+            "Usuarios"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del usuario"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Usuario encontrado"
+            },
+            "404": {
+              "description": "Usuario no encontrado"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Actualizar un usuario existente (solo ADMIN)",
+          "tags": [
+            "Usuarios"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del usuario a actualizar"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "correo_electronico": {
+                      "type": "string",
+                      "format": "email"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Usuario actualizado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "404": {
+              "description": "Usuario no encontrado"
+            }
+          }
+        }
+      },
+      "/unidades-medida": {
+        "get": {
+          "summary": "Listar todas las unidades de medida",
+          "tags": [
+            "Unidades de Medida"
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de unidades de medida"
+            },
+            "500": {
+              "description": "Error al obtener unidades de medida"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear una nueva unidad de medida (solo ADMIN)",
+          "tags": [
+            "Unidades de Medida"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "unidad",
+                    "abreviatura"
+                  ],
+                  "properties": {
+                    "unidad": {
+                      "type": "string",
+                      "example": "Kilogramo"
+                    },
+                    "abreviatura": {
+                      "type": "string",
+                      "example": "kg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Unidad de medida creada"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error al crear unidad de medida"
+            }
+          }
+        }
+      },
+      "/unidades-medida/{id}": {
+        "get": {
+          "summary": "Obtener una unidad de medida por ID",
+          "tags": [
+            "Unidades de Medida"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la unidad de medida"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Unidad de medida encontrada"
+            },
+            "404": {
+              "description": "Unidad de medida no encontrada"
+            },
+            "500": {
+              "description": "Error al obtener unidad de medida"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Actualizar una unidad de medida existente (solo ADMIN)",
+          "tags": [
+            "Unidades de Medida"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la unidad de medida a actualizar"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "unidad": {
+                      "type": "string",
+                      "example": "Kilogramo"
+                    },
+                    "abreviatura": {
+                      "type": "string",
+                      "example": "kg"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Unidad de medida actualizada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "404": {
+              "description": "Unidad de medida no encontrada"
+            },
+            "500": {
+              "description": "Error al actualizar unidad de medida"
+            }
+          }
+        }
+      },
+      "/turnos": {
+        "get": {
+          "summary": "Listar todos los turnos",
+          "tags": [
+            "Turnos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de turnos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/turnos/pendientes-validacion": {
+        "get": {
+          "summary": "Listar turnos cerrados pendientes de validación (solo ADMIN)",
+          "tags": [
+            "Turnos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de turnos pendientes de validación"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/turnos/{id}": {
+        "get": {
+          "summary": "Obtener un turno por ID",
+          "tags": [
+            "Turnos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del turno"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Turno encontrado"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "404": {
+              "description": "Turno no encontrado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/turnos/apertura": {
+        "post": {
+          "summary": "Abrir un turno de despachador (DESPACHADOR o ADMIN)",
+          "tags": [
+            "Turnos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "caja_id",
+                    "usuario_id",
+                    "monto_apertura"
+                  ],
+                  "properties": {
+                    "caja_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "usuario_id": {
+                      "type": "integer",
+                      "example": 4
+                    },
+                    "administrador_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "monto_apertura": {
+                      "type": "number",
+                      "example": 500
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Turno abierto"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (DESPACHADOR o ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/turnos/{id}/cierre": {
+        "patch": {
+          "summary": "Cerrar un turno con el monto declarado (DESPACHADOR o ADMIN)",
+          "tags": [
+            "Turnos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del turno a cerrar"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "monto_cierre_declarado"
+                  ],
+                  "properties": {
+                    "monto_cierre_declarado": {
+                      "type": "number",
+                      "example": 1200
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Turno cerrado"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (DESPACHADOR o ADMIN)"
+            },
+            "404": {
+              "description": "Turno no encontrado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/turnos/{id}/validar": {
+        "patch": {
+          "summary": "Validar el cierre de un turno con el monto del sistema (solo ADMIN)",
+          "tags": [
+            "Turnos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del turno a validar"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "monto_cierre_sistema"
+                  ],
+                  "properties": {
+                    "monto_cierre_sistema": {
+                      "type": "number",
+                      "example": 1150
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Turno validado, devuelve la diferencia"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "404": {
+              "description": "Turno no encontrado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/sucursales": {
+        "get": {
+          "summary": "Listar todas las sucursales",
+          "tags": [
+            "Sucursales"
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de sucursales"
+            },
+            "500": {
+              "description": "Error al obtener sucursales"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear una nueva sucursal (solo ADMIN)",
+          "tags": [
+            "Sucursales"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "municipio_id",
+                    "sucursal",
+                    "direccion"
+                  ],
+                  "properties": {
+                    "municipio_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "sucursal": {
+                      "type": "string",
+                      "example": "Sucursal Centro"
+                    },
+                    "direccion": {
+                      "type": "string",
+                      "example": "5a Avenida 10-20"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Sucursal creada"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error al crear sucursal"
+            }
+          }
+        }
+      },
+      "/sucursales/{id}": {
+        "get": {
+          "summary": "Obtener una sucursal por ID",
+          "tags": [
+            "Sucursales"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la sucursal"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Sucursal encontrada"
+            },
+            "404": {
+              "description": "Sucursal no encontrada"
+            },
+            "500": {
+              "description": "Error al obtener sucursal"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Actualizar una sucursal existente (solo ADMIN)",
+          "tags": [
+            "Sucursales"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la sucursal a actualizar"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "municipio_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "sucursal": {
+                      "type": "string",
+                      "example": "Sucursal Centro"
+                    },
+                    "direccion": {
+                      "type": "string",
+                      "example": "5a Avenida 10-20"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Sucursal actualizada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "404": {
+              "description": "Sucursal no encontrada"
+            },
+            "500": {
+              "description": "Error al actualizar sucursal"
+            }
+          }
+        }
+      },
+      "/stock-bodega": {
+        "get": {
+          "summary": "Listar stock de bodega (filtrable por bodega)",
+          "tags": [
+            "Stock Bodega"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "bodega_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar el stock por ID de bodega"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de stock de bodega"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (BODEGUERO o ADMIN)"
+            },
+            "500": {
+              "description": "Error al obtener stock de bodega"
+            }
+          }
+        }
+      },
+      "/stock-alacena": {
+        "get": {
+          "summary": "Listar stock de alacena (filtrable por alacena)",
+          "tags": [
+            "Stock Alacena"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "alacena_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar el stock por ID de alacena"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de stock de alacena"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (BODEGUERO o ADMIN)"
+            },
+            "500": {
+              "description": "Error al obtener stock de alacena"
+            }
+          }
+        }
+      },
+      "/reportes/utilidad-diaria": {
+        "get": {
+          "summary": "Reporte de utilidad diaria (ventas - costos)",
+          "tags": [
+            "Reportes"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "sucursal_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar por ID de sucursal"
+            },
+            {
+              "in": "query",
+              "name": "fecha",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "format": "date"
+              },
+              "description": "Fecha del reporte (YYYY-MM-DD). Si no se envía, usa la fecha actual"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Reporte de utilidad diaria"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error al obtener reporte de utilidad diaria"
+            }
+          }
+        }
+      },
+      "/reportes/gastos-operativos": {
+        "get": {
+          "summary": "Reporte de gastos operativos por rango de fechas",
+          "tags": [
+            "Reportes"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "desde",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "format": "date"
+              },
+              "description": "Fecha inicial del rango (YYYY-MM-DD)"
+            },
+            {
+              "in": "query",
+              "name": "hasta",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "format": "date"
+              },
+              "description": "Fecha final del rango (YYYY-MM-DD)"
+            },
+            {
+              "in": "query",
+              "name": "sucursal_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar por ID de sucursal"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Reporte de gastos operativos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error al obtener reporte de gastos operativos"
+            }
+          }
+        }
+      },
+      "/reportes/anulaciones": {
+        "get": {
+          "summary": "Reporte de pedidos anulados por rango de fechas",
+          "tags": [
+            "Reportes"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "desde",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "format": "date"
+              },
+              "description": "Fecha inicial del rango (YYYY-MM-DD)"
+            },
+            {
+              "in": "query",
+              "name": "hasta",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "format": "date"
+              },
+              "description": "Fecha final del rango (YYYY-MM-DD)"
+            },
+            {
+              "in": "query",
+              "name": "sucursal_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar por ID de sucursal"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Reporte de anulaciones"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error al obtener reporte de anulaciones"
+            }
+          }
+        }
+      },
+      "/reportes/auditoria/movimientos": {
+        "get": {
+          "summary": "Auditoría de movimientos (kardex y facturas) con filtros",
+          "tags": [
+            "Reportes"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "tipo",
+              "required": false,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Tipo de movimiento (ENTRADA, SALIDA, COMPRA, VENTA, etc.)"
+            },
+            {
+              "in": "query",
+              "name": "sucursal_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar por ID de sucursal"
+            },
+            {
+              "in": "query",
+              "name": "desde",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "format": "date"
+              },
+              "description": "Fecha inicial del rango (YYYY-MM-DD)"
+            },
+            {
+              "in": "query",
+              "name": "hasta",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "format": "date"
+              },
+              "description": "Fecha final del rango (YYYY-MM-DD)"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Auditoría de movimientos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error al obtener auditoría de movimientos"
+            }
+          }
+        }
+      },
+      "/reportes/repartidores/disponibles": {
+        "get": {
+          "summary": "Listar repartidores disponibles",
+          "tags": [
+            "Reportes"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "sucursal_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar por ID de sucursal"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de repartidores disponibles"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN o DESPACHADOR)"
+            },
+            "500": {
+              "description": "Error al obtener repartidores disponibles"
+            }
+          }
+        }
+      },
+      "/recetas": {
+        "get": {
+          "summary": "Listar todas las recetas",
+          "tags": [
+            "Recetas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de recetas"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear una nueva receta (solo ADMIN)",
+          "tags": [
+            "Recetas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "producto_id",
+                    "nombre",
+                    "cantidad_lote"
+                  ],
+                  "properties": {
+                    "producto_id": {
+                      "type": "integer",
+                      "example": 3
+                    },
+                    "nombre": {
+                      "type": "string",
+                      "example": "Tortilla de harina"
+                    },
+                    "cantidad_lote": {
+                      "type": "number",
+                      "example": 50
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "materia_prima_id",
+                          "cantidad_necesaria"
+                        ],
+                        "properties": {
+                          "materia_prima_id": {
+                            "type": "integer",
+                            "example": 8
+                          },
+                          "cantidad_necesaria": {
+                            "type": "number",
+                            "example": 2.5
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Receta creada con sus detalles"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/recetas/{id}": {
+        "get": {
+          "summary": "Obtener una receta por ID con sus detalles",
+          "tags": [
+            "Recetas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la receta"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Receta encontrada con sus detalles"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "404": {
+              "description": "Receta no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Actualizar una receta existente (solo ADMIN)",
+          "tags": [
+            "Recetas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la receta a actualizar"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "producto_id": {
+                      "type": "integer"
+                    },
+                    "nombre": {
+                      "type": "string"
+                    },
+                    "cantidad_lote": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Receta actualizada"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "404": {
+              "description": "Receta no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/proveedores": {
+        "get": {
+          "summary": "Listar todos los proveedores",
+          "tags": [
+            "Proveedores"
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de proveedores"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear un nuevo proveedor (solo ADMIN)",
+          "tags": [
+            "Proveedores"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "noNit",
+                    "proveedor"
+                  ],
+                  "properties": {
+                    "noNit": {
+                      "type": "string",
+                      "example": "123456789"
+                    },
+                    "proveedor": {
+                      "type": "string",
+                      "example": "Distribuidora XYZ"
+                    },
+                    "direccion": {
+                      "type": "string",
+                      "example": "Av. Principal 123"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Proveedor creado"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/proveedores/{id}": {
+        "get": {
+          "summary": "Obtener un proveedor por ID",
+          "tags": [
+            "Proveedores"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del proveedor"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Proveedor encontrado"
+            },
+            "404": {
+              "description": "Proveedor no encontrado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Actualizar un proveedor existente (solo ADMIN)",
+          "tags": [
+            "Proveedores"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del proveedor a actualizar"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "proveedor": {
+                      "type": "string",
+                      "example": "Distribuidora XYZ"
+                    },
+                    "direccion": {
+                      "type": "string",
+                      "example": "Av. Principal 456"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Proveedor actualizado"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "404": {
+              "description": "Proveedor no encontrado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/productos": {
+        "get": {
+          "summary": "Listar todos los productos (público)",
+          "tags": [
+            "Productos"
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de productos"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear un nuevo producto (ADMIN o BODEGUERO)",
+          "tags": [
+            "Productos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "categoria_id",
+                    "unidad_medida_id",
+                    "producto",
+                    "precio"
+                  ],
+                  "properties": {
+                    "categoria_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "unidad_medida_id": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "producto": {
+                      "type": "string",
+                      "example": "Tortilla de maíz"
+                    },
+                    "precio": {
+                      "type": "number",
+                      "example": 15.5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Producto creado"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN o BODEGUERO)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/productos/disponibilidad": {
+        "get": {
+          "summary": "Obtener la disponibilidad de productos (público)",
+          "tags": [
+            "Productos"
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "sucursal_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar disponibilidad por ID de sucursal"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Disponibilidad de productos"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/productos/{id}": {
+        "get": {
+          "summary": "Obtener un producto por ID (público)",
+          "tags": [
+            "Productos"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del producto"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Producto encontrado"
+            },
+            "404": {
+              "description": "Producto no encontrado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Actualizar un producto existente (ADMIN o BODEGUERO)",
+          "tags": [
+            "Productos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del producto a actualizar"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "categoria_id": {
+                      "type": "integer"
+                    },
+                    "unidad_medida_id": {
+                      "type": "integer"
+                    },
+                    "producto": {
+                      "type": "string"
+                    },
+                    "precio": {
+                      "type": "number"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Producto actualizado"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN o BODEGUERO)"
+            },
+            "404": {
+              "description": "Producto no encontrado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/productos/{id}/stock-minimo": {
+        "patch": {
+          "summary": "Actualizar el stock mínimo de un producto (solo ADMIN)",
+          "tags": [
+            "Productos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del producto"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "stock_minimo"
+                  ],
+                  "properties": {
+                    "stock_minimo": {
+                      "type": "integer",
+                      "example": 10
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Stock mínimo actualizado"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "404": {
+              "description": "Producto no encontrado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/pedidos": {
+        "get": {
+          "summary": "Listar todos los pedidos",
+          "tags": [
+            "Pedidos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de pedidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear un nuevo pedido",
+          "tags": [
+            "Pedidos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "cliente_id",
+                    "items"
+                  ],
+                  "properties": {
+                    "cliente_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "observaciones": {
+                      "type": "string",
+                      "example": "Sin sal"
+                    },
+                    "items": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "producto_id",
+                          "cantidad"
+                        ],
+                        "properties": {
+                          "producto_id": {
+                            "type": "integer",
+                            "example": 3
+                          },
+                          "cantidad": {
+                            "type": "number",
+                            "example": 2
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Pedido creado con sus detalles"
+            },
+            "400": {
+              "description": "Datos inválidos (cliente_id e items son requeridos)"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/pedidos/listos": {
+        "get": {
+          "summary": "Listar pedidos en estado LISTO (DESPACHADOR o ADMIN)",
+          "tags": [
+            "Pedidos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de pedidos listos para despacho"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (DESPACHADOR o ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/pedidos/{id}": {
+        "get": {
+          "summary": "Obtener un pedido por ID con sus detalles",
+          "tags": [
+            "Pedidos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del pedido"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Pedido encontrado con sus detalles"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "404": {
+              "description": "Pedido no encontrado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/pedidos/{id}/estado": {
+        "patch": {
+          "summary": "Cambiar el estado de un pedido (solo ADMIN)",
+          "tags": [
+            "Pedidos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del pedido"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "estado"
+                  ],
+                  "properties": {
+                    "estado": {
+                      "type": "string",
+                      "enum": [
+                        "CREADO",
+                        "LISTO",
+                        "ANULADO",
+                        "EN_RUTA",
+                        "ENTREGADO"
+                      ],
+                      "example": "EN_RUTA"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Estado del pedido actualizado"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "404": {
+              "description": "Pedido no encontrado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/pedidos/{id}/confirmar": {
+        "patch": {
+          "summary": "Confirmar un pedido, lo pasa a estado LISTO (ADMIN o CAJERO)",
+          "tags": [
+            "Pedidos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del pedido a confirmar"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Pedido confirmado"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN o CAJERO)"
+            },
+            "404": {
+              "description": "Pedido no encontrado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/pedidos/{id}/entregado": {
+        "patch": {
+          "summary": "Marcar un pedido como ENTREGADO (DESPACHADOR o REPARTIDOR)",
+          "tags": [
+            "Pedidos"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del pedido a entregar"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Pedido marcado como entregado"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (DESPACHADOR o REPARTIDOR)"
+            },
+            "404": {
+              "description": "Pedido no encontrado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/pagos/checkout": {
+        "post": {
+          "summary": "Crear una sesión de pago Stripe",
+          "tags": [
+            "Pagos"
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "nombre",
+                          "cantidad",
+                          "monto"
+                        ],
+                        "properties": {
+                          "nombre": {
+                            "type": "string",
+                            "example": "Hamburguesa doble"
+                          },
+                          "cantidad": {
+                            "type": "integer",
+                            "example": 2
+                          },
+                          "monto": {
+                            "type": "number",
+                            "example": 45.5
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Sesión creada, devuelve la URL de pago"
+            },
+            "400": {
+              "description": "items es requerido"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/pagos/payment-intent": {
+        "post": {
+          "summary": "Cobrar con tarjeta directamente desde el backend (PaymentIntent)",
+          "tags": [
+            "Pagos"
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "items"
+                  ],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "nombre",
+                          "cantidad",
+                          "monto"
+                        ],
+                        "properties": {
+                          "nombre": {
+                            "type": "string",
+                            "example": "Hamburguesa doble"
+                          },
+                          "cantidad": {
+                            "type": "integer",
+                            "example": 2
+                          },
+                          "monto": {
+                            "type": "number",
+                            "example": 45.5
+                          }
+                        }
+                      }
+                    },
+                    "payment_method": {
+                      "type": "string",
+                      "description": "ID creado con Stripe Elements (recomendado en producción). Opcional si envias tarjeta.",
+                      "example": "pm_1..."
+                    },
+                    "tarjeta": {
+                      "type": "object",
+                      "description": "Datos de tarjeta de prueba (solo test mode). Opcional si envias payment_method.",
+                      "properties": {
+                        "number": {
+                          "type": "string",
+                          "example": "4242424242424242"
+                        },
+                        "exp_month": {
+                          "type": "integer",
+                          "example": 12
+                        },
+                        "exp_year": {
+                          "type": "integer",
+                          "example": 2027
+                        },
+                        "cvc": {
+                          "type": "string",
+                          "example": "314"
+                        }
+                      }
+                    },
+                    "pedido_id": {
+                      "type": "integer",
+                      "description": "ID del pedido asociado al pago (se guarda como metadata en Stripe)",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Pago procesado, devuelve el id y status del PaymentIntent"
+            },
+            "400": {
+              "description": "items requeridos, o tarjeta/payment_method inválidos"
+            },
+            "500": {
+              "description": "Error al procesar el pago"
+            }
+          }
+        }
+      },
+      "/pagos/{id}": {
+        "get": {
+          "summary": "Obtener el estado de un PaymentIntent",
+          "tags": [
+            "Pagos"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "ID del PaymentIntent (pi_...)"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Estado del pago"
+            },
+            "404": {
+              "description": "PaymentIntent no encontrado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/ordenes-trabajo": {
+        "get": {
+          "summary": "Listar órdenes de trabajo (filtrable por sucursal y estado)",
+          "tags": [
+            "ÓrdenesTrabajo"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "sucursal_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar órdenes por ID de sucursal"
+            },
+            {
+              "in": "query",
+              "name": "estado",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "GENERADA",
+                  "EN_PROCESO",
+                  "ANULADA",
+                  "FINALIZADA"
+                ]
+              },
+              "description": "Filtrar órdenes por estado"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de órdenes de trabajo"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear una nueva orden de trabajo (solo ADMIN)",
+          "tags": [
+            "ÓrdenesTrabajo"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "sucursal_id",
+                    "receta_id",
+                    "cantidad_produccion"
+                  ],
+                  "properties": {
+                    "sucursal_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "receta_id": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "cantidad_produccion": {
+                      "type": "number",
+                      "example": 40
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Orden de trabajo creada"
+            },
+            "400": {
+              "description": "Datos inválidos (sucursal_id, receta_id y cantidad_produccion son requeridos)"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/ordenes-trabajo/cola": {
+        "get": {
+          "summary": "Obtener la cola de órdenes pendientes (estado GENERADA)",
+          "tags": [
+            "ÓrdenesTrabajo"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "sucursal_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar la cola por ID de sucursal"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Cola de órdenes de trabajo pendientes"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/ordenes-trabajo/{id}": {
+        "get": {
+          "summary": "Obtener una orden de trabajo por ID",
+          "tags": [
+            "ÓrdenesTrabajo"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la orden de trabajo"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Orden de trabajo encontrada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "404": {
+              "description": "Orden de trabajo no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/ordenes-trabajo/{id}/receta": {
+        "get": {
+          "summary": "Obtener la receta asociada a una orden de trabajo",
+          "tags": [
+            "ÓrdenesTrabajo"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la orden de trabajo"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Receta de la orden de trabajo con sus detalles"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "404": {
+              "description": "Orden de trabajo no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/ordenes-trabajo/{id}/estado": {
+        "patch": {
+          "summary": "Cambiar el estado de una orden de trabajo (solo ADMIN)",
+          "tags": [
+            "ÓrdenesTrabajo"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la orden de trabajo"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "estado"
+                  ],
+                  "properties": {
+                    "estado": {
+                      "type": "string",
+                      "enum": [
+                        "GENERADA",
+                        "EN_PROCESO",
+                        "ANULADA",
+                        "FINALIZADA"
+                      ],
+                      "example": "ANULADA"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Estado de la orden actualizado"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "404": {
+              "description": "Orden de trabajo no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/ordenes-trabajo/{id}/iniciar": {
+        "patch": {
+          "summary": "Iniciar una orden de trabajo, pasa a EN_PROCESO (solo ADMIN)",
+          "tags": [
+            "ÓrdenesTrabajo"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la orden de trabajo a iniciar"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Orden de trabajo iniciada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "404": {
+              "description": "Orden de trabajo no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/ordenes-trabajo/{id}/terminar": {
+        "patch": {
+          "summary": "Terminar una orden de trabajo, genera lote de producto y pasa a FINALIZADA (solo ADMIN)",
+          "tags": [
+            "ÓrdenesTrabajo"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la orden de trabajo a terminar"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Orden de trabajo finalizada con su lote generado"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "404": {
+              "description": "Orden de trabajo no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/ordenes-compra": {
+        "get": {
+          "summary": "Listar órdenes de compra con filtros opcionales",
+          "tags": [
+            "ÓrdenesCompra"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "estado",
+              "required": false,
+              "schema": {
+                "type": "string",
+                "enum": [
+                  "CREADA",
+                  "EN_PROCESO",
+                  "FINALIZADO",
+                  "ANULADO"
+                ]
+              },
+              "description": "Filtra por estado de la orden"
+            },
+            {
+              "in": "query",
+              "name": "sucursal_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtra por sucursal de destino"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de órdenes de compra"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear una nueva orden de compra (solo ADMIN)",
+          "tags": [
+            "ÓrdenesCompra"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "proveedor_id",
+                    "sucursal_destino",
+                    "items"
+                  ],
+                  "properties": {
+                    "proveedor_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "sucursal_destino": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "materia_prima_id",
+                          "cantidad_solicitada",
+                          "precio_unitario"
+                        ],
+                        "properties": {
+                          "materia_prima_id": {
+                            "type": "integer"
+                          },
+                          "cantidad_solicitada": {
+                            "type": "number"
+                          },
+                          "precio_unitario": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Orden de compra creada"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/ordenes-compra/programadas": {
+        "get": {
+          "summary": "Listar órdenes de compra programadas (EN_PROCESO)",
+          "tags": [
+            "ÓrdenesCompra"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "bodega_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la bodega (opcional)"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de órdenes de compra programadas"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (BODEGUERO o ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/ordenes-compra/{id}": {
+        "get": {
+          "summary": "Obtener una orden de compra por ID con sus detalles",
+          "tags": [
+            "ÓrdenesCompra"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la orden de compra"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Orden de compra encontrada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "404": {
+              "description": "Orden de compra no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/ordenes-compra/{id}/agendar": {
+        "patch": {
+          "summary": "Agendar una orden de compra (cambia su estado a EN_PROCESO, solo ADMIN)",
+          "tags": [
+            "ÓrdenesCompra"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la orden de compra a agendar"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Orden de compra agendada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "404": {
+              "description": "Orden de compra no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/ordenes-compra/{id}/estado": {
+        "patch": {
+          "summary": "Actualizar el estado de una orden de compra (solo ADMIN)",
+          "tags": [
+            "ÓrdenesCompra"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la orden de compra"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "estado"
+                  ],
+                  "properties": {
+                    "estado": {
+                      "type": "string",
+                      "enum": [
+                        "CREADA",
+                        "EN_PROCESO",
+                        "FINALIZADO",
+                        "ANULADO"
+                      ],
+                      "example": "FINALIZADO"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Estado de la orden de compra actualizado"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "404": {
+              "description": "Orden de compra no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/municipios": {
+        "get": {
+          "summary": "Listar municipios, opcionalmente filtrados por departamento",
+          "tags": [
+            "Municipios"
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "departamento_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del departamento para filtrar los municipios"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de municipios"
+            },
+            "500": {
+              "description": "Error al obtener municipios"
+            }
+          }
+        }
+      },
+      "/municipios/departamentos": {
+        "get": {
+          "summary": "Listar todos los departamentos",
+          "tags": [
+            "Municipios"
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de departamentos"
+            },
+            "500": {
+              "description": "Error al obtener departamentos"
+            }
+          }
+        }
+      },
+      "/materias-primas": {
+        "get": {
+          "summary": "Listar todas las materias primas",
+          "tags": [
+            "MateriasPrimas"
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de materias primas"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear una nueva materia prima (ADMIN o BODEGUERO)",
+          "tags": [
+            "MateriasPrimas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "categoria_id",
+                    "unidad_medida_id",
+                    "materia_prima",
+                    "es_perecedera",
+                    "maneja_merma"
+                  ],
+                  "properties": {
+                    "categoria_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "unidad_medida_id": {
+                      "type": "integer",
+                      "example": 3
+                    },
+                    "materia_prima": {
+                      "type": "string",
+                      "example": "Harina de trigo"
+                    },
+                    "es_perecedera": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "maneja_merma": {
+                      "type": "boolean",
+                      "example": false
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Materia prima creada"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN o BODEGUERO)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/materias-primas/{id}": {
+        "get": {
+          "summary": "Obtener una materia prima por ID",
+          "tags": [
+            "MateriasPrimas"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la materia prima"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Materia prima encontrada"
+            },
+            "404": {
+              "description": "Materia prima no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Actualizar una materia prima existente (ADMIN o BODEGUERO)",
+          "tags": [
+            "MateriasPrimas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la materia prima a actualizar"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "materia_prima": {
+                      "type": "string",
+                      "example": "Harina de maíz"
+                    },
+                    "es_perecedera": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Materia prima actualizada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN o BODEGUERO)"
+            },
+            "404": {
+              "description": "Materia prima no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/liquidaciones": {
+        "get": {
+          "summary": "Listar liquidaciones con filtro opcional de turno",
+          "tags": [
+            "Liquidaciones"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "turno_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtra por turno"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de liquidaciones"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear una liquidación de repartidor (REPARTIDOR o ADMIN)",
+          "tags": [
+            "Liquidaciones"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "turno_id",
+                    "repartidor_id"
+                  ],
+                  "properties": {
+                    "turno_id": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "repartidor_id": {
+                      "type": "integer",
+                      "example": 5
+                    },
+                    "monto_entregado_repartidor": {
+                      "type": "number",
+                      "example": 300
+                    },
+                    "monto_recaudado_efectivo": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "monto_recaudado_voucher": {
+                      "type": "number",
+                      "example": 150
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Liquidación creada"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (REPARTIDOR o ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/liquidaciones/{id}": {
+        "get": {
+          "summary": "Obtener una liquidación de repartidor por ID",
+          "tags": [
+            "Liquidaciones"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la liquidación"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Liquidación encontrada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "404": {
+              "description": "Liquidación no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/kardex-bodega": {
+        "get": {
+          "summary": "Listar movimientos de kardex de bodega (filtrable por bodega o lote)",
+          "tags": [
+            "Kardex Bodega"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "bodega_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar por ID de bodega"
+            },
+            {
+              "in": "query",
+              "name": "lote_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar por ID de lote (tiene prioridad sobre bodega_id)"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de movimientos de kardex de bodega"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error al obtener kardex de bodega"
+            }
+          }
+        }
+      },
+      "/kardex-alacena": {
+        "get": {
+          "summary": "Listar movimientos de kardex de alacena (filtrable por alacena)",
+          "tags": [
+            "Kardex Alacena"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "alacena_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar por ID de alacena"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de movimientos de kardex de alacena"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error al obtener kardex de alacena"
+            }
+          }
+        }
+      },
+      "/hojas-recepcion": {
+        "get": {
+          "summary": "Listar hojas de recepción con filtro opcional de sucursal",
+          "tags": [
+            "HojasRecepcion"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "sucursal_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtra por sucursal receptora"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de hojas de recepción"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (BODEGUERO o ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear una hoja de recepción (BODEGUERO o ADMIN)",
+          "tags": [
+            "HojasRecepcion"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "sucursal_receptora",
+                    "items"
+                  ],
+                  "properties": {
+                    "sucursal_receptora": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "orden_compra_id": {
+                      "type": "integer",
+                      "example": 5
+                    },
+                    "tipo_recepcion": {
+                      "type": "string",
+                      "enum": [
+                        "TOTAL",
+                        "PARCIAL"
+                      ],
+                      "example": "TOTAL"
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "materia_prima_id",
+                          "cantidad_recibida",
+                          "fecha_vencimiento"
+                        ],
+                        "properties": {
+                          "materia_prima_id": {
+                            "type": "integer"
+                          },
+                          "cantidad_recibida": {
+                            "type": "number"
+                          },
+                          "fecha_vencimiento": {
+                            "type": "string",
+                            "format": "date"
+                          },
+                          "merma": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Hoja de recepción creada"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (BODEGUERO o ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/hojas-recepcion/{id}": {
+        "get": {
+          "summary": "Obtener una hoja de recepción por ID con sus detalles",
+          "tags": [
+            "HojasRecepcion"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la hoja de recepción"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Hoja de recepción encontrada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (BODEGUERO o ADMIN)"
+            },
+            "404": {
+              "description": "Hoja de recepción no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/hojas-despacho": {
+        "get": {
+          "summary": "Listar todas las hojas de despacho",
+          "tags": [
+            "HojasDespacho"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de hojas de despacho"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (DESPACHADOR o ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear una hoja de despacho (DESPACHADOR o ADMIN)",
+          "tags": [
+            "HojasDespacho"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "pedido_id",
+                    "sucursal_despacho"
+                  ],
+                  "properties": {
+                    "pedido_id": {
+                      "type": "integer",
+                      "example": 3
+                    },
+                    "sucursal_despacho": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "producto_lote_id",
+                          "cantidad_despachada"
+                        ],
+                        "properties": {
+                          "producto_lote_id": {
+                            "type": "integer"
+                          },
+                          "cantidad_despachada": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Hoja de despacho creada"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (DESPACHADOR o ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/hojas-despacho/{id}": {
+        "get": {
+          "summary": "Obtener una hoja de despacho por ID con sus detalles",
+          "tags": [
+            "HojasDespacho"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la hoja de despacho"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Hoja de despacho encontrada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (DESPACHADOR o ADMIN)"
+            },
+            "404": {
+              "description": "Hoja de despacho no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/gastos-sucursal": {
+        "get": {
+          "summary": "Listar gastos de sucursal con filtro opcional de sucursal",
+          "tags": [
+            "GastosSucursal"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "sucursal_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtra por sucursal"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de gastos de sucursal"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear un gasto de sucursal (solo ADMIN)",
+          "tags": [
+            "GastosSucursal"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "sucursal_id"
+                  ],
+                  "properties": {
+                    "sucursal_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "caja_id": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "usuario_id": {
+                      "type": "integer",
+                      "example": 3
+                    },
+                    "monto_apertura": {
+                      "type": "number",
+                      "example": 200
+                    },
+                    "monto_cierre_declarado": {
+                      "type": "number",
+                      "example": 180
+                    },
+                    "monto_cierre_sistema": {
+                      "type": "number",
+                      "example": 185
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Gasto de sucursal creado"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/gastos-sucursal/{id}": {
+        "get": {
+          "summary": "Obtener un gasto de sucursal por ID",
+          "tags": [
+            "GastosSucursal"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del gasto de sucursal"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Gasto de sucursal encontrado"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "404": {
+              "description": "Gasto de sucursal no encontrado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/facturas-venta": {
+        "get": {
+          "summary": "Listar facturas de venta (filtrable por pedido)",
+          "tags": [
+            "FacturasVenta"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "pedido_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar facturas por ID de pedido"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de facturas de venta"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear una factura de venta (CAJERO o ADMIN)",
+          "tags": [
+            "FacturasVenta"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "pedido_id",
+                    "serie",
+                    "numero",
+                    "total"
+                  ],
+                  "properties": {
+                    "pedido_id": {
+                      "type": "integer",
+                      "example": 5
+                    },
+                    "serie": {
+                      "type": "string",
+                      "example": "F001"
+                    },
+                    "numero": {
+                      "type": "string",
+                      "example": "000123"
+                    },
+                    "fecha_emision": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2026-09-17T12:00:00"
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 125.5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Factura de venta creada"
+            },
+            "400": {
+              "description": "Datos inválidos (pedido_id, serie, numero y total son requeridos)"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (CAJERO o ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/facturas-venta/{id}": {
+        "get": {
+          "summary": "Obtener una factura de venta por ID",
+          "tags": [
+            "FacturasVenta"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la factura de venta"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Factura de venta encontrada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "404": {
+              "description": "Factura de venta no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/facturas-compra": {
+        "get": {
+          "summary": "Listar todas las facturas de compra",
+          "tags": [
+            "FacturasCompra"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de facturas de compra"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear una nueva factura de compra (solo ADMIN)",
+          "tags": [
+            "FacturasCompra"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "hoja_recepcion_id",
+                    "serie",
+                    "numero",
+                    "fecha_emision",
+                    "total"
+                  ],
+                  "properties": {
+                    "hoja_recepcion_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "serie": {
+                      "type": "string",
+                      "example": "A"
+                    },
+                    "numero": {
+                      "type": "string",
+                      "example": "0001"
+                    },
+                    "fecha_emision": {
+                      "type": "string",
+                      "format": "date",
+                      "example": "2026-09-17"
+                    },
+                    "total": {
+                      "type": "number",
+                      "example": 1250.5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Factura de compra creada"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/facturas-compra/{id}": {
+        "get": {
+          "summary": "Obtener una factura de compra por ID",
+          "tags": [
+            "FacturasCompra"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la factura de compra"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Factura de compra encontrada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "404": {
+              "description": "Factura de compra no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/direcciones": {
+        "get": {
+          "summary": "Listar direcciones (filtrable por cliente)",
+          "tags": [
+            "Ventas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "cliente_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar direcciones por ID de cliente"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de direcciones"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear una nueva dirección (solo ADMIN)",
+          "tags": [
+            "Ventas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "cliente_id",
+                    "municipio_id",
+                    "direccion1",
+                    "direccion2"
+                  ],
+                  "properties": {
+                    "cliente_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "municipio_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "direccion1": {
+                      "type": "string",
+                      "example": "Av. Principal 12-34"
+                    },
+                    "direccion2": {
+                      "type": "string",
+                      "example": "Zona 4"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Dirección creada"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/direcciones/{id}": {
+        "get": {
+          "summary": "Obtener una dirección por ID",
+          "tags": [
+            "Ventas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la dirección"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Dirección encontrada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "404": {
+              "description": "Dirección no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Actualizar una dirección existente (solo ADMIN)",
+          "tags": [
+            "Ventas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la dirección a actualizar"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "cliente_id": {
+                      "type": "integer"
+                    },
+                    "municipio_id": {
+                      "type": "integer"
+                    },
+                    "direccion1": {
+                      "type": "string"
+                    },
+                    "direccion2": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Dirección actualizada"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "404": {
+              "description": "Dirección no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/clientes": {
+        "get": {
+          "summary": "Listar clientes (filtrable por teléfono)",
+          "tags": [
+            "Ventas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "telefono",
+              "required": false,
+              "schema": {
+                "type": "string"
+              },
+              "description": "Filtrar por teléfono del cliente (8 dígitos)"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de clientes"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear un nuevo cliente",
+          "tags": [
+            "Ventas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "nombre",
+                    "apellido",
+                    "telefono",
+                    "telefono_ref"
+                  ],
+                  "properties": {
+                    "nombre": {
+                      "type": "string",
+                      "example": "Juan"
+                    },
+                    "apellido": {
+                      "type": "string",
+                      "example": "Pérez"
+                    },
+                    "telefono": {
+                      "type": "string",
+                      "description": "Exactamente 8 dígitos",
+                      "example": "12345678"
+                    },
+                    "telefono_ref": {
+                      "type": "string",
+                      "description": "Exactamente 8 dígitos, diferente al teléfono principal",
+                      "example": "87654321"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Cliente creado"
+            },
+            "400": {
+              "description": "Datos inválidos o teléfono ya registrado"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/clientes/{id}": {
+        "get": {
+          "summary": "Obtener un cliente por ID",
+          "tags": [
+            "Ventas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del cliente"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Cliente encontrado"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "404": {
+              "description": "Cliente no encontrado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Actualizar un cliente existente",
+          "tags": [
+            "Ventas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID del cliente a actualizar"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nombre": {
+                      "type": "string",
+                      "example": "Juan Carlos"
+                    },
+                    "apellido": {
+                      "type": "string",
+                      "example": "Pérez"
+                    },
+                    "telefono": {
+                      "type": "string",
+                      "example": "12345678"
+                    },
+                    "telefono_ref": {
+                      "type": "string",
+                      "example": "87654321"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Cliente actualizado"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "404": {
+              "description": "Cliente no encontrado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/categorias": {
+        "get": {
+          "summary": "Listar todas las categorías",
+          "tags": [
+            "Categorías"
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de categorías"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear una nueva categoría (solo ADMIN)",
+          "tags": [
+            "Categorías"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "categoria_id",
+                    "descripcion"
+                  ],
+                  "properties": {
+                    "categoria_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "descripcion": {
+                      "type": "string",
+                      "example": "Bebidas"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Categoría creada"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            }
+          }
+        }
+      },
+      "/categorias/{id}": {
+        "get": {
+          "summary": "Obtener una categoría por ID",
+          "tags": [
+            "Categorías"
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la categoría"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Categoría encontrada"
+            },
+            "404": {
+              "description": "Categoría no encontrada"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Actualizar una categoría existente (solo ADMIN)",
+          "tags": [
+            "Categorías"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la categoría a actualizar"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "descripcion": {
+                      "type": "string",
+                      "example": "Bebidas frías"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Categoría actualizada"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "404": {
+              "description": "Categoría no encontrada"
+            }
+          }
+        }
+      },
+      "/cajas": {
+        "get": {
+          "summary": "Listar cajas con filtro opcional de sucursal",
+          "tags": [
+            "Cajas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "sucursal_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtra por sucursal"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de cajas"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear una nueva caja (solo ADMIN)",
+          "tags": [
+            "Cajas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "sucursal_id",
+                    "nombre"
+                  ],
+                  "properties": {
+                    "sucursal_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "nombre": {
+                      "type": "string",
+                      "example": "Caja Principal"
+                    },
+                    "tipo": {
+                      "type": "string",
+                      "enum": [
+                        "CAJA_CHICA",
+                        "GASTOS_REPRESENTACION",
+                        "TRANSITO"
+                      ],
+                      "example": "CAJA_CHICA"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Caja creada"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/cajas/{id}": {
+        "get": {
+          "summary": "Obtener una caja por ID",
+          "tags": [
+            "Cajas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la caja"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Caja encontrada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "404": {
+              "description": "Caja no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Actualizar una caja existente (solo ADMIN)",
+          "tags": [
+            "Cajas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la caja a actualizar"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "nombre": {
+                      "type": "string",
+                      "example": "Caja Secundaria"
+                    },
+                    "tipo": {
+                      "type": "string",
+                      "enum": [
+                        "CAJA_CHICA",
+                        "GASTOS_REPRESENTACION",
+                        "TRANSITO"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Caja actualizada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN)"
+            },
+            "404": {
+              "description": "Caja no encontrada"
+            },
+            "500": {
+              "description": "Error interno del servidor"
+            }
+          }
+        }
+      },
+      "/bodegas": {
+        "get": {
+          "summary": "Listar todas las bodegas (filtrable por sucursal)",
+          "tags": [
+            "Bodegas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "sucursal_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar bodegas por ID de sucursal"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de bodegas"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error al obtener bodegas"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear una nueva bodega (solo ADMIN o BODEGUERO)",
+          "tags": [
+            "Bodegas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "sucursal_id",
+                    "bodega"
+                  ],
+                  "properties": {
+                    "sucursal_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "bodega": {
+                      "type": "string",
+                      "example": "Bodega Central"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Bodega creada"
+            },
+            "400": {
+              "description": "Datos inválidos (sucursal_id y bodega son requeridos)"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN o BODEGUERO)"
+            },
+            "500": {
+              "description": "Error al crear bodega"
+            }
+          }
+        }
+      },
+      "/bodegas/{id}": {
+        "get": {
+          "summary": "Obtener una bodega por ID",
+          "tags": [
+            "Bodegas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la bodega"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Bodega encontrada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "404": {
+              "description": "Bodega no encontrada"
+            },
+            "500": {
+              "description": "Error al obtener bodega"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Actualizar una bodega existente (solo ADMIN o BODEGUERO)",
+          "tags": [
+            "Bodegas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la bodega a actualizar"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sucursal_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "bodega": {
+                      "type": "string",
+                      "example": "Bodega Norte"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Bodega actualizada"
+            },
+            "400": {
+              "description": "Datos inválidos"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN o BODEGUERO)"
+            },
+            "404": {
+              "description": "Bodega no encontrada"
+            },
+            "500": {
+              "description": "Error al actualizar bodega"
+            }
+          }
+        }
+      },
+      "/bodegas/lotes/fefo": {
+        "get": {
+          "summary": "Obtener lotes de materia prima por vencimiento (FEFO)",
+          "tags": [
+            "Bodegas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "bodega_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "Filtrar lotes por ID de bodega"
+            },
+            {
+              "in": "query",
+              "name": "materia_prima_id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la materia prima (obligatorio)"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de lotes ordenados por vencimiento"
+            },
+            "400": {
+              "description": "materia_prima_id es requerido"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (BODEGUERO o ADMIN)"
+            },
+            "500": {
+              "description": "Error al obtener lotes FEFO"
+            }
+          }
+        }
+      },
+      "/auth/login": {
+        "post": {
+          "summary": "Iniciar sesión",
+          "tags": [
+            "Auth"
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "usuario",
+                    "contrasenia"
+                  ],
+                  "properties": {
+                    "usuario": {
+                      "type": "string",
+                      "example": "admin.mc"
+                    },
+                    "contrasenia": {
+                      "type": "string",
+                      "format": "password",
+                      "example": "umg123"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Login exitoso, devuelve el token JWT :)"
+            },
+            "401": {
+              "description": "Credenciales inválidas :("
+            }
+          }
+        }
+      },
+      "/auth/logout": {
+        "post": {
+          "summary": "Cerrar sesión",
+          "tags": [
+            "Auth"
+          ],
+          "responses": {
+            "200": {
+              "description": "Logout exitoso :)"
+            }
+          }
+        }
+      },
+      "/auth/me": {
+        "get": {
+          "summary": "Obtener el usuario autenticado actual",
+          "tags": [
+            "Auth"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Datos del usuario autenticado :)"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado :("
+            }
+          }
+        }
+      },
+      "/alacenas": {
+        "get": {
+          "summary": "Listar alacenas, opcionalmente filtradas por bodega",
+          "tags": [
+            "Alacenas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "query",
+              "name": "bodega_id",
+              "required": false,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la bodega para filtrar las alacenas"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de alacenas"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "500": {
+              "description": "Error al obtener alacenas"
+            }
+          }
+        },
+        "post": {
+          "summary": "Crear una nueva alacena (ADMIN o BODEGUERO)",
+          "tags": [
+            "Alacenas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "alacena"
+                  ],
+                  "properties": {
+                    "bodega_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "alacena": {
+                      "type": "string",
+                      "example": "Alacena Principal"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Alacena creada"
+            },
+            "400": {
+              "description": "Datos inválidos (alacena es requerido)"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN o BODEGUERO)"
+            },
+            "500": {
+              "description": "Error al crear alacena"
+            }
+          }
+        }
+      },
+      "/alacenas/{id}": {
+        "get": {
+          "summary": "Obtener una alacena por ID",
+          "tags": [
+            "Alacenas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la alacena"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Alacena encontrada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "404": {
+              "description": "Alacena no encontrada"
+            },
+            "500": {
+              "description": "Error al obtener alacena"
+            }
+          }
+        },
+        "patch": {
+          "summary": "Actualizar una alacena existente (ADMIN o BODEGUERO)",
+          "tags": [
+            "Alacenas"
+          ],
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              },
+              "description": "ID de la alacena a actualizar"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "bodega_id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "alacena": {
+                      "type": "string",
+                      "example": "Alacena Secundaria"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Alacena actualizada"
+            },
+            "401": {
+              "description": "Token no proporcionado, inválido o expirado"
+            },
+            "403": {
+              "description": "No tiene el rol requerido (ADMIN o BODEGUERO)"
+            },
+            "404": {
+              "description": "Alacena no encontrada"
+            },
+            "500": {
+              "description": "Error al actualizar alacena"
+            }
+          }
+        }
+      }
+    }
+  },
+  "customOptions": {}
+};
+  url = options.swaggerUrl || url
+  var urls = options.swaggerUrls
+  var customOptions = options.customOptions
+  var spec1 = options.swaggerDoc
+  var swaggerOptions = {
+    spec: spec1,
+    url: url,
+    urls: urls,
+    dom_id: '#swagger-ui',
+    deepLinking: true,
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
+    ],
+    plugins: [
+      SwaggerUIBundle.plugins.DownloadUrl
+    ],
+    layout: "StandaloneLayout"
+  }
+  for (var attrname in customOptions) {
+    swaggerOptions[attrname] = customOptions[attrname];
+  }
+  var ui = SwaggerUIBundle(swaggerOptions)
+
+  if (customOptions.oauth) {
+    ui.initOAuth(customOptions.oauth)
+  }
+
+  if (customOptions.preauthorizeApiKey) {
+    const key = customOptions.preauthorizeApiKey.authDefinitionKey;
+    const value = customOptions.preauthorizeApiKey.apiKeyValue;
+    if (!!key && !!value) {
+      const pid = setInterval(() => {
+        const authorized = ui.preauthorizeApiKey(key, value);
+        if(!!authorized) clearInterval(pid);
+      }, 500)
+
+    }
+  }
+
+  if (customOptions.authAction) {
+    ui.authActions.authorize(customOptions.authAction)
+  }
+
+  window.ui = ui
+}

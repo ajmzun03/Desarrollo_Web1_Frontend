@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "sucursal_receptora": 1, "orden_compra_id": 1, "tipo_recepcion": "TOTAL", "fecha_generada": "2026-09-10T08:00:00.000Z" },
+    { "id": 2, "sucursal_receptora": 2, "orden_compra_id": 1, "tipo_recepcion": "PARCIAL", "fecha_generada": "2026-09-11T08:10:00.000Z" },
+    { "id": 3, "sucursal_receptora": 3, "orden_compra_id": 3, "tipo_recepcion": "TOTAL", "fecha_generada": "2026-09-12T08:20:00.000Z" },
+    { "id": 4, "sucursal_receptora": 4, "orden_compra_id": null, "tipo_recepcion": "PARCIAL", "fecha_generada": "2026-09-13T08:30:00.000Z" },
+    { "id": 5, "sucursal_receptora": 5, "orden_compra_id": 5, "tipo_recepcion": "TOTAL", "fecha_generada": "2026-09-14T08:40:00.000Z" },
+    { "id": 6, "sucursal_receptora": 6, "orden_compra_id": 6, "tipo_recepcion": "PARCIAL", "fecha_generada": "2026-09-15T08:50:00.000Z" },
+    { "id": 7, "sucursal_receptora": 7, "orden_compra_id": 7, "tipo_recepcion": "TOTAL", "fecha_generada": "2026-09-16T09:00:00.000Z" },
+    { "id": 8, "sucursal_receptora": 8, "orden_compra_id": 8, "tipo_recepcion": "TOTAL", "fecha_generada": "2026-09-17T09:10:00.000Z" }
+  ],
+  "error": null
+}

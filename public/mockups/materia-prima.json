@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "categoria_id": 3, "unidad_medida_id": 2, "materia_prima": "Tomate", "es_perecedera": true, "maneja_merma": true, "creado_en": "2026-01-05T10:00:00.000Z" },
+    { "id": 2, "categoria_id": 3, "unidad_medida_id": 3, "materia_prima": "Papa", "es_perecedera": true, "maneja_merma": true, "creado_en": "2026-01-05T10:05:00.000Z" },
+    { "id": 3, "categoria_id": 2, "unidad_medida_id": 2, "materia_prima": "Carne de res", "es_perecedera": true, "maneja_merma": true, "creado_en": "2026-01-05T10:10:00.000Z" },
+    { "id": 4, "categoria_id": 4, "unidad_medida_id": 4, "materia_prima": "Leche", "es_perecedera": true, "maneja_merma": false, "creado_en": "2026-01-05T10:15:00.000Z" },
+    { "id": 5, "categoria_id": 5, "unidad_medida_id": 3, "materia_prima": "Harina", "es_perecedera": false, "maneja_merma": false, "creado_en": "2026-01-05T10:20:00.000Z" },
+    { "id": 6, "categoria_id": 6, "unidad_medida_id": 8, "materia_prima": "Sal", "es_perecedera": false, "maneja_merma": false, "creado_en": "2026-01-05T10:25:00.000Z" },
+    { "id": 7, "categoria_id": 7, "unidad_medida_id": 1, "materia_prima": "Detergente", "es_perecedera": false, "maneja_merma": false, "creado_en": "2026-01-05T10:30:00.000Z" },
+    { "id": 8, "categoria_id": 8, "unidad_medida_id": 6, "materia_prima": "Pan de hamburguesa", "es_perecedera": true, "maneja_merma": false, "creado_en": "2026-01-05T10:35:00.000Z" }
+  ],
+  "error": null
+}

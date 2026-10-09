@@ -1,7 +1,15 @@
 // Checkbox.jsx
 import { useId } from 'react';
+import type { ChangeEvent } from 'react';
 
-export const Checkbox = ({ label, name, checked, onChange }) => {
+interface CheckboxProps {
+  label: string;
+  name?: string;
+  checked?: boolean;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+export const Checkbox = ({ label, name, checked, onChange }: CheckboxProps) => {
   const inputId = useId();
 
   return (

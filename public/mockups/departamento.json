@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "departamento": "Guatemala" },
+    { "id": 2, "departamento": "Sacatepéquez" },
+    { "id": 3, "departamento": "Escuintla" },
+    { "id": 4, "departamento": "Quetzaltenango" },
+    { "id": 5, "departamento": "Petén" },
+    { "id": 6, "departamento": "Izabal" },
+    { "id": 7, "departamento": "Alta Verapaz" },
+    { "id": 8, "departamento": "Chiquimula" }
+  ],
+  "error": null
+}

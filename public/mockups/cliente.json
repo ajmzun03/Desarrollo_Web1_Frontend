@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "nombre": "Ana", "apellido": "López", "telefono": "55510001", "telefono_ref": "55510002", "creado_en": "2026-01-15T09:00:00.000Z" },
+    { "id": 2, "nombre": "Luis", "apellido": "Pérez", "telefono": "55510003", "telefono_ref": "55510004", "creado_en": "2026-01-16T09:10:00.000Z" },
+    { "id": 3, "nombre": "Marta", "apellido": "Gómez", "telefono": "55510005", "telefono_ref": "55510006", "creado_en": "2026-01-17T09:20:00.000Z" },
+    { "id": 4, "nombre": "Pedro", "apellido": "Ramírez", "telefono": "55510007", "telefono_ref": "55510008", "creado_en": "2026-01-18T09:30:00.000Z" },
+    { "id": 5, "nombre": "Sofía", "apellido": "Castillo", "telefono": "55510009", "telefono_ref": "55510010", "creado_en": "2026-01-19T09:40:00.000Z" },
+    { "id": 6, "nombre": "Jorge", "apellido": "Morales", "telefono": "55510011", "telefono_ref": "55510012", "creado_en": "2026-01-20T09:50:00.000Z" },
+    { "id": 7, "nombre": "Elena", "apellido": "Rojas", "telefono": "55510013", "telefono_ref": "55510014", "creado_en": "2026-01-21T10:00:00.000Z" },
+    { "id": 8, "nombre": "Diego", "apellido": "Hernández", "telefono": "55510015", "telefono_ref": "55510016", "creado_en": "2026-01-22T10:10:00.000Z" }
+  ],
+  "error": null
+}

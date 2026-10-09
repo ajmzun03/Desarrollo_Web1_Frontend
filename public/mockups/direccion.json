@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "cliente_id": 1, "municipio_id": 1, "direccion1": "12 Calle 3-45 Zona 1", "direccion2": "Casa color azul" },
+    { "id": 2, "cliente_id": 2, "municipio_id": 2, "direccion1": "4a Avenida Norte 12", "direccion2": "Frente al parque" },
+    { "id": 3, "cliente_id": 3, "municipio_id": 3, "direccion1": "Km 60 Carretera CA-9", "direccion2": "Colonia El Esfuerzo" },
+    { "id": 4, "cliente_id": 4, "municipio_id": 4, "direccion1": "14 Avenida 2-30 Zona 3", "direccion2": "Edificio Los Altos" },
+    { "id": 5, "cliente_id": 5, "municipio_id": 5, "direccion1": "Calle Central 5", "direccion2": "Segundo nivel" },
+    { "id": 6, "cliente_id": 6, "municipio_id": 6, "direccion1": "7a Avenida 14-02", "direccion2": "Barrio El Centro" },
+    { "id": 7, "cliente_id": 7, "municipio_id": 7, "direccion1": "2a Calle 3-40 Zona 2", "direccion2": "Casa de dos pisos" },
+    { "id": 8, "cliente_id": 8, "municipio_id": 8, "direccion1": "Ruta al Santuario Km 2", "direccion2": "Portón negro" }
+  ],
+  "error": null
+}

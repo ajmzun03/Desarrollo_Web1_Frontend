@@ -1,0 +1,550 @@
+/* ============ ModuloCocina (src/pages/Cocina.tsx) ============ */
+.cocina {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* ---- Tab bar ---- */
+.cocina__tabbar {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.25rem;
+  padding: 0 1.5rem;
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.cocina__tab {
+  padding: 0.65rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.cocina__tab:hover {
+  color: var(--color-carbon);
+}
+
+.cocina__tab--active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.cocina__tab-count {
+  margin-left: 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-white);
+  background-color: var(--color-primary);
+  border-radius: 999px;
+  padding: 0.1rem 0.45rem;
+}
+
+/* ---- Layout interno ---- */
+.cocina__content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.cocina__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-carbon);
+}
+
+.cocina__subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.25rem;
+}
+
+.cocina__section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+/* ---- Dashboard: KPIs ---- */
+.cocina__kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.cocina__kpi {
+  border-radius: 0.75rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid var(--color-border);
+}
+
+.cocina__kpi--pendientes { background-color: var(--color-bg-soft); color: var(--color-carbon); }
+.cocina__kpi--cocina { background-color: var(--color-warning-bg); color: var(--color-warning-text-dark); }
+.cocina__kpi--listos { background-color: var(--color-success-bg); color: var(--color-success-text-dark); }
+.cocina__kpi--criticos { background-color: var(--color-error-bg); color: var(--color-error); }
+
+.cocina__kpi-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.6);
+  flex-shrink: 0;
+}
+
+.cocina__kpi-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.cocina__kpi-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+/* ---- Dashboard: alertas de insumos ---- */
+.cocina__alert {
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background-color: var(--color-error-bg);
+  border: 2px solid var(--color-error);
+  margin-bottom: 1.25rem;
+}
+
+.cocina__alert-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-error);
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.cocina__alert-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+.cocina__alert-item {
+  background-color: var(--color-white);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.cocina__alert-item-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-carbon);
+}
+
+.cocina__alert-item-sub {
+  font-size: 0.65rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.15rem;
+}
+
+.cocina__alert-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.cocina__alert-tag--vencido { background-color: var(--color-purple-bg); color: var(--color-purple); }
+.cocina__alert-tag--agotado { background-color: var(--color-error-bg); color: var(--color-error); }
+.cocina__alert-tag--por-vencer { background-color: var(--color-warning-bg); color: var(--color-warning-text-dark); }
+
+/* ---- Dashboard: columnas por estado ---- */
+.cocina__cols {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.cocina__col {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.cocina__col-head {
+  padding: 0.6rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.cocina__col-head--pendientes { background-color: var(--color-bg-soft); color: var(--color-carbon); }
+.cocina__col-head--cocina { background-color: var(--color-warning-bg); color: var(--color-warning-text-dark); }
+.cocina__col-head--listos { background-color: var(--color-success-bg); color: var(--color-success-text-dark); }
+
+.cocina__col-body {
+  background-color: var(--color-white);
+}
+
+.cocina__col-empty {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  padding: 1rem 0;
+}
+
+.cocina__col-item {
+  padding: 0.6rem 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.cocina__col-id {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.cocina__col-meta {
+  font-size: 0.65rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.15rem;
+}
+
+/* ---- KDS ---- */
+.cocina__kds-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.cocina__kds-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.cocina__card {
+  border-radius: 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cocina__card--pending { background-color: var(--color-white); border: 2px solid var(--color-border); }
+.cocina__card--cooking { background-color: var(--color-warning-bg); border: 2px solid var(--color-warning); }
+.cocina__card--ready { background-color: var(--color-success-bg); border: 2px solid var(--color-success); }
+
+.cocina__card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  color: var(--color-white);
+}
+
+.cocina__card-head--pending { background-color: var(--color-carbon); }
+.cocina__card-head--cooking { background-color: var(--color-warning); }
+.cocina__card-head--ready { background-color: var(--color-success); }
+
+.cocina__card-id {
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.cocina__card-time {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.cocina__card-body {
+  flex: 1;
+  padding: 1rem;
+}
+
+.cocina__card-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.cocina__card-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-carbon);
+  text-align: left;
+}
+
+.cocina__card-dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+  background-color: var(--color-text-secondary);
+}
+
+.cocina__card--cooking .cocina__card-dot { background-color: var(--color-warning); }
+.cocina__card--ready .cocina__card-dot { background-color: var(--color-success); }
+
+.cocina__card-obs {
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+  background-color: rgba(232, 160, 68, 0.15);
+  border: 1px solid rgba(232, 160, 68, 0.3);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-carbon);
+}
+
+.cocina__card-obs-icon {
+  vertical-align: -2px;
+  margin-right: 0.3rem;
+}
+
+.cocina__form-box {
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.cocina__form-head {
+  margin-bottom: 0.75rem;
+}
+
+.cocina__card-foot {
+  padding: 0.75rem 1rem 1rem;
+}
+
+.cocina__card-ingreso {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.cocina__kds-action {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: none;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.cocina__kds-action--iniciar {
+  background-color: var(--color-primary);
+  box-shadow: 0 2px 6px rgba(139, 18, 8, 0.35);
+}
+
+.cocina__kds-action--iniciar:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.cocina__kds-action--listo {
+  background-color: var(--color-warning);
+  box-shadow: 0 2px 6px rgba(217, 144, 0, 0.35);
+}
+
+.cocina__kds-action--listo:hover {
+  background-color: var(--color-warning-text-dark);
+}
+
+.cocina__kds-ready {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+  border: 1px solid var(--color-success);
+}
+
+/* ---- Producción ---- */
+.cocina__prod-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cocina__prod {
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-white);
+  padding: 1.25rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.cocina__prod-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.cocina__prod-id {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.cocina__prod-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-carbon);
+  margin-top: 0.25rem;
+}
+
+.cocina__prod-qty {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.1rem;
+}
+
+.cocina__prod-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.cocina__btn--success {
+  background-color: var(--color-success);
+  color: var(--color-white);
+}
+
+.cocina__btn--success:hover {
+  background-color: var(--color-success-text-dark);
+}
+
+.cocina__tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.cocina__tag--pendiente { background-color: var(--color-warning-bg); color: var(--color-warning-text-dark); }
+.cocina__tag--en-proceso { background-color: var(--color-success-bg); color: var(--color-success-text-dark); }
+.cocina__tag--finalizada { background-color: var(--color-bg-cool-gray); color: var(--color-slate-gray); }
+.cocina__tag--anulada { background-color: var(--color-error-bg); color: var(--color-error); }
+
+/* ---- Inventario ---- */
+.cocina__table-wrap {
+  overflow: hidden;
+}
+
+.cocina__mp-name {
+  font-weight: 600;
+}
+
+.cocina__qty {
+  font-weight: 700;
+  color: var(--color-carbon);
+}
+
+.cocina__qty--critico {
+  font-weight: 700;
+  color: var(--color-error);
+}
+
+.cocina__venc {
+  font-weight: 600;
+  color: var(--color-carbon);
+}
+
+.cocina__mono-id {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.cocina__col-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cocina__close {
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 0.15rem;
+}
+
+.cocina__close:hover {
+  color: var(--color-carbon);
+}
+
+.cocina__form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.cocina__form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.cocina__form-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-carbon);
+}
+
+.cocina__form-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.cocina__tr--vencido { background-color: var(--color-pink-light); }
+.cocina__tr--agotado { background-color: var(--color-error-bg); }
+
+.cocina__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.cocina__badge--vencido { background-color: var(--color-purple-bg); color: var(--color-purple); }
+.cocina__badge--agotado { background-color: var(--color-error-bg); color: var(--color-error); }
+.cocina__badge--por-vencer { background-color: var(--color-warning-bg); color: var(--color-warning-text-dark); }
+.cocina__badge--vigente { background-color: var(--color-success-bg); color: var(--color-success-text-dark); }

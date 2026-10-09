@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "proveedor_id": 1, "sucursal_destino": 1, "fecha_generada": "2026-09-01T08:00:00.000Z", "estado_orden": "CREADA" },
+    { "id": 2, "proveedor_id": 2, "sucursal_destino": 2, "fecha_generada": "2026-09-02T08:10:00.000Z", "estado_orden": "EN_PROCESO" },
+    { "id": 3, "proveedor_id": 3, "sucursal_destino": 3, "fecha_generada": "2026-09-03T08:20:00.000Z", "estado_orden": "FINALIZADO" },
+    { "id": 4, "proveedor_id": 4, "sucursal_destino": 4, "fecha_generada": "2026-09-04T08:30:00.000Z", "estado_orden": "ANULADO" },
+    { "id": 5, "proveedor_id": 5, "sucursal_destino": 5, "fecha_generada": "2026-09-05T08:40:00.000Z", "estado_orden": "CREADA" },
+    { "id": 6, "proveedor_id": 6, "sucursal_destino": 6, "fecha_generada": "2026-09-06T08:50:00.000Z", "estado_orden": "EN_PROCESO" },
+    { "id": 7, "proveedor_id": 7, "sucursal_destino": 7, "fecha_generada": "2026-09-07T09:00:00.000Z", "estado_orden": "FINALIZADO" },
+    { "id": 8, "proveedor_id": 8, "sucursal_destino": 8, "fecha_generada": "2026-09-08T09:10:00.000Z", "estado_orden": "CREADA" }
+  ],
+  "error": null
+}
