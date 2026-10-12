@@ -1,57 +1,162 @@
-/* Layout compartido de las vistas del sistema COPAC (escritorio). */
+/* Layout compartido del sistema COPAC. Sigue el diseno de Figma "COPAC Web System Design":
+   sidebar carbon de 240px con grupos, topbar rojo de 56px y tarjeta de usuario al pie. */
 .layout {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 240px minmax(0, 1fr);
   min-height: 100vh;
   background-color: var(--color-bg-main);
+  text-align: left;
 }
 
+/* ---------- Sidebar ---------- */
 .layout__sidebar {
   display: flex;
   flex-direction: column;
   background-color: var(--color-carbon);
   color: var(--color-white);
-  padding: 1rem 0.75rem;
-  gap: 1.5rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
 }
 
 .layout__brand {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-accent);
-  padding: 0 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.layout__brand-logo {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 0.5rem;
+  background-color: var(--color-primary);
+}
+
+.layout__brand-nombre {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+}
+
+.layout__brand-sub {
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.45);
 }
 
 .layout__nav {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 0;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 1rem;
+}
+
+.layout__grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.layout__grupo-titulo {
+  padding: 0 1rem 0.25rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .layout__link {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  color: var(--color-border);
+  padding: 0.5rem 1rem;
+  border-left: 3px solid transparent;
+  color: rgba(255, 255, 255, 0.6);
   text-decoration: none;
-  padding: 0.65rem 0.75rem;
-  border-radius: 0.5rem;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .layout__link:hover {
-  background-color: var(--color-carbon-light);
+  background-color: rgba(255, 255, 255, 0.06);
   color: var(--color-white);
 }
 
 .layout__link--activo {
-  background-color: var(--color-primary);
+  background-color: rgba(139, 18, 8, 0.85);
+  border-left-color: var(--color-accent);
   color: var(--color-white);
 }
 
+.layout__perfil {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.layout__avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.layout__perfil-datos {
+  flex: 1;
+  min-width: 0;
+}
+
+.layout__perfil-nombre {
+  font-size: 0.75rem;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.layout__perfil-rol {
+  font-size: 0.625rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.layout__perfil-salir {
+  display: grid;
+  place-items: center;
+  padding: 0.35rem;
+  background: none;
+  border: 0;
+  border-radius: 0.25rem;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+}
+
+.layout__perfil-salir:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--color-white);
+}
+
+/* ---------- Contenido y barra superior ---------- */
 .layout__main {
   display: flex;
   flex-direction: column;
@@ -61,38 +166,119 @@
 .layout__topbar {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   gap: 1rem;
-  padding: 0.75rem 1.5rem;
-  background-color: var(--color-white);
-  border-bottom: 1px solid var(--color-border);
+  height: 56px;
+  padding: 0 1.25rem;
+  flex: none;
+  background-color: var(--color-primary);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.15);
+  color: var(--color-white);
 }
 
-.layout__usuario {
-  font-weight: 600;
-  color: var(--color-carbon);
+.layout__titulos {
+  flex: 1;
+  min-width: 0;
 }
 
-.layout__logout {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background-color: transparent;
-  border: 1px solid var(--color-border-strong);
-  border-radius: 0.5rem;
-  color: var(--color-text-secondary);
-  padding: 0.4rem 0.75rem;
+.layout__titulo {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.layout__subtitulo {
+  margin-top: 2px;
+  font-size: 0.6875rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.layout__icono {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 0.5rem;
+  background: none;
+  border: 0;
+  border-radius: 0.375rem;
+  color: rgba(255, 255, 255, 0.85);
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  text-decoration: none;
 }
 
-.layout__logout:hover {
-  background-color: var(--color-bg-soft);
-  color: var(--color-carbon);
+.layout__icono:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.layout__contador {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  display: grid;
+  place-items: center;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  border-radius: 999px;
+  background-color: var(--color-accent);
+  color: var(--color-white);
+  font-size: 0.5625rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.layout__avatar--top {
+  width: 28px;
+  height: 28px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.layout__hamburguesa,
+.layout__fondo {
+  display: none;
 }
 
 .layout__content {
   padding: 1.5rem;
   flex: 1;
+}
+
+/* ---------- Pantallas pequenas: el sidebar se vuelve un menu deslizable ---------- */
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .layout__sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 260px;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+  }
+
+  .layout--menu-abierto .layout__sidebar {
+    transform: none;
+  }
+
+  .layout--menu-abierto .layout__fondo {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    border: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .layout__hamburguesa {
+    display: grid;
+  }
+
+  .layout__content {
+    padding: 1rem;
+  }
 }
