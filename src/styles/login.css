@@ -126,3 +126,92 @@
     border-radius: 5px;
   }
 }
+/* Panel de marca (diseno Figma): titulo con acento, estadisticas y modulos. */
+.login__copac .login__aside {
+  gap: 2rem;
+  padding: 2rem 3rem;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.login__copac .login__aside h1,
+.login__copac .login__container h2 {
+  font-family: var(--font-display);
+}
+
+.login__copac .login__aside h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.login__copac .login__aside h1 span {
+  color: var(--color-accent);
+}
+
+.login__copac .login__aside p {
+  text-align: left;
+  width: 100%;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.login__copac .login__stats {
+  display: flex;
+  gap: 0.75rem;
+  list-style: none;
+}
+
+.login__copac .login__stats li {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 5.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.login__copac .login__stats strong {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--color-accent);
+}
+
+.login__copac .login__stats span {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.login__copac .login__modulos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+}
+
+.login__copac .login__modulos li {
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  background-color: rgba(139, 18, 8, 0.55);
+  font-size: 0.75rem;
+}
+
+@media (max-width: 800px) {
+  .login__copac {
+    flex-direction: column;
+  }
+
+  .login__copac .login__aside,
+  .login__copac .login__container {
+    width: 100%;
+    height: auto;
+    min-height: 50dvh;
+  }
+
+  .login__copac .login__aside {
+    padding: 1.5rem;
+  }
+
+  .login__copac .login__container form {
+    width: 85%;
+  }
+}

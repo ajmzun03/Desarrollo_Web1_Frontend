@@ -3,14 +3,12 @@ import type { FormEvent } from "react";
 import { setCookie } from "../utils/cookies";
 import { authService } from "../services/auth.service";
 import { Checkbox } from "./Checkbox";
-import { DataList } from "./DataList";
 import { Input } from "./Input";
-
-const roles = ['Administrador', 'Cajero', 'Mesero', 'Cocinero'];
 
 // Ruta inicial según el rol del usuario que inició sesión.
 const primeraRuta = (rol: string): string => {
-  if (rol === "ADMIN" || rol === "CAJERO") return "/copac/ventas";
+  if (rol === "ADMIN") return "/copac/dashboard";
+  if (rol === "CAJERO") return "/copac/ventas";
   if (rol === "BODEGUERO") return "/copac/cocina";
   if (rol === "DESPACHADOR") return "/copac/despacho";
   return "/copac/notificaciones";
@@ -61,8 +59,6 @@ export const Form = () => {
         type="password"
         placeholder="Ingresa tu contraseña"
       />
-
-      <DataList data={roles} />
 
       {error && <div className="login__error">{error}</div>}
 
