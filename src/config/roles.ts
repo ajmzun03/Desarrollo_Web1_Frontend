@@ -4,11 +4,15 @@ import type { RolUsuario } from "../types";
 // Nota: el backend expone endpoints con requireRole, pero no conocemos
 // todavia los guards de las vistas nuevas; esto es solo control de UI.
 export const ROLES_POR_RUTA: Record<string, RolUsuario[]> = {
+  "/copac/dashboard": ["ADMIN"],
+  "/copac/reportes": ["ADMIN"],
+  "/copac/auditoria": ["ADMIN"],
   "/copac/ventas": ["ADMIN", "CAJERO"],
   "/copac/cocina": ["ADMIN", "BODEGUERO"],
   "/copac/despacho": ["ADMIN", "DESPACHADOR"],
   "/copac/compras": ["ADMIN", "BODEGUERO"],
   "/copac/notificaciones": ["ADMIN", "BODEGUERO", "DESPACHADOR", "REPARTIDOR", "CAJERO"],
+  "/copac/usuarios": ["ADMIN"],
 };
 
 export const TODOS_LOS_ROLES: RolUsuario[] = [

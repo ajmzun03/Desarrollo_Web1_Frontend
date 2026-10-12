@@ -156,6 +156,8 @@ export interface Producto {
   unidad_medida_id: number;
   producto: string;
   precio: number;
+  // V2 del backend: URL de la imagen del producto (aun no existe en la API V1).
+  imagen_url?: string | null;
 }
 
 export interface Pedido {
@@ -518,6 +520,7 @@ export interface ProductoInput {
   unidad_medida_id: number;
   producto: string;
   precio: number;
+  imagen_url?: string | null;
 }
 
 export interface MateriaPrimaInput {
