@@ -1,72 +1,62 @@
 import { useEffect, useState } from "react";
-import { getCookie } from "../utils/cookies";
+import { usuariosService } from "../services/usuarios.service";
+import { ROL_LABEL } from "../config/navegacion";
+import type { Usuario } from "../types";
+import "../styles/ui.css";
+import "../styles/usuarios.css";
 
-const archivo_url = '/public/mockups/usuario.json';
-//const API_URL = 'https://desarrollo-web1-backend.onrender.com';
+export default function Usuarios() {
+  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-type Usuario = {
-    id: number;
-    usuario: string;
-    correo_electronico: string;
-    rol: string;
-    creado_en: string;
-}
+  useEffect(() => {
+    let vigente = true;
+    usuariosService
+      .getAll()
+      .then((data) => vigente && setUsuarios(data))
+      .catch((e: unknown) => vigente && setError(e instanceof Error ? e.message : "No se pudo cargar la lista de usuarios."))
+      .finally(() => vigente && setCargando(false));
+    return () => {
+      vigente = false;
+    };
+  }, []);
 
-export default function Usuarios(){
-    //estados de listas o errores
-    const [usuarios, setUsuarios] = useState<Usuario[]>([]);
-    const [cargando, setCargando] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+  return (
+    <section className="usuarios">
+      <header className="usuarios__cabecera">
+        <h2 className="usuarios__titulo">Usuarios del sistema</h2>
+        <p className="usuarios__sub">{cargando ? "Cargando usuarios…" : `${usuarios.length} usuarios registrados`}</p>
+      </header>
 
-    //Se ejecuta una vez cuando el componente esta en la pantalla
+      {error && <div className="ui-error">{error}</div>}
 
-    useEffect(()=> {
-        const token = getCookie('token');
-
-        fetch(`${archivo_url}`, {
-            headers: {
-                Authorization: `Bearer ${token}` // Agrega el token de autenticación en el encabezado
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.error){
-                setError(data.error);//Sale este error cuando no esta el token
-            } else{
-                setUsuarios(data.data);
-            }
-        }
-        )
-        .catch(()=> setError('No se pudo conectar con el server de minecraft'))
-        .finally(()=> setCargando(false));
-    },[]);
-
-    if (cargando) return <p>Cargando usuarios...</p>;
-    if (error) return <p>Error: {error}</p>
-
-    return (
-        <section>
-            <h2>Usuarios</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Usuario</th>
-                        <th>Correo Electrónico</th>
-                        <th>Rol</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {usuarios.map(u=>(
-                        <tr key={u.id}>
-                            <td>{u.id}</td>
-                            <td>{u.usuario}</td>
-                            <td>{u.correo_electronico}</td>
-                            <td>{u.rol}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </section>
-    )
+      {!error && !cargando && (
+        <div className="ui-panel">
+          <table className="ui-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Correo electrónico</th>
+                <th>Rol</th>
+              </tr>
+            </thead>
+            <tbody>
+              {usuarios.map((u) => (
+                <tr key={u.id}>
+                  <td>{u.id}</td>
+                  <td>{u.usuario ?? "—"}</td>
+                  <td>{u.correo_electronico ?? "—"}</td>
+                  <td>
+                    <span className="usuarios__rol">{ROL_LABEL[u.rol]}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  );
 }
