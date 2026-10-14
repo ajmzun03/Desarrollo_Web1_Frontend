@@ -1,13 +1,1283 @@
 {
   "data": [
-    { "id": 1, "pedido_id": 1, "serie": "A", "numero": "FV-0001", "fecha_emision": "2026-09-25T12:05:00.000Z", "total": 110.0, "creado_en": "2026-09-25T12:05:00.000Z" },
-    { "id": 2, "pedido_id": 2, "serie": "A", "numero": "FV-0002", "fecha_emision": "2026-09-25T12:25:00.000Z", "total": 63.0, "creado_en": "2026-09-25T12:25:00.000Z" },
-    { "id": 3, "pedido_id": 3, "serie": "A", "numero": "FV-0003", "fecha_emision": "2026-09-25T12:45:00.000Z", "total": 80.0, "creado_en": "2026-09-25T12:45:00.000Z" },
-    { "id": 4, "pedido_id": 4, "serie": "B", "numero": "FV-0004", "fecha_emision": "2026-09-25T13:05:00.000Z", "total": 60.0, "creado_en": "2026-09-25T13:05:00.000Z" },
-    { "id": 5, "pedido_id": 5, "serie": "B", "numero": "FV-0005", "fecha_emision": "2026-09-25T13:25:00.000Z", "total": 45.0, "creado_en": "2026-09-25T13:25:00.000Z" },
-    { "id": 6, "pedido_id": 6, "serie": "B", "numero": "FV-0006", "fecha_emision": "2026-09-26T11:05:00.000Z", "total": 95.0, "creado_en": "2026-09-26T11:05:00.000Z" },
-    { "id": 7, "pedido_id": 7, "serie": "C", "numero": "FV-0007", "fecha_emision": "2026-09-26T11:35:00.000Z", "total": 130.0, "creado_en": "2026-09-26T11:35:00.000Z" },
-    { "id": 8, "pedido_id": 8, "serie": "C", "numero": "FV-0008", "fecha_emision": "2026-09-26T12:05:00.000Z", "total": 75.0, "creado_en": "2026-09-26T12:05:00.000Z" }
+    {
+      "id": 1,
+      "pedido_id": 1,
+      "serie": "A",
+      "numero": "FV-0001",
+      "fecha_emision": "2026-09-25T12:05:00.000Z",
+      "total": 110,
+      "creado_en": "2026-09-25T12:05:00.000Z"
+    },
+    {
+      "id": 2,
+      "pedido_id": 2,
+      "serie": "A",
+      "numero": "FV-0002",
+      "fecha_emision": "2026-09-25T12:25:00.000Z",
+      "total": 63,
+      "creado_en": "2026-09-25T12:25:00.000Z"
+    },
+    {
+      "id": 3,
+      "pedido_id": 3,
+      "serie": "A",
+      "numero": "FV-0003",
+      "fecha_emision": "2026-09-25T12:45:00.000Z",
+      "total": 80,
+      "creado_en": "2026-09-25T12:45:00.000Z"
+    },
+    {
+      "id": 4,
+      "pedido_id": 4,
+      "serie": "B",
+      "numero": "FV-0004",
+      "fecha_emision": "2026-09-25T13:05:00.000Z",
+      "total": 60,
+      "creado_en": "2026-09-25T13:05:00.000Z"
+    },
+    {
+      "id": 5,
+      "pedido_id": 5,
+      "serie": "B",
+      "numero": "FV-0005",
+      "fecha_emision": "2026-09-25T13:25:00.000Z",
+      "total": 45,
+      "creado_en": "2026-09-25T13:25:00.000Z"
+    },
+    {
+      "id": 6,
+      "pedido_id": 6,
+      "serie": "B",
+      "numero": "FV-0006",
+      "fecha_emision": "2026-09-26T11:05:00.000Z",
+      "total": 95,
+      "creado_en": "2026-09-26T11:05:00.000Z"
+    },
+    {
+      "id": 7,
+      "pedido_id": 7,
+      "serie": "C",
+      "numero": "FV-0007",
+      "fecha_emision": "2026-09-26T11:35:00.000Z",
+      "total": 130,
+      "creado_en": "2026-09-26T11:35:00.000Z"
+    },
+    {
+      "id": 8,
+      "pedido_id": 8,
+      "serie": "C",
+      "numero": "FV-0008",
+      "fecha_emision": "2026-09-26T12:05:00.000Z",
+      "total": 75,
+      "creado_en": "2026-09-26T12:05:00.000Z"
+    },
+    {
+      "id": 9,
+      "pedido_id": 9,
+      "serie": "A",
+      "numero": "FV-0009",
+      "fecha_emision": "2026-09-13T13:56:00.000Z",
+      "total": 18,
+      "creado_en": "2026-09-13T13:56:00.000Z"
+    },
+    {
+      "id": 10,
+      "pedido_id": 10,
+      "serie": "B",
+      "numero": "FV-0010",
+      "fecha_emision": "2026-09-14T12:39:00.000Z",
+      "total": 84,
+      "creado_en": "2026-09-14T12:39:00.000Z"
+    },
+    {
+      "id": 11,
+      "pedido_id": 11,
+      "serie": "C",
+      "numero": "FV-0011",
+      "fecha_emision": "2026-09-14T12:03:00.000Z",
+      "total": 280,
+      "creado_en": "2026-09-14T12:03:00.000Z"
+    },
+    {
+      "id": 12,
+      "pedido_id": 12,
+      "serie": "A",
+      "numero": "FV-0012",
+      "fecha_emision": "2026-09-15T13:50:00.000Z",
+      "total": 155,
+      "creado_en": "2026-09-15T13:50:00.000Z"
+    },
+    {
+      "id": 13,
+      "pedido_id": 13,
+      "serie": "B",
+      "numero": "FV-0013",
+      "fecha_emision": "2026-09-15T13:41:00.000Z",
+      "total": 105,
+      "creado_en": "2026-09-15T13:41:00.000Z"
+    },
+    {
+      "id": 14,
+      "pedido_id": 14,
+      "serie": "C",
+      "numero": "FV-0014",
+      "fecha_emision": "2026-09-16T12:36:00.000Z",
+      "total": 45,
+      "creado_en": "2026-09-16T12:36:00.000Z"
+    },
+    {
+      "id": 15,
+      "pedido_id": 15,
+      "serie": "A",
+      "numero": "FV-0015",
+      "fecha_emision": "2026-09-16T11:38:00.000Z",
+      "total": 165,
+      "creado_en": "2026-09-16T11:38:00.000Z"
+    },
+    {
+      "id": 16,
+      "pedido_id": 16,
+      "serie": "B",
+      "numero": "FV-0016",
+      "fecha_emision": "2026-09-17T14:31:00.000Z",
+      "total": 95,
+      "creado_en": "2026-09-17T14:31:00.000Z"
+    },
+    {
+      "id": 17,
+      "pedido_id": 17,
+      "serie": "C",
+      "numero": "FV-0017",
+      "fecha_emision": "2026-09-17T14:34:00.000Z",
+      "total": 30,
+      "creado_en": "2026-09-17T14:34:00.000Z"
+    },
+    {
+      "id": 18,
+      "pedido_id": 19,
+      "serie": "A",
+      "numero": "FV-0018",
+      "fecha_emision": "2026-09-18T12:02:00.000Z",
+      "total": 275,
+      "creado_en": "2026-09-18T12:02:00.000Z"
+    },
+    {
+      "id": 19,
+      "pedido_id": 20,
+      "serie": "B",
+      "numero": "FV-0019",
+      "fecha_emision": "2026-09-18T11:29:00.000Z",
+      "total": 75,
+      "creado_en": "2026-09-18T11:29:00.000Z"
+    },
+    {
+      "id": 20,
+      "pedido_id": 21,
+      "serie": "C",
+      "numero": "FV-0020",
+      "fecha_emision": "2026-09-19T13:19:00.000Z",
+      "total": 130,
+      "creado_en": "2026-09-19T13:19:00.000Z"
+    },
+    {
+      "id": 21,
+      "pedido_id": 22,
+      "serie": "A",
+      "numero": "FV-0021",
+      "fecha_emision": "2026-09-19T11:10:00.000Z",
+      "total": 50,
+      "creado_en": "2026-09-19T11:10:00.000Z"
+    },
+    {
+      "id": 22,
+      "pedido_id": 23,
+      "serie": "B",
+      "numero": "FV-0022",
+      "fecha_emision": "2026-09-19T11:28:00.000Z",
+      "total": 45,
+      "creado_en": "2026-09-19T11:28:00.000Z"
+    },
+    {
+      "id": 23,
+      "pedido_id": 24,
+      "serie": "C",
+      "numero": "FV-0023",
+      "fecha_emision": "2026-09-20T12:19:00.000Z",
+      "total": 25,
+      "creado_en": "2026-09-20T12:19:00.000Z"
+    },
+    {
+      "id": 24,
+      "pedido_id": 25,
+      "serie": "A",
+      "numero": "FV-0024",
+      "fecha_emision": "2026-09-21T11:31:00.000Z",
+      "total": 53,
+      "creado_en": "2026-09-21T11:31:00.000Z"
+    },
+    {
+      "id": 25,
+      "pedido_id": 26,
+      "serie": "B",
+      "numero": "FV-0025",
+      "fecha_emision": "2026-09-21T14:15:00.000Z",
+      "total": 48,
+      "creado_en": "2026-09-21T14:15:00.000Z"
+    },
+    {
+      "id": 26,
+      "pedido_id": 27,
+      "serie": "C",
+      "numero": "FV-0026",
+      "fecha_emision": "2026-09-22T13:39:00.000Z",
+      "total": 126,
+      "creado_en": "2026-09-22T13:39:00.000Z"
+    },
+    {
+      "id": 27,
+      "pedido_id": 28,
+      "serie": "A",
+      "numero": "FV-0027",
+      "fecha_emision": "2026-09-22T11:24:00.000Z",
+      "total": 121,
+      "creado_en": "2026-09-22T11:24:00.000Z"
+    },
+    {
+      "id": 28,
+      "pedido_id": 29,
+      "serie": "B",
+      "numero": "FV-0028",
+      "fecha_emision": "2026-09-23T12:10:00.000Z",
+      "total": 205,
+      "creado_en": "2026-09-23T12:10:00.000Z"
+    },
+    {
+      "id": 29,
+      "pedido_id": 31,
+      "serie": "C",
+      "numero": "FV-0029",
+      "fecha_emision": "2026-09-24T11:57:00.000Z",
+      "total": 121,
+      "creado_en": "2026-09-24T11:57:00.000Z"
+    },
+    {
+      "id": 30,
+      "pedido_id": 32,
+      "serie": "A",
+      "numero": "FV-0030",
+      "fecha_emision": "2026-09-24T14:14:00.000Z",
+      "total": 36,
+      "creado_en": "2026-09-24T14:14:00.000Z"
+    },
+    {
+      "id": 31,
+      "pedido_id": 33,
+      "serie": "B",
+      "numero": "FV-0031",
+      "fecha_emision": "2026-09-25T12:03:00.000Z",
+      "total": 372,
+      "creado_en": "2026-09-25T12:03:00.000Z"
+    },
+    {
+      "id": 32,
+      "pedido_id": 34,
+      "serie": "C",
+      "numero": "FV-0032",
+      "fecha_emision": "2026-09-25T11:17:00.000Z",
+      "total": 28,
+      "creado_en": "2026-09-25T11:17:00.000Z"
+    },
+    {
+      "id": 33,
+      "pedido_id": 35,
+      "serie": "A",
+      "numero": "FV-0033",
+      "fecha_emision": "2026-09-25T14:44:00.000Z",
+      "total": 115,
+      "creado_en": "2026-09-25T14:44:00.000Z"
+    },
+    {
+      "id": 34,
+      "pedido_id": 36,
+      "serie": "B",
+      "numero": "FV-0034",
+      "fecha_emision": "2026-09-26T14:31:00.000Z",
+      "total": 269,
+      "creado_en": "2026-09-26T14:31:00.000Z"
+    },
+    {
+      "id": 35,
+      "pedido_id": 37,
+      "serie": "C",
+      "numero": "FV-0035",
+      "fecha_emision": "2026-09-26T13:14:00.000Z",
+      "total": 90,
+      "creado_en": "2026-09-26T13:14:00.000Z"
+    },
+    {
+      "id": 36,
+      "pedido_id": 38,
+      "serie": "A",
+      "numero": "FV-0036",
+      "fecha_emision": "2026-09-26T13:44:00.000Z",
+      "total": 114,
+      "creado_en": "2026-09-26T13:44:00.000Z"
+    },
+    {
+      "id": 37,
+      "pedido_id": 39,
+      "serie": "B",
+      "numero": "FV-0037",
+      "fecha_emision": "2026-04-01T11:00:00.000Z",
+      "total": 25,
+      "creado_en": "2026-04-01T11:00:00.000Z"
+    },
+    {
+      "id": 38,
+      "pedido_id": 40,
+      "serie": "C",
+      "numero": "FV-0038",
+      "fecha_emision": "2026-04-04T12:07:00.000Z",
+      "total": 220,
+      "creado_en": "2026-04-04T12:07:00.000Z"
+    },
+    {
+      "id": 39,
+      "pedido_id": 41,
+      "serie": "A",
+      "numero": "FV-0039",
+      "fecha_emision": "2026-04-07T13:14:00.000Z",
+      "total": 213,
+      "creado_en": "2026-04-07T13:14:00.000Z"
+    },
+    {
+      "id": 40,
+      "pedido_id": 42,
+      "serie": "B",
+      "numero": "FV-0040",
+      "fecha_emision": "2026-04-10T14:21:00.000Z",
+      "total": 35,
+      "creado_en": "2026-04-10T14:21:00.000Z"
+    },
+    {
+      "id": 41,
+      "pedido_id": 43,
+      "serie": "C",
+      "numero": "FV-0041",
+      "fecha_emision": "2026-04-13T11:28:00.000Z",
+      "total": 114,
+      "creado_en": "2026-04-13T11:28:00.000Z"
+    },
+    {
+      "id": 42,
+      "pedido_id": 44,
+      "serie": "A",
+      "numero": "FV-0042",
+      "fecha_emision": "2026-04-16T12:35:00.000Z",
+      "total": 179,
+      "creado_en": "2026-04-16T12:35:00.000Z"
+    },
+    {
+      "id": 43,
+      "pedido_id": 45,
+      "serie": "B",
+      "numero": "FV-0043",
+      "fecha_emision": "2026-04-19T13:42:00.000Z",
+      "total": 15,
+      "creado_en": "2026-04-19T13:42:00.000Z"
+    },
+    {
+      "id": 44,
+      "pedido_id": 46,
+      "serie": "C",
+      "numero": "FV-0044",
+      "fecha_emision": "2026-04-22T14:49:00.000Z",
+      "total": 171,
+      "creado_en": "2026-04-22T14:49:00.000Z"
+    },
+    {
+      "id": 45,
+      "pedido_id": 47,
+      "serie": "A",
+      "numero": "FV-0045",
+      "fecha_emision": "2026-04-25T11:56:00.000Z",
+      "total": 140,
+      "creado_en": "2026-04-25T11:56:00.000Z"
+    },
+    {
+      "id": 46,
+      "pedido_id": 48,
+      "serie": "B",
+      "numero": "FV-0046",
+      "fecha_emision": "2026-04-28T12:03:00.000Z",
+      "total": 65,
+      "creado_en": "2026-04-28T12:03:00.000Z"
+    },
+    {
+      "id": 47,
+      "pedido_id": 49,
+      "serie": "C",
+      "numero": "FV-0047",
+      "fecha_emision": "2026-04-01T13:10:00.000Z",
+      "total": 174,
+      "creado_en": "2026-04-01T13:10:00.000Z"
+    },
+    {
+      "id": 48,
+      "pedido_id": 50,
+      "serie": "A",
+      "numero": "FV-0048",
+      "fecha_emision": "2026-04-04T14:17:00.000Z",
+      "total": 250,
+      "creado_en": "2026-04-04T14:17:00.000Z"
+    },
+    {
+      "id": 49,
+      "pedido_id": 52,
+      "serie": "B",
+      "numero": "FV-0049",
+      "fecha_emision": "2026-04-10T12:31:00.000Z",
+      "total": 131,
+      "creado_en": "2026-04-10T12:31:00.000Z"
+    },
+    {
+      "id": 50,
+      "pedido_id": 53,
+      "serie": "C",
+      "numero": "FV-0050",
+      "fecha_emision": "2026-04-13T13:38:00.000Z",
+      "total": 170,
+      "creado_en": "2026-04-13T13:38:00.000Z"
+    },
+    {
+      "id": 51,
+      "pedido_id": 54,
+      "serie": "A",
+      "numero": "FV-0051",
+      "fecha_emision": "2026-04-16T14:45:00.000Z",
+      "total": 18,
+      "creado_en": "2026-04-16T14:45:00.000Z"
+    },
+    {
+      "id": 52,
+      "pedido_id": 55,
+      "serie": "B",
+      "numero": "FV-0052",
+      "fecha_emision": "2026-04-19T11:52:00.000Z",
+      "total": 155,
+      "creado_en": "2026-04-19T11:52:00.000Z"
+    },
+    {
+      "id": 53,
+      "pedido_id": 56,
+      "serie": "C",
+      "numero": "FV-0053",
+      "fecha_emision": "2026-04-22T12:59:00.000Z",
+      "total": 261,
+      "creado_en": "2026-04-22T12:59:00.000Z"
+    },
+    {
+      "id": 54,
+      "pedido_id": 57,
+      "serie": "A",
+      "numero": "FV-0054",
+      "fecha_emision": "2026-04-25T13:06:00.000Z",
+      "total": 45,
+      "creado_en": "2026-04-25T13:06:00.000Z"
+    },
+    {
+      "id": 55,
+      "pedido_id": 58,
+      "serie": "B",
+      "numero": "FV-0055",
+      "fecha_emision": "2026-04-28T14:13:00.000Z",
+      "total": 115,
+      "creado_en": "2026-04-28T14:13:00.000Z"
+    },
+    {
+      "id": 56,
+      "pedido_id": 59,
+      "serie": "C",
+      "numero": "FV-0056",
+      "fecha_emision": "2026-05-01T11:00:00.000Z",
+      "total": 198,
+      "creado_en": "2026-05-01T11:00:00.000Z"
+    },
+    {
+      "id": 57,
+      "pedido_id": 60,
+      "serie": "A",
+      "numero": "FV-0057",
+      "fecha_emision": "2026-05-04T12:07:00.000Z",
+      "total": 28,
+      "creado_en": "2026-05-04T12:07:00.000Z"
+    },
+    {
+      "id": 58,
+      "pedido_id": 61,
+      "serie": "B",
+      "numero": "FV-0058",
+      "fecha_emision": "2026-05-07T13:14:00.000Z",
+      "total": 225,
+      "creado_en": "2026-05-07T13:14:00.000Z"
+    },
+    {
+      "id": 59,
+      "pedido_id": 62,
+      "serie": "C",
+      "numero": "FV-0059",
+      "fecha_emision": "2026-05-10T14:21:00.000Z",
+      "total": 155,
+      "creado_en": "2026-05-10T14:21:00.000Z"
+    },
+    {
+      "id": 60,
+      "pedido_id": 63,
+      "serie": "A",
+      "numero": "FV-0060",
+      "fecha_emision": "2026-05-13T11:28:00.000Z",
+      "total": 25,
+      "creado_en": "2026-05-13T11:28:00.000Z"
+    },
+    {
+      "id": 61,
+      "pedido_id": 64,
+      "serie": "B",
+      "numero": "FV-0061",
+      "fecha_emision": "2026-05-16T12:35:00.000Z",
+      "total": 220,
+      "creado_en": "2026-05-16T12:35:00.000Z"
+    },
+    {
+      "id": 62,
+      "pedido_id": 65,
+      "serie": "C",
+      "numero": "FV-0062",
+      "fecha_emision": "2026-05-19T13:42:00.000Z",
+      "total": 213,
+      "creado_en": "2026-05-19T13:42:00.000Z"
+    },
+    {
+      "id": 63,
+      "pedido_id": 66,
+      "serie": "A",
+      "numero": "FV-0063",
+      "fecha_emision": "2026-05-22T14:49:00.000Z",
+      "total": 35,
+      "creado_en": "2026-05-22T14:49:00.000Z"
+    },
+    {
+      "id": 64,
+      "pedido_id": 67,
+      "serie": "B",
+      "numero": "FV-0064",
+      "fecha_emision": "2026-05-25T11:56:00.000Z",
+      "total": 114,
+      "creado_en": "2026-05-25T11:56:00.000Z"
+    },
+    {
+      "id": 65,
+      "pedido_id": 69,
+      "serie": "C",
+      "numero": "FV-0065",
+      "fecha_emision": "2026-05-31T13:10:00.000Z",
+      "total": 15,
+      "creado_en": "2026-05-31T13:10:00.000Z"
+    },
+    {
+      "id": 66,
+      "pedido_id": 70,
+      "serie": "A",
+      "numero": "FV-0066",
+      "fecha_emision": "2026-05-03T14:17:00.000Z",
+      "total": 171,
+      "creado_en": "2026-05-03T14:17:00.000Z"
+    },
+    {
+      "id": 67,
+      "pedido_id": 71,
+      "serie": "B",
+      "numero": "FV-0067",
+      "fecha_emision": "2026-05-06T11:24:00.000Z",
+      "total": 140,
+      "creado_en": "2026-05-06T11:24:00.000Z"
+    },
+    {
+      "id": 68,
+      "pedido_id": 72,
+      "serie": "C",
+      "numero": "FV-0068",
+      "fecha_emision": "2026-05-09T12:31:00.000Z",
+      "total": 65,
+      "creado_en": "2026-05-09T12:31:00.000Z"
+    },
+    {
+      "id": 69,
+      "pedido_id": 73,
+      "serie": "A",
+      "numero": "FV-0069",
+      "fecha_emision": "2026-05-12T13:38:00.000Z",
+      "total": 174,
+      "creado_en": "2026-05-12T13:38:00.000Z"
+    },
+    {
+      "id": 70,
+      "pedido_id": 74,
+      "serie": "B",
+      "numero": "FV-0070",
+      "fecha_emision": "2026-05-15T14:45:00.000Z",
+      "total": 250,
+      "creado_en": "2026-05-15T14:45:00.000Z"
+    },
+    {
+      "id": 71,
+      "pedido_id": 75,
+      "serie": "C",
+      "numero": "FV-0071",
+      "fecha_emision": "2026-05-18T11:52:00.000Z",
+      "total": 30,
+      "creado_en": "2026-05-18T11:52:00.000Z"
+    },
+    {
+      "id": 72,
+      "pedido_id": 76,
+      "serie": "A",
+      "numero": "FV-0072",
+      "fecha_emision": "2026-05-21T12:59:00.000Z",
+      "total": 131,
+      "creado_en": "2026-05-21T12:59:00.000Z"
+    },
+    {
+      "id": 73,
+      "pedido_id": 77,
+      "serie": "B",
+      "numero": "FV-0073",
+      "fecha_emision": "2026-05-24T13:06:00.000Z",
+      "total": 170,
+      "creado_en": "2026-05-24T13:06:00.000Z"
+    },
+    {
+      "id": 74,
+      "pedido_id": 78,
+      "serie": "C",
+      "numero": "FV-0074",
+      "fecha_emision": "2026-05-27T14:13:00.000Z",
+      "total": 18,
+      "creado_en": "2026-05-27T14:13:00.000Z"
+    },
+    {
+      "id": 75,
+      "pedido_id": 79,
+      "serie": "A",
+      "numero": "FV-0075",
+      "fecha_emision": "2026-06-01T11:00:00.000Z",
+      "total": 155,
+      "creado_en": "2026-06-01T11:00:00.000Z"
+    },
+    {
+      "id": 76,
+      "pedido_id": 80,
+      "serie": "B",
+      "numero": "FV-0076",
+      "fecha_emision": "2026-06-04T12:07:00.000Z",
+      "total": 261,
+      "creado_en": "2026-06-04T12:07:00.000Z"
+    },
+    {
+      "id": 77,
+      "pedido_id": 81,
+      "serie": "C",
+      "numero": "FV-0077",
+      "fecha_emision": "2026-06-07T13:14:00.000Z",
+      "total": 45,
+      "creado_en": "2026-06-07T13:14:00.000Z"
+    },
+    {
+      "id": 78,
+      "pedido_id": 82,
+      "serie": "A",
+      "numero": "FV-0078",
+      "fecha_emision": "2026-06-10T14:21:00.000Z",
+      "total": 115,
+      "creado_en": "2026-06-10T14:21:00.000Z"
+    },
+    {
+      "id": 79,
+      "pedido_id": 83,
+      "serie": "B",
+      "numero": "FV-0079",
+      "fecha_emision": "2026-06-13T11:28:00.000Z",
+      "total": 198,
+      "creado_en": "2026-06-13T11:28:00.000Z"
+    },
+    {
+      "id": 80,
+      "pedido_id": 84,
+      "serie": "C",
+      "numero": "FV-0080",
+      "fecha_emision": "2026-06-16T12:35:00.000Z",
+      "total": 28,
+      "creado_en": "2026-06-16T12:35:00.000Z"
+    },
+    {
+      "id": 81,
+      "pedido_id": 86,
+      "serie": "A",
+      "numero": "FV-0081",
+      "fecha_emision": "2026-06-22T14:49:00.000Z",
+      "total": 155,
+      "creado_en": "2026-06-22T14:49:00.000Z"
+    },
+    {
+      "id": 82,
+      "pedido_id": 87,
+      "serie": "B",
+      "numero": "FV-0082",
+      "fecha_emision": "2026-06-25T11:56:00.000Z",
+      "total": 25,
+      "creado_en": "2026-06-25T11:56:00.000Z"
+    },
+    {
+      "id": 83,
+      "pedido_id": 88,
+      "serie": "C",
+      "numero": "FV-0083",
+      "fecha_emision": "2026-06-28T12:03:00.000Z",
+      "total": 220,
+      "creado_en": "2026-06-28T12:03:00.000Z"
+    },
+    {
+      "id": 84,
+      "pedido_id": 89,
+      "serie": "A",
+      "numero": "FV-0084",
+      "fecha_emision": "2026-06-01T13:10:00.000Z",
+      "total": 213,
+      "creado_en": "2026-06-01T13:10:00.000Z"
+    },
+    {
+      "id": 85,
+      "pedido_id": 90,
+      "serie": "B",
+      "numero": "FV-0085",
+      "fecha_emision": "2026-06-04T14:17:00.000Z",
+      "total": 35,
+      "creado_en": "2026-06-04T14:17:00.000Z"
+    },
+    {
+      "id": 86,
+      "pedido_id": 91,
+      "serie": "C",
+      "numero": "FV-0086",
+      "fecha_emision": "2026-06-07T11:24:00.000Z",
+      "total": 114,
+      "creado_en": "2026-06-07T11:24:00.000Z"
+    },
+    {
+      "id": 87,
+      "pedido_id": 92,
+      "serie": "A",
+      "numero": "FV-0087",
+      "fecha_emision": "2026-06-10T12:31:00.000Z",
+      "total": 179,
+      "creado_en": "2026-06-10T12:31:00.000Z"
+    },
+    {
+      "id": 88,
+      "pedido_id": 93,
+      "serie": "B",
+      "numero": "FV-0088",
+      "fecha_emision": "2026-06-13T13:38:00.000Z",
+      "total": 15,
+      "creado_en": "2026-06-13T13:38:00.000Z"
+    },
+    {
+      "id": 89,
+      "pedido_id": 94,
+      "serie": "C",
+      "numero": "FV-0089",
+      "fecha_emision": "2026-06-16T14:45:00.000Z",
+      "total": 171,
+      "creado_en": "2026-06-16T14:45:00.000Z"
+    },
+    {
+      "id": 90,
+      "pedido_id": 95,
+      "serie": "A",
+      "numero": "FV-0090",
+      "fecha_emision": "2026-06-19T11:52:00.000Z",
+      "total": 140,
+      "creado_en": "2026-06-19T11:52:00.000Z"
+    },
+    {
+      "id": 91,
+      "pedido_id": 96,
+      "serie": "B",
+      "numero": "FV-0091",
+      "fecha_emision": "2026-06-22T12:59:00.000Z",
+      "total": 65,
+      "creado_en": "2026-06-22T12:59:00.000Z"
+    },
+    {
+      "id": 92,
+      "pedido_id": 97,
+      "serie": "C",
+      "numero": "FV-0092",
+      "fecha_emision": "2026-06-25T13:06:00.000Z",
+      "total": 174,
+      "creado_en": "2026-06-25T13:06:00.000Z"
+    },
+    {
+      "id": 93,
+      "pedido_id": 98,
+      "serie": "A",
+      "numero": "FV-0093",
+      "fecha_emision": "2026-06-28T14:13:00.000Z",
+      "total": 250,
+      "creado_en": "2026-06-28T14:13:00.000Z"
+    },
+    {
+      "id": 94,
+      "pedido_id": 99,
+      "serie": "B",
+      "numero": "FV-0094",
+      "fecha_emision": "2026-07-01T11:00:00.000Z",
+      "total": 30,
+      "creado_en": "2026-07-01T11:00:00.000Z"
+    },
+    {
+      "id": 95,
+      "pedido_id": 100,
+      "serie": "C",
+      "numero": "FV-0095",
+      "fecha_emision": "2026-07-04T12:07:00.000Z",
+      "total": 131,
+      "creado_en": "2026-07-04T12:07:00.000Z"
+    },
+    {
+      "id": 96,
+      "pedido_id": 101,
+      "serie": "A",
+      "numero": "FV-0096",
+      "fecha_emision": "2026-07-07T13:14:00.000Z",
+      "total": 170,
+      "creado_en": "2026-07-07T13:14:00.000Z"
+    },
+    {
+      "id": 97,
+      "pedido_id": 103,
+      "serie": "B",
+      "numero": "FV-0097",
+      "fecha_emision": "2026-07-13T11:28:00.000Z",
+      "total": 155,
+      "creado_en": "2026-07-13T11:28:00.000Z"
+    },
+    {
+      "id": 98,
+      "pedido_id": 104,
+      "serie": "C",
+      "numero": "FV-0098",
+      "fecha_emision": "2026-07-16T12:35:00.000Z",
+      "total": 261,
+      "creado_en": "2026-07-16T12:35:00.000Z"
+    },
+    {
+      "id": 99,
+      "pedido_id": 105,
+      "serie": "A",
+      "numero": "FV-0099",
+      "fecha_emision": "2026-07-19T13:42:00.000Z",
+      "total": 45,
+      "creado_en": "2026-07-19T13:42:00.000Z"
+    },
+    {
+      "id": 100,
+      "pedido_id": 106,
+      "serie": "B",
+      "numero": "FV-0100",
+      "fecha_emision": "2026-07-22T14:49:00.000Z",
+      "total": 115,
+      "creado_en": "2026-07-22T14:49:00.000Z"
+    },
+    {
+      "id": 101,
+      "pedido_id": 107,
+      "serie": "C",
+      "numero": "FV-0101",
+      "fecha_emision": "2026-07-25T11:56:00.000Z",
+      "total": 198,
+      "creado_en": "2026-07-25T11:56:00.000Z"
+    },
+    {
+      "id": 102,
+      "pedido_id": 108,
+      "serie": "A",
+      "numero": "FV-0102",
+      "fecha_emision": "2026-07-28T12:03:00.000Z",
+      "total": 28,
+      "creado_en": "2026-07-28T12:03:00.000Z"
+    },
+    {
+      "id": 103,
+      "pedido_id": 109,
+      "serie": "B",
+      "numero": "FV-0103",
+      "fecha_emision": "2026-07-31T13:10:00.000Z",
+      "total": 225,
+      "creado_en": "2026-07-31T13:10:00.000Z"
+    },
+    {
+      "id": 104,
+      "pedido_id": 110,
+      "serie": "C",
+      "numero": "FV-0104",
+      "fecha_emision": "2026-07-03T14:17:00.000Z",
+      "total": 155,
+      "creado_en": "2026-07-03T14:17:00.000Z"
+    },
+    {
+      "id": 105,
+      "pedido_id": 111,
+      "serie": "A",
+      "numero": "FV-0105",
+      "fecha_emision": "2026-07-06T11:24:00.000Z",
+      "total": 25,
+      "creado_en": "2026-07-06T11:24:00.000Z"
+    },
+    {
+      "id": 106,
+      "pedido_id": 112,
+      "serie": "B",
+      "numero": "FV-0106",
+      "fecha_emision": "2026-07-09T12:31:00.000Z",
+      "total": 220,
+      "creado_en": "2026-07-09T12:31:00.000Z"
+    },
+    {
+      "id": 107,
+      "pedido_id": 113,
+      "serie": "C",
+      "numero": "FV-0107",
+      "fecha_emision": "2026-07-12T13:38:00.000Z",
+      "total": 213,
+      "creado_en": "2026-07-12T13:38:00.000Z"
+    },
+    {
+      "id": 108,
+      "pedido_id": 114,
+      "serie": "A",
+      "numero": "FV-0108",
+      "fecha_emision": "2026-07-15T14:45:00.000Z",
+      "total": 35,
+      "creado_en": "2026-07-15T14:45:00.000Z"
+    },
+    {
+      "id": 109,
+      "pedido_id": 115,
+      "serie": "B",
+      "numero": "FV-0109",
+      "fecha_emision": "2026-07-18T11:52:00.000Z",
+      "total": 114,
+      "creado_en": "2026-07-18T11:52:00.000Z"
+    },
+    {
+      "id": 110,
+      "pedido_id": 116,
+      "serie": "C",
+      "numero": "FV-0110",
+      "fecha_emision": "2026-07-21T12:59:00.000Z",
+      "total": 179,
+      "creado_en": "2026-07-21T12:59:00.000Z"
+    },
+    {
+      "id": 111,
+      "pedido_id": 117,
+      "serie": "A",
+      "numero": "FV-0111",
+      "fecha_emision": "2026-07-24T13:06:00.000Z",
+      "total": 15,
+      "creado_en": "2026-07-24T13:06:00.000Z"
+    },
+    {
+      "id": 112,
+      "pedido_id": 118,
+      "serie": "B",
+      "numero": "FV-0112",
+      "fecha_emision": "2026-07-27T14:13:00.000Z",
+      "total": 171,
+      "creado_en": "2026-07-27T14:13:00.000Z"
+    },
+    {
+      "id": 113,
+      "pedido_id": 120,
+      "serie": "C",
+      "numero": "FV-0113",
+      "fecha_emision": "2026-08-04T12:07:00.000Z",
+      "total": 65,
+      "creado_en": "2026-08-04T12:07:00.000Z"
+    },
+    {
+      "id": 114,
+      "pedido_id": 121,
+      "serie": "A",
+      "numero": "FV-0114",
+      "fecha_emision": "2026-08-07T13:14:00.000Z",
+      "total": 174,
+      "creado_en": "2026-08-07T13:14:00.000Z"
+    },
+    {
+      "id": 115,
+      "pedido_id": 122,
+      "serie": "B",
+      "numero": "FV-0115",
+      "fecha_emision": "2026-08-10T14:21:00.000Z",
+      "total": 250,
+      "creado_en": "2026-08-10T14:21:00.000Z"
+    },
+    {
+      "id": 116,
+      "pedido_id": 123,
+      "serie": "C",
+      "numero": "FV-0116",
+      "fecha_emision": "2026-08-13T11:28:00.000Z",
+      "total": 30,
+      "creado_en": "2026-08-13T11:28:00.000Z"
+    },
+    {
+      "id": 117,
+      "pedido_id": 124,
+      "serie": "A",
+      "numero": "FV-0117",
+      "fecha_emision": "2026-08-16T12:35:00.000Z",
+      "total": 131,
+      "creado_en": "2026-08-16T12:35:00.000Z"
+    },
+    {
+      "id": 118,
+      "pedido_id": 125,
+      "serie": "B",
+      "numero": "FV-0118",
+      "fecha_emision": "2026-08-19T13:42:00.000Z",
+      "total": 170,
+      "creado_en": "2026-08-19T13:42:00.000Z"
+    },
+    {
+      "id": 119,
+      "pedido_id": 126,
+      "serie": "C",
+      "numero": "FV-0119",
+      "fecha_emision": "2026-08-22T14:49:00.000Z",
+      "total": 18,
+      "creado_en": "2026-08-22T14:49:00.000Z"
+    },
+    {
+      "id": 120,
+      "pedido_id": 127,
+      "serie": "A",
+      "numero": "FV-0120",
+      "fecha_emision": "2026-08-25T11:56:00.000Z",
+      "total": 155,
+      "creado_en": "2026-08-25T11:56:00.000Z"
+    },
+    {
+      "id": 121,
+      "pedido_id": 128,
+      "serie": "B",
+      "numero": "FV-0121",
+      "fecha_emision": "2026-08-28T12:03:00.000Z",
+      "total": 261,
+      "creado_en": "2026-08-28T12:03:00.000Z"
+    },
+    {
+      "id": 122,
+      "pedido_id": 129,
+      "serie": "C",
+      "numero": "FV-0122",
+      "fecha_emision": "2026-08-31T13:10:00.000Z",
+      "total": 45,
+      "creado_en": "2026-08-31T13:10:00.000Z"
+    },
+    {
+      "id": 123,
+      "pedido_id": 130,
+      "serie": "A",
+      "numero": "FV-0123",
+      "fecha_emision": "2026-08-03T14:17:00.000Z",
+      "total": 115,
+      "creado_en": "2026-08-03T14:17:00.000Z"
+    },
+    {
+      "id": 124,
+      "pedido_id": 131,
+      "serie": "B",
+      "numero": "FV-0124",
+      "fecha_emision": "2026-08-06T11:24:00.000Z",
+      "total": 198,
+      "creado_en": "2026-08-06T11:24:00.000Z"
+    },
+    {
+      "id": 125,
+      "pedido_id": 132,
+      "serie": "C",
+      "numero": "FV-0125",
+      "fecha_emision": "2026-08-09T12:31:00.000Z",
+      "total": 28,
+      "creado_en": "2026-08-09T12:31:00.000Z"
+    },
+    {
+      "id": 126,
+      "pedido_id": 133,
+      "serie": "A",
+      "numero": "FV-0126",
+      "fecha_emision": "2026-08-12T13:38:00.000Z",
+      "total": 225,
+      "creado_en": "2026-08-12T13:38:00.000Z"
+    },
+    {
+      "id": 127,
+      "pedido_id": 134,
+      "serie": "B",
+      "numero": "FV-0127",
+      "fecha_emision": "2026-08-15T14:45:00.000Z",
+      "total": 155,
+      "creado_en": "2026-08-15T14:45:00.000Z"
+    },
+    {
+      "id": 128,
+      "pedido_id": 135,
+      "serie": "C",
+      "numero": "FV-0128",
+      "fecha_emision": "2026-08-18T11:52:00.000Z",
+      "total": 25,
+      "creado_en": "2026-08-18T11:52:00.000Z"
+    },
+    {
+      "id": 129,
+      "pedido_id": 137,
+      "serie": "A",
+      "numero": "FV-0129",
+      "fecha_emision": "2026-08-24T13:06:00.000Z",
+      "total": 213,
+      "creado_en": "2026-08-24T13:06:00.000Z"
+    },
+    {
+      "id": 130,
+      "pedido_id": 138,
+      "serie": "B",
+      "numero": "FV-0130",
+      "fecha_emision": "2026-08-27T14:13:00.000Z",
+      "total": 35,
+      "creado_en": "2026-08-27T14:13:00.000Z"
+    },
+    {
+      "id": 131,
+      "pedido_id": 139,
+      "serie": "C",
+      "numero": "FV-0131",
+      "fecha_emision": "2026-09-01T11:00:00.000Z",
+      "total": 114,
+      "creado_en": "2026-09-01T11:00:00.000Z"
+    },
+    {
+      "id": 132,
+      "pedido_id": 140,
+      "serie": "A",
+      "numero": "FV-0132",
+      "fecha_emision": "2026-09-04T12:07:00.000Z",
+      "total": 179,
+      "creado_en": "2026-09-04T12:07:00.000Z"
+    },
+    {
+      "id": 133,
+      "pedido_id": 141,
+      "serie": "B",
+      "numero": "FV-0133",
+      "fecha_emision": "2026-09-07T13:14:00.000Z",
+      "total": 15,
+      "creado_en": "2026-09-07T13:14:00.000Z"
+    },
+    {
+      "id": 134,
+      "pedido_id": 142,
+      "serie": "C",
+      "numero": "FV-0134",
+      "fecha_emision": "2026-09-10T14:21:00.000Z",
+      "total": 171,
+      "creado_en": "2026-09-10T14:21:00.000Z"
+    },
+    {
+      "id": 135,
+      "pedido_id": 143,
+      "serie": "A",
+      "numero": "FV-0135",
+      "fecha_emision": "2026-09-01T11:28:00.000Z",
+      "total": 140,
+      "creado_en": "2026-09-01T11:28:00.000Z"
+    },
+    {
+      "id": 136,
+      "pedido_id": 144,
+      "serie": "B",
+      "numero": "FV-0136",
+      "fecha_emision": "2026-09-04T12:35:00.000Z",
+      "total": 65,
+      "creado_en": "2026-09-04T12:35:00.000Z"
+    },
+    {
+      "id": 137,
+      "pedido_id": 145,
+      "serie": "C",
+      "numero": "FV-0137",
+      "fecha_emision": "2026-09-07T13:42:00.000Z",
+      "total": 174,
+      "creado_en": "2026-09-07T13:42:00.000Z"
+    },
+    {
+      "id": 138,
+      "pedido_id": 146,
+      "serie": "A",
+      "numero": "FV-0138",
+      "fecha_emision": "2026-09-10T14:49:00.000Z",
+      "total": 250,
+      "creado_en": "2026-09-10T14:49:00.000Z"
+    },
+    {
+      "id": 139,
+      "pedido_id": 147,
+      "serie": "B",
+      "numero": "FV-0139",
+      "fecha_emision": "2026-09-01T11:56:00.000Z",
+      "total": 30,
+      "creado_en": "2026-09-01T11:56:00.000Z"
+    },
+    {
+      "id": 140,
+      "pedido_id": 148,
+      "serie": "C",
+      "numero": "FV-0140",
+      "fecha_emision": "2026-09-04T12:03:00.000Z",
+      "total": 131,
+      "creado_en": "2026-09-04T12:03:00.000Z"
+    },
+    {
+      "id": 141,
+      "pedido_id": 149,
+      "serie": "A",
+      "numero": "FV-0141",
+      "fecha_emision": "2026-09-07T13:10:00.000Z",
+      "total": 170,
+      "creado_en": "2026-09-07T13:10:00.000Z"
+    },
+    {
+      "id": 142,
+      "pedido_id": 150,
+      "serie": "B",
+      "numero": "FV-0142",
+      "fecha_emision": "2026-09-10T14:17:00.000Z",
+      "total": 18,
+      "creado_en": "2026-09-10T14:17:00.000Z"
+    }
   ],
   "error": null
 }

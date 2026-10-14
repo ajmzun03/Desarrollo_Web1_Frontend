@@ -1,0 +1,17 @@
+{
+  "data": [
+    { "id": 1, "fecha": "2026-10-29T14:32:00.000Z", "usuario": "María López", "rol": "Jefe de Cocina", "modulo": "Cocina", "accion": "Registró merma", "registro": "Tomate Lote F002 – 2.3 kg", "estado": "EXITOSO" },
+    { "id": 2, "fecha": "2026-10-29T14:18:00.000Z", "usuario": "Roberto Sánchez", "rol": "Agente de Ventas", "modulo": "Ventas", "accion": "Creó pedido", "registro": "Pedido #1290 – Q 247.00", "estado": "EXITOSO" },
+    { "id": 3, "fecha": "2026-10-29T14:05:00.000Z", "usuario": "Juan Pablo Méndez", "rol": "Repartidor", "modulo": "Despacho", "accion": "Entregó pedido", "registro": "Pedido #1285 – Q 138.00", "estado": "EXITOSO" },
+    { "id": 4, "fecha": "2026-10-29T13:51:00.000Z", "usuario": "Ana Quixtán", "rol": "Bodeguero", "modulo": "Bodega", "accion": "Recepción parcial", "registro": "OC-2024-089 – Bebidas & Más", "estado": "ADVERTENCIA" },
+    { "id": 5, "fecha": "2026-10-29T13:44:00.000Z", "usuario": "Carlos Méndez", "rol": "Gerente", "modulo": "Administración", "accion": "Aprobó OC", "registro": "OC-2024-091 – Q 1,230.00", "estado": "EXITOSO" },
+    { "id": 6, "fecha": "2026-10-29T13:30:00.000Z", "usuario": "Luis García", "rol": "Encargado de Compras", "modulo": "Compras", "accion": "Generó orden de compra", "registro": "OC-2024-092 – Carnes Premium", "estado": "EXITOSO" },
+    { "id": 7, "fecha": "2026-10-29T13:15:00.000Z", "usuario": "Roberto Sánchez", "rol": "Agente de Ventas", "modulo": "Ventas", "accion": "Anuló pedido", "registro": "Pedido #1281 – Q 92.00", "estado": "ANULACION" },
+    { "id": 8, "fecha": "2026-10-29T13:02:00.000Z", "usuario": "María López", "rol": "Jefe de Cocina", "modulo": "Cocina", "accion": "Inicio producción", "registro": "Orden P-001 – Pollos asados", "estado": "EXITOSO" },
+    { "id": 9, "fecha": "2026-10-29T12:45:00.000Z", "usuario": "Ana Quixtán", "rol": "Bodeguero", "modulo": "Bodega", "accion": "Traslado creado", "registro": "TRA-003 – Aceite de soja 2 L", "estado": "EXITOSO" },
+    { "id": 10, "fecha": "2026-10-29T12:30:00.000Z", "usuario": "Despachador sistema", "rol": "Despachador", "modulo": "Despacho", "accion": "Asignó repartidor", "registro": "Pedido #1287 → Juan Pablo M.", "estado": "EXITOSO" },
+    { "id": 11, "fecha": "2026-10-29T08:00:00.000Z", "usuario": "Carlos Méndez", "rol": "Gerente", "modulo": "Sistema", "accion": "Apertura de turno", "registro": "Fondo Q 500.00 – Sin diferencia", "estado": "EXITOSO" },
+    { "id": 12, "fecha": "2026-10-28T22:15:00.000Z", "usuario": "Roberto Sánchez", "rol": "Agente de Ventas", "modulo": "Sistema", "accion": "Cierre de sesión", "registro": null, "estado": "NEUTRAL" }
+  ],
+  "error": null
+}

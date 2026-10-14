@@ -1,13 +1,167 @@
 {
   "data": [
-    { "id": 1, "hoja_recepcion_id": 1, "serie": "F", "numero": "FC-0001", "fecha_emision": "2026-09-10", "total": 725.0, "fecha_ingreso": "2026-09-10T08:30:00.000Z" },
-    { "id": 2, "hoja_recepcion_id": 2, "serie": "F", "numero": "FC-0002", "fecha_emision": "2026-09-11", "total": 130.0, "fecha_ingreso": "2026-09-11T08:40:00.000Z" },
-    { "id": 3, "hoja_recepcion_id": 3, "serie": "F", "numero": "FC-0003", "fecha_emision": "2026-09-12", "total": 2100.0, "fecha_ingreso": "2026-09-12T08:50:00.000Z" },
-    { "id": 4, "hoja_recepcion_id": 4, "serie": "G", "numero": "FC-0004", "fecha_emision": "2026-09-13", "total": 320.0, "fecha_ingreso": "2026-09-13T09:00:00.000Z" },
-    { "id": 5, "hoja_recepcion_id": 5, "serie": "G", "numero": "FC-0005", "fecha_emision": "2026-09-14", "total": 420.0, "fecha_ingreso": "2026-09-14T09:10:00.000Z" },
-    { "id": 6, "hoja_recepcion_id": 6, "serie": "G", "numero": "FC-0006", "fecha_emision": "2026-09-15", "total": 150.0, "fecha_ingreso": "2026-09-15T09:20:00.000Z" },
-    { "id": 7, "hoja_recepcion_id": 7, "serie": "H", "numero": "FC-0007", "fecha_emision": "2026-09-16", "total": 480.0, "fecha_ingreso": "2026-09-16T09:30:00.000Z" },
-    { "id": 8, "hoja_recepcion_id": 8, "serie": "H", "numero": "FC-0008", "fecha_emision": "2026-09-17", "total": 225.0, "fecha_ingreso": "2026-09-17T09:40:00.000Z" }
+    {
+      "id": 1,
+      "hoja_recepcion_id": 1,
+      "serie": "F",
+      "numero": "FC-0001",
+      "fecha_emision": "2026-09-10",
+      "total": 725,
+      "fecha_ingreso": "2026-09-10T08:30:00.000Z"
+    },
+    {
+      "id": 2,
+      "hoja_recepcion_id": 2,
+      "serie": "F",
+      "numero": "FC-0002",
+      "fecha_emision": "2026-09-11",
+      "total": 130,
+      "fecha_ingreso": "2026-09-11T08:40:00.000Z"
+    },
+    {
+      "id": 3,
+      "hoja_recepcion_id": 3,
+      "serie": "F",
+      "numero": "FC-0003",
+      "fecha_emision": "2026-09-12",
+      "total": 2100,
+      "fecha_ingreso": "2026-09-12T08:50:00.000Z"
+    },
+    {
+      "id": 4,
+      "hoja_recepcion_id": 4,
+      "serie": "G",
+      "numero": "FC-0004",
+      "fecha_emision": "2026-09-13",
+      "total": 320,
+      "fecha_ingreso": "2026-09-13T09:00:00.000Z"
+    },
+    {
+      "id": 5,
+      "hoja_recepcion_id": 5,
+      "serie": "G",
+      "numero": "FC-0005",
+      "fecha_emision": "2026-09-14",
+      "total": 420,
+      "fecha_ingreso": "2026-09-14T09:10:00.000Z"
+    },
+    {
+      "id": 6,
+      "hoja_recepcion_id": 6,
+      "serie": "G",
+      "numero": "FC-0006",
+      "fecha_emision": "2026-09-15",
+      "total": 150,
+      "fecha_ingreso": "2026-09-15T09:20:00.000Z"
+    },
+    {
+      "id": 7,
+      "hoja_recepcion_id": 7,
+      "serie": "H",
+      "numero": "FC-0007",
+      "fecha_emision": "2026-09-16",
+      "total": 480,
+      "fecha_ingreso": "2026-09-16T09:30:00.000Z"
+    },
+    {
+      "id": 8,
+      "hoja_recepcion_id": 8,
+      "serie": "H",
+      "numero": "FC-0008",
+      "fecha_emision": "2026-09-17",
+      "total": 225,
+      "fecha_ingreso": "2026-09-17T09:40:00.000Z"
+    },
+    {
+      "id": 9,
+      "hoja_recepcion_id": 9,
+      "serie": "F",
+      "numero": "FC-0009",
+      "fecha_emision": "2026-04-05",
+      "total": 524,
+      "fecha_ingreso": "2026-04-05T08:00:00.000Z"
+    },
+    {
+      "id": 10,
+      "hoja_recepcion_id": 10,
+      "serie": "F",
+      "numero": "FC-0010",
+      "fecha_emision": "2026-04-20",
+      "total": 350,
+      "fecha_ingreso": "2026-04-20T08:00:00.000Z"
+    },
+    {
+      "id": 11,
+      "hoja_recepcion_id": 11,
+      "serie": "F",
+      "numero": "FC-0011",
+      "fecha_emision": "2026-05-05",
+      "total": 499,
+      "fecha_ingreso": "2026-05-05T08:00:00.000Z"
+    },
+    {
+      "id": 12,
+      "hoja_recepcion_id": 12,
+      "serie": "F",
+      "numero": "FC-0012",
+      "fecha_emision": "2026-05-20",
+      "total": 333,
+      "fecha_ingreso": "2026-05-20T08:00:00.000Z"
+    },
+    {
+      "id": 13,
+      "hoja_recepcion_id": 13,
+      "serie": "F",
+      "numero": "FC-0013",
+      "fecha_emision": "2026-06-05",
+      "total": 537,
+      "fecha_ingreso": "2026-06-05T08:00:00.000Z"
+    },
+    {
+      "id": 14,
+      "hoja_recepcion_id": 14,
+      "serie": "F",
+      "numero": "FC-0014",
+      "fecha_emision": "2026-06-20",
+      "total": 358,
+      "fecha_ingreso": "2026-06-20T08:00:00.000Z"
+    },
+    {
+      "id": 15,
+      "hoja_recepcion_id": 15,
+      "serie": "F",
+      "numero": "FC-0015",
+      "fecha_emision": "2026-07-05",
+      "total": 522,
+      "fecha_ingreso": "2026-07-05T08:00:00.000Z"
+    },
+    {
+      "id": 16,
+      "hoja_recepcion_id": 16,
+      "serie": "F",
+      "numero": "FC-0016",
+      "fecha_emision": "2026-07-20",
+      "total": 348,
+      "fecha_ingreso": "2026-07-20T08:00:00.000Z"
+    },
+    {
+      "id": 17,
+      "hoja_recepcion_id": 17,
+      "serie": "F",
+      "numero": "FC-0017",
+      "fecha_emision": "2026-08-05",
+      "total": 482,
+      "fecha_ingreso": "2026-08-05T08:00:00.000Z"
+    },
+    {
+      "id": 18,
+      "hoja_recepcion_id": 18,
+      "serie": "F",
+      "numero": "FC-0018",
+      "fecha_emision": "2026-08-20",
+      "total": 321,
+      "fecha_ingreso": "2026-08-20T08:00:00.000Z"
+    }
   ],
   "error": null
 }

@@ -1,0 +1,11 @@
+{
+  "data": [
+    { "id": 1, "bodega_origen_id": 1, "bodega_destino_id": 2, "materia_prima_id": 1, "cantidad": 15, "fecha": "2026-09-26T09:15:00.000Z", "estado": "COMPLETADO" },
+    { "id": 2, "bodega_origen_id": 1, "bodega_destino_id": 3, "materia_prima_id": 5, "cantidad": 40, "fecha": "2026-09-27T10:05:00.000Z", "estado": "EN_TRANSITO" },
+    { "id": 3, "bodega_origen_id": 4, "bodega_destino_id": 5, "materia_prima_id": 3, "cantidad": 8, "fecha": "2026-09-27T11:40:00.000Z", "estado": "PENDIENTE" },
+    { "id": 4, "bodega_origen_id": 6, "bodega_destino_id": 7, "materia_prima_id": 2, "cantidad": 25, "fecha": "2026-09-28T08:20:00.000Z", "estado": "CANCELADO" },
+    { "id": 5, "bodega_origen_id": 1, "bodega_destino_id": 8, "materia_prima_id": 6, "cantidad": 60, "fecha": "2026-09-28T09:50:00.000Z", "estado": "COMPLETADO" },
+    { "id": 6, "bodega_origen_id": 2, "bodega_destino_id": 4, "materia_prima_id": 8, "cantidad": 12, "fecha": "2026-09-29T07:30:00.000Z", "estado": "EN_TRANSITO" }
+  ],
+  "error": null
+}

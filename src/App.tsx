@@ -7,6 +7,11 @@ import Cocina from "./pages/Cocina";
 import Despacho from "./pages/Despacho";
 import Compras from "./pages/Compras";
 import Notificaciones from "./pages/Notificaciones";
+import Bodega from "./pages/Bodega";
+import RepartidorMovil from "./pages/RepartidorMovil";
+import DashboardAdmin from "./pages/DashboardAdmin";
+import Reportes from "./pages/Reportes";
+import Auditoria from "./pages/Auditoria";
 import { RutaProtegida } from "./components/RutaProtegida";
 import { ROLES_POR_RUTA } from "./config/roles";
 
@@ -26,6 +31,11 @@ export const App = () => {
       <Route path="/copac/despacho" component={conRuta("/copac/despacho", Despacho)} />
       <Route path="/copac/compras" component={conRuta("/copac/compras", Compras)} />
       <Route path="/copac/notificaciones" component={conRuta("/copac/notificaciones", Notificaciones)} />
+      <Route path="/copac/bodega" component={conRuta("/copac/bodega", Bodega)} />
+      <Route path="/copac/repartidor" component={conRuta("/copac/repartidor", RepartidorMovil)} />
+      <Route path="/copac/dashboard" component={conRuta("/copac/dashboard", DashboardAdmin)} />
+      <Route path="/copac/reportes" component={conRuta("/copac/reportes", Reportes)} />
+      <Route path="/copac/auditoria" component={conRuta("/copac/auditoria", Auditoria)} />
     </Router>
   )
 }

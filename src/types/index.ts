@@ -550,3 +550,82 @@ export interface Notificacion {
   leida: boolean;
   roles_destino: RolUsuario[];
 }
+
+// ============================================================
+// Gastos operativos (TEMPORAL: no existe tabla ni endpoint en el backend)
+// La vista de Reportes se alimenta de un mock temporal por sucursal/mes.
+// ============================================================
+export const CATEGORIAS_GASTO_OPERATIVO = ["Sueldos", "Servicios", "Mantenimiento", "Otros"] as const;
+
+export type CategoriaGastoOperativo = (typeof CATEGORIAS_GASTO_OPERATIVO)[number];
+
+export interface GastoOperativo {
+  id: number;
+  sucursal_id: number;
+  mes: string; // "YYYY-MM"
+  categoria: CategoriaGastoOperativo;
+  monto: number;
+}
+
+// ============================================================
+// Auditoría (TEMPORAL: no existe tabla ni endpoint en el backend)
+// La vista de auditoría se alimenta de un mock temporal.
+// ============================================================
+export const MODULOS_AUDITORIA = [
+  "Ventas",
+  "Cocina",
+  "Despacho",
+  "Compras",
+  "Bodega",
+  "Administración",
+  "Sistema",
+] as const;
+
+export type ModuloAuditoria = (typeof MODULOS_AUDITORIA)[number];
+
+export const ESTADOS_AUDITORIA = ["EXITOSO", "ADVERTENCIA", "ANULACION", "NEUTRAL"] as const;
+
+export type EstadoAuditoria = (typeof ESTADOS_AUDITORIA)[number];
+
+export interface AuditoriaRegistro {
+  id: number;
+  fecha: string;
+  usuario: string;
+  rol: string;
+  modulo: ModuloAuditoria;
+  accion: string;
+  registro: string | null;
+  estado: EstadoAuditoria;
+}
+
+// ============================================================
+// Traslados de inventario (TEMPORAL: no existe tabla ni endpoint en el backend)
+// El único rastro es tipo_movimiento = "TRASLADO" en KARDEX_BODEGA, que no
+// incluye origen/destino/estado. Se alimenta de un mock temporal.
+// ============================================================
+export const ESTADOS_TRASLADO = ["PENDIENTE", "EN_TRANSITO", "COMPLETADO", "CANCELADO"] as const;
+
+export type EstadoTraslado = (typeof ESTADOS_TRASLADO)[number];
+
+export interface TrasladoInventario {
+  id: number;
+  bodega_origen_id: number;
+  bodega_destino_id: number;
+  materia_prima_id: number;
+  cantidad: number;
+  fecha: string;
+  estado: EstadoTraslado;
+}
+
+// ============================================================
+// Cuadre de inventario (TEMPORAL: no existe tabla ni endpoint en el backend)
+// Se alimenta de un mock temporal.
+// ============================================================
+export interface CuadreInventario {
+  id: number;
+  bodega_id: number;
+  materia_prima_id: number;
+  stock_sistema: number;
+  stock_fisico: number | null;
+  justificacion: string | null;
+}
