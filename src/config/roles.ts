@@ -9,6 +9,12 @@ export const ROLES_POR_RUTA: Record<string, RolUsuario[]> = {
   "/copac/despacho": ["ADMIN", "DESPACHADOR"],
   "/copac/compras": ["ADMIN", "BODEGUERO"],
   "/copac/notificaciones": ["ADMIN", "BODEGUERO", "DESPACHADOR", "REPARTIDOR", "CAJERO"],
+  // Rutas nuevas (Fase 1). Propuesta aprobada; el repartidor también es accesible por ADMIN.
+  "/copac/bodega": ["ADMIN", "BODEGUERO"],
+  "/copac/repartidor": ["ADMIN", "REPARTIDOR"],
+  "/copac/dashboard": ["ADMIN"],
+  "/copac/reportes": ["ADMIN"],
+  "/copac/auditoria": ["ADMIN"],
 };
 
 export const TODOS_LOS_ROLES: RolUsuario[] = [

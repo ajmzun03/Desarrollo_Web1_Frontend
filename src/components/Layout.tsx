@@ -1,14 +1,32 @@
 import { Link } from "wouter";
-import { Bell, ClipboardList, LogOut, Package, ShoppingBag, Users, Utensils } from "lucide-react";
+import {
+  BarChart3,
+  Bell,
+  Bike,
+  ClipboardList,
+  History,
+  LayoutDashboard,
+  LogOut,
+  Package,
+  ShoppingBag,
+  Users,
+  Utensils,
+  Warehouse,
+} from "lucide-react";
 import type { ReactNode } from "react";
 import { getCookie, deleteCookie } from "../utils/cookies";
 import "../styles/layout.css";
 
 const NAV_ITEMS = [
+  { path: "/copac/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { path: "/copac/ventas", label: "Ventas", icon: ShoppingBag },
   { path: "/copac/cocina", label: "Cocina", icon: Utensils },
   { path: "/copac/despacho", label: "Despacho", icon: Package },
+  { path: "/copac/repartidor", label: "Repartidor", icon: Bike },
   { path: "/copac/compras", label: "Compras", icon: ClipboardList },
+  { path: "/copac/bodega", label: "Bodega", icon: Warehouse },
+  { path: "/copac/reportes", label: "Reportes", icon: BarChart3 },
+  { path: "/copac/auditoria", label: "Auditoría", icon: History },
   { path: "/copac/notificaciones", label: "Notificaciones", icon: Bell },
   { path: "/copac/usuarios", label: "Usuarios", icon: Users },
 ];

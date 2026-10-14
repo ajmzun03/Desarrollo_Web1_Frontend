@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "sucursal_id": 1, "solicitado_por": 3, "estado": "PENDIENTE", "fecha_solicitud": "2026-09-25T08:10:00.000Z" },
+    { "id": 2, "sucursal_id": 2, "solicitado_por": 4, "estado": "ENVIADA", "fecha_solicitud": "2026-09-25T09:05:00.000Z" },
+    { "id": 3, "sucursal_id": 3, "solicitado_por": 3, "estado": "RECIBIDA", "fecha_solicitud": "2026-09-24T07:45:00.000Z" },
+    { "id": 4, "sucursal_id": 4, "solicitado_por": 4, "estado": "CANCELADA", "fecha_solicitud": "2026-09-24T10:20:00.000Z" },
+    { "id": 5, "sucursal_id": 5, "solicitado_por": 3, "estado": "PENDIENTE", "fecha_solicitud": "2026-09-26T08:00:00.000Z" },
+    { "id": 6, "sucursal_id": 6, "solicitado_por": 4, "estado": "ENVIADA", "fecha_solicitud": "2026-09-26T08:35:00.000Z" },
+    { "id": 7, "sucursal_id": 7, "solicitado_por": 3, "estado": "RECIBIDA", "fecha_solicitud": "2026-09-27T07:30:00.000Z" },
+    { "id": 8, "sucursal_id": 8, "solicitado_por": 4, "estado": "PENDIENTE", "fecha_solicitud": "2026-09-27T09:15:00.000Z" }
+  ],
+  "error": null
+}

@@ -1,0 +1,1349 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "sucursal_id": 1,
+      "mes": "2026-04",
+      "categoria": "Sueldos",
+      "monto": 66
+    },
+    {
+      "id": 2,
+      "sucursal_id": 2,
+      "mes": "2026-04",
+      "categoria": "Sueldos",
+      "monto": 66
+    },
+    {
+      "id": 3,
+      "sucursal_id": 3,
+      "mes": "2026-04",
+      "categoria": "Sueldos",
+      "monto": 66
+    },
+    {
+      "id": 4,
+      "sucursal_id": 4,
+      "mes": "2026-04",
+      "categoria": "Sueldos",
+      "monto": 66
+    },
+    {
+      "id": 5,
+      "sucursal_id": 5,
+      "mes": "2026-04",
+      "categoria": "Sueldos",
+      "monto": 66
+    },
+    {
+      "id": 6,
+      "sucursal_id": 6,
+      "mes": "2026-04",
+      "categoria": "Sueldos",
+      "monto": 66
+    },
+    {
+      "id": 7,
+      "sucursal_id": 7,
+      "mes": "2026-04",
+      "categoria": "Sueldos",
+      "monto": 66
+    },
+    {
+      "id": 8,
+      "sucursal_id": 8,
+      "mes": "2026-04",
+      "categoria": "Sueldos",
+      "monto": 66
+    },
+    {
+      "id": 9,
+      "sucursal_id": 1,
+      "mes": "2026-04",
+      "categoria": "Servicios",
+      "monto": 18
+    },
+    {
+      "id": 10,
+      "sucursal_id": 2,
+      "mes": "2026-04",
+      "categoria": "Servicios",
+      "monto": 18
+    },
+    {
+      "id": 11,
+      "sucursal_id": 3,
+      "mes": "2026-04",
+      "categoria": "Servicios",
+      "monto": 18
+    },
+    {
+      "id": 12,
+      "sucursal_id": 4,
+      "mes": "2026-04",
+      "categoria": "Servicios",
+      "monto": 18
+    },
+    {
+      "id": 13,
+      "sucursal_id": 5,
+      "mes": "2026-04",
+      "categoria": "Servicios",
+      "monto": 18
+    },
+    {
+      "id": 14,
+      "sucursal_id": 6,
+      "mes": "2026-04",
+      "categoria": "Servicios",
+      "monto": 18
+    },
+    {
+      "id": 15,
+      "sucursal_id": 7,
+      "mes": "2026-04",
+      "categoria": "Servicios",
+      "monto": 18
+    },
+    {
+      "id": 16,
+      "sucursal_id": 8,
+      "mes": "2026-04",
+      "categoria": "Servicios",
+      "monto": 18
+    },
+    {
+      "id": 17,
+      "sucursal_id": 1,
+      "mes": "2026-04",
+      "categoria": "Mantenimiento",
+      "monto": 17
+    },
+    {
+      "id": 18,
+      "sucursal_id": 2,
+      "mes": "2026-04",
+      "categoria": "Mantenimiento",
+      "monto": 17
+    },
+    {
+      "id": 19,
+      "sucursal_id": 3,
+      "mes": "2026-04",
+      "categoria": "Mantenimiento",
+      "monto": 17
+    },
+    {
+      "id": 20,
+      "sucursal_id": 4,
+      "mes": "2026-04",
+      "categoria": "Mantenimiento",
+      "monto": 17
+    },
+    {
+      "id": 21,
+      "sucursal_id": 5,
+      "mes": "2026-04",
+      "categoria": "Mantenimiento",
+      "monto": 17
+    },
+    {
+      "id": 22,
+      "sucursal_id": 6,
+      "mes": "2026-04",
+      "categoria": "Mantenimiento",
+      "monto": 17
+    },
+    {
+      "id": 23,
+      "sucursal_id": 7,
+      "mes": "2026-04",
+      "categoria": "Mantenimiento",
+      "monto": 17
+    },
+    {
+      "id": 24,
+      "sucursal_id": 8,
+      "mes": "2026-04",
+      "categoria": "Mantenimiento",
+      "monto": 17
+    },
+    {
+      "id": 25,
+      "sucursal_id": 1,
+      "mes": "2026-04",
+      "categoria": "Otros",
+      "monto": 19
+    },
+    {
+      "id": 26,
+      "sucursal_id": 2,
+      "mes": "2026-04",
+      "categoria": "Otros",
+      "monto": 19
+    },
+    {
+      "id": 27,
+      "sucursal_id": 3,
+      "mes": "2026-04",
+      "categoria": "Otros",
+      "monto": 19
+    },
+    {
+      "id": 28,
+      "sucursal_id": 4,
+      "mes": "2026-04",
+      "categoria": "Otros",
+      "monto": 19
+    },
+    {
+      "id": 29,
+      "sucursal_id": 5,
+      "mes": "2026-04",
+      "categoria": "Otros",
+      "monto": 19
+    },
+    {
+      "id": 30,
+      "sucursal_id": 6,
+      "mes": "2026-04",
+      "categoria": "Otros",
+      "monto": 19
+    },
+    {
+      "id": 31,
+      "sucursal_id": 7,
+      "mes": "2026-04",
+      "categoria": "Otros",
+      "monto": 19
+    },
+    {
+      "id": 32,
+      "sucursal_id": 8,
+      "mes": "2026-04",
+      "categoria": "Otros",
+      "monto": 19
+    },
+    {
+      "id": 33,
+      "sucursal_id": 1,
+      "mes": "2026-05",
+      "categoria": "Sueldos",
+      "monto": 66
+    },
+    {
+      "id": 34,
+      "sucursal_id": 2,
+      "mes": "2026-05",
+      "categoria": "Sueldos",
+      "monto": 70
+    },
+    {
+      "id": 35,
+      "sucursal_id": 3,
+      "mes": "2026-05",
+      "categoria": "Sueldos",
+      "monto": 74
+    },
+    {
+      "id": 36,
+      "sucursal_id": 4,
+      "mes": "2026-05",
+      "categoria": "Sueldos",
+      "monto": 77
+    },
+    {
+      "id": 37,
+      "sucursal_id": 5,
+      "mes": "2026-05",
+      "categoria": "Sueldos",
+      "monto": 81
+    },
+    {
+      "id": 38,
+      "sucursal_id": 6,
+      "mes": "2026-05",
+      "categoria": "Sueldos",
+      "monto": 85
+    },
+    {
+      "id": 39,
+      "sucursal_id": 7,
+      "mes": "2026-05",
+      "categoria": "Sueldos",
+      "monto": 63
+    },
+    {
+      "id": 40,
+      "sucursal_id": 8,
+      "mes": "2026-05",
+      "categoria": "Sueldos",
+      "monto": 66
+    },
+    {
+      "id": 41,
+      "sucursal_id": 1,
+      "mes": "2026-05",
+      "categoria": "Servicios",
+      "monto": 18
+    },
+    {
+      "id": 42,
+      "sucursal_id": 2,
+      "mes": "2026-05",
+      "categoria": "Servicios",
+      "monto": 19
+    },
+    {
+      "id": 43,
+      "sucursal_id": 3,
+      "mes": "2026-05",
+      "categoria": "Servicios",
+      "monto": 20
+    },
+    {
+      "id": 44,
+      "sucursal_id": 4,
+      "mes": "2026-05",
+      "categoria": "Servicios",
+      "monto": 21
+    },
+    {
+      "id": 45,
+      "sucursal_id": 5,
+      "mes": "2026-05",
+      "categoria": "Servicios",
+      "monto": 22
+    },
+    {
+      "id": 46,
+      "sucursal_id": 6,
+      "mes": "2026-05",
+      "categoria": "Servicios",
+      "monto": 23
+    },
+    {
+      "id": 47,
+      "sucursal_id": 7,
+      "mes": "2026-05",
+      "categoria": "Servicios",
+      "monto": 17
+    },
+    {
+      "id": 48,
+      "sucursal_id": 8,
+      "mes": "2026-05",
+      "categoria": "Servicios",
+      "monto": 18
+    },
+    {
+      "id": 49,
+      "sucursal_id": 1,
+      "mes": "2026-05",
+      "categoria": "Mantenimiento",
+      "monto": 17
+    },
+    {
+      "id": 50,
+      "sucursal_id": 2,
+      "mes": "2026-05",
+      "categoria": "Mantenimiento",
+      "monto": 18
+    },
+    {
+      "id": 51,
+      "sucursal_id": 3,
+      "mes": "2026-05",
+      "categoria": "Mantenimiento",
+      "monto": 19
+    },
+    {
+      "id": 52,
+      "sucursal_id": 4,
+      "mes": "2026-05",
+      "categoria": "Mantenimiento",
+      "monto": 20
+    },
+    {
+      "id": 53,
+      "sucursal_id": 5,
+      "mes": "2026-05",
+      "categoria": "Mantenimiento",
+      "monto": 21
+    },
+    {
+      "id": 54,
+      "sucursal_id": 6,
+      "mes": "2026-05",
+      "categoria": "Mantenimiento",
+      "monto": 22
+    },
+    {
+      "id": 55,
+      "sucursal_id": 7,
+      "mes": "2026-05",
+      "categoria": "Mantenimiento",
+      "monto": 16
+    },
+    {
+      "id": 56,
+      "sucursal_id": 8,
+      "mes": "2026-05",
+      "categoria": "Mantenimiento",
+      "monto": 17
+    },
+    {
+      "id": 57,
+      "sucursal_id": 1,
+      "mes": "2026-05",
+      "categoria": "Otros",
+      "monto": 19
+    },
+    {
+      "id": 58,
+      "sucursal_id": 2,
+      "mes": "2026-05",
+      "categoria": "Otros",
+      "monto": 20
+    },
+    {
+      "id": 59,
+      "sucursal_id": 3,
+      "mes": "2026-05",
+      "categoria": "Otros",
+      "monto": 21
+    },
+    {
+      "id": 60,
+      "sucursal_id": 4,
+      "mes": "2026-05",
+      "categoria": "Otros",
+      "monto": 22
+    },
+    {
+      "id": 61,
+      "sucursal_id": 5,
+      "mes": "2026-05",
+      "categoria": "Otros",
+      "monto": 24
+    },
+    {
+      "id": 62,
+      "sucursal_id": 6,
+      "mes": "2026-05",
+      "categoria": "Otros",
+      "monto": 25
+    },
+    {
+      "id": 63,
+      "sucursal_id": 7,
+      "mes": "2026-05",
+      "categoria": "Otros",
+      "monto": 18
+    },
+    {
+      "id": 64,
+      "sucursal_id": 8,
+      "mes": "2026-05",
+      "categoria": "Otros",
+      "monto": 19
+    },
+    {
+      "id": 65,
+      "sucursal_id": 1,
+      "mes": "2026-06",
+      "categoria": "Sueldos",
+      "monto": 75
+    },
+    {
+      "id": 66,
+      "sucursal_id": 2,
+      "mes": "2026-06",
+      "categoria": "Sueldos",
+      "monto": 83
+    },
+    {
+      "id": 67,
+      "sucursal_id": 3,
+      "mes": "2026-06",
+      "categoria": "Sueldos",
+      "monto": 91
+    },
+    {
+      "id": 68,
+      "sucursal_id": 4,
+      "mes": "2026-06",
+      "categoria": "Sueldos",
+      "monto": 71
+    },
+    {
+      "id": 69,
+      "sucursal_id": 5,
+      "mes": "2026-06",
+      "categoria": "Sueldos",
+      "monto": 79
+    },
+    {
+      "id": 70,
+      "sucursal_id": 6,
+      "mes": "2026-06",
+      "categoria": "Sueldos",
+      "monto": 87
+    },
+    {
+      "id": 71,
+      "sucursal_id": 7,
+      "mes": "2026-06",
+      "categoria": "Sueldos",
+      "monto": 67
+    },
+    {
+      "id": 72,
+      "sucursal_id": 8,
+      "mes": "2026-06",
+      "categoria": "Sueldos",
+      "monto": 75
+    },
+    {
+      "id": 73,
+      "sucursal_id": 1,
+      "mes": "2026-06",
+      "categoria": "Servicios",
+      "monto": 21
+    },
+    {
+      "id": 74,
+      "sucursal_id": 2,
+      "mes": "2026-06",
+      "categoria": "Servicios",
+      "monto": 23
+    },
+    {
+      "id": 75,
+      "sucursal_id": 3,
+      "mes": "2026-06",
+      "categoria": "Servicios",
+      "monto": 25
+    },
+    {
+      "id": 76,
+      "sucursal_id": 4,
+      "mes": "2026-06",
+      "categoria": "Servicios",
+      "monto": 19
+    },
+    {
+      "id": 77,
+      "sucursal_id": 5,
+      "mes": "2026-06",
+      "categoria": "Servicios",
+      "monto": 22
+    },
+    {
+      "id": 78,
+      "sucursal_id": 6,
+      "mes": "2026-06",
+      "categoria": "Servicios",
+      "monto": 24
+    },
+    {
+      "id": 79,
+      "sucursal_id": 7,
+      "mes": "2026-06",
+      "categoria": "Servicios",
+      "monto": 18
+    },
+    {
+      "id": 80,
+      "sucursal_id": 8,
+      "mes": "2026-06",
+      "categoria": "Servicios",
+      "monto": 21
+    },
+    {
+      "id": 81,
+      "sucursal_id": 1,
+      "mes": "2026-06",
+      "categoria": "Mantenimiento",
+      "monto": 19
+    },
+    {
+      "id": 82,
+      "sucursal_id": 2,
+      "mes": "2026-06",
+      "categoria": "Mantenimiento",
+      "monto": 21
+    },
+    {
+      "id": 83,
+      "sucursal_id": 3,
+      "mes": "2026-06",
+      "categoria": "Mantenimiento",
+      "monto": 23
+    },
+    {
+      "id": 84,
+      "sucursal_id": 4,
+      "mes": "2026-06",
+      "categoria": "Mantenimiento",
+      "monto": 18
+    },
+    {
+      "id": 85,
+      "sucursal_id": 5,
+      "mes": "2026-06",
+      "categoria": "Mantenimiento",
+      "monto": 20
+    },
+    {
+      "id": 86,
+      "sucursal_id": 6,
+      "mes": "2026-06",
+      "categoria": "Mantenimiento",
+      "monto": 22
+    },
+    {
+      "id": 87,
+      "sucursal_id": 7,
+      "mes": "2026-06",
+      "categoria": "Mantenimiento",
+      "monto": 17
+    },
+    {
+      "id": 88,
+      "sucursal_id": 8,
+      "mes": "2026-06",
+      "categoria": "Mantenimiento",
+      "monto": 19
+    },
+    {
+      "id": 89,
+      "sucursal_id": 1,
+      "mes": "2026-06",
+      "categoria": "Otros",
+      "monto": 22
+    },
+    {
+      "id": 90,
+      "sucursal_id": 2,
+      "mes": "2026-06",
+      "categoria": "Otros",
+      "monto": 24
+    },
+    {
+      "id": 91,
+      "sucursal_id": 3,
+      "mes": "2026-06",
+      "categoria": "Otros",
+      "monto": 26
+    },
+    {
+      "id": 92,
+      "sucursal_id": 4,
+      "mes": "2026-06",
+      "categoria": "Otros",
+      "monto": 21
+    },
+    {
+      "id": 93,
+      "sucursal_id": 5,
+      "mes": "2026-06",
+      "categoria": "Otros",
+      "monto": 23
+    },
+    {
+      "id": 94,
+      "sucursal_id": 6,
+      "mes": "2026-06",
+      "categoria": "Otros",
+      "monto": 25
+    },
+    {
+      "id": 95,
+      "sucursal_id": 7,
+      "mes": "2026-06",
+      "categoria": "Otros",
+      "monto": 20
+    },
+    {
+      "id": 96,
+      "sucursal_id": 8,
+      "mes": "2026-06",
+      "categoria": "Otros",
+      "monto": 22
+    },
+    {
+      "id": 97,
+      "sucursal_id": 1,
+      "mes": "2026-07",
+      "categoria": "Sueldos",
+      "monto": 77
+    },
+    {
+      "id": 98,
+      "sucursal_id": 2,
+      "mes": "2026-07",
+      "categoria": "Sueldos",
+      "monto": 88
+    },
+    {
+      "id": 99,
+      "sucursal_id": 3,
+      "mes": "2026-07",
+      "categoria": "Sueldos",
+      "monto": 73
+    },
+    {
+      "id": 100,
+      "sucursal_id": 4,
+      "mes": "2026-07",
+      "categoria": "Sueldos",
+      "monto": 85
+    },
+    {
+      "id": 101,
+      "sucursal_id": 5,
+      "mes": "2026-07",
+      "categoria": "Sueldos",
+      "monto": 69
+    },
+    {
+      "id": 102,
+      "sucursal_id": 6,
+      "mes": "2026-07",
+      "categoria": "Sueldos",
+      "monto": 81
+    },
+    {
+      "id": 103,
+      "sucursal_id": 7,
+      "mes": "2026-07",
+      "categoria": "Sueldos",
+      "monto": 65
+    },
+    {
+      "id": 104,
+      "sucursal_id": 8,
+      "mes": "2026-07",
+      "categoria": "Sueldos",
+      "monto": 77
+    },
+    {
+      "id": 105,
+      "sucursal_id": 1,
+      "mes": "2026-07",
+      "categoria": "Servicios",
+      "monto": 21
+    },
+    {
+      "id": 106,
+      "sucursal_id": 2,
+      "mes": "2026-07",
+      "categoria": "Servicios",
+      "monto": 24
+    },
+    {
+      "id": 107,
+      "sucursal_id": 3,
+      "mes": "2026-07",
+      "categoria": "Servicios",
+      "monto": 20
+    },
+    {
+      "id": 108,
+      "sucursal_id": 4,
+      "mes": "2026-07",
+      "categoria": "Servicios",
+      "monto": 23
+    },
+    {
+      "id": 109,
+      "sucursal_id": 5,
+      "mes": "2026-07",
+      "categoria": "Servicios",
+      "monto": 19
+    },
+    {
+      "id": 110,
+      "sucursal_id": 6,
+      "mes": "2026-07",
+      "categoria": "Servicios",
+      "monto": 22
+    },
+    {
+      "id": 111,
+      "sucursal_id": 7,
+      "mes": "2026-07",
+      "categoria": "Servicios",
+      "monto": 18
+    },
+    {
+      "id": 112,
+      "sucursal_id": 8,
+      "mes": "2026-07",
+      "categoria": "Servicios",
+      "monto": 21
+    },
+    {
+      "id": 113,
+      "sucursal_id": 1,
+      "mes": "2026-07",
+      "categoria": "Mantenimiento",
+      "monto": 20
+    },
+    {
+      "id": 114,
+      "sucursal_id": 2,
+      "mes": "2026-07",
+      "categoria": "Mantenimiento",
+      "monto": 22
+    },
+    {
+      "id": 115,
+      "sucursal_id": 3,
+      "mes": "2026-07",
+      "categoria": "Mantenimiento",
+      "monto": 19
+    },
+    {
+      "id": 116,
+      "sucursal_id": 4,
+      "mes": "2026-07",
+      "categoria": "Mantenimiento",
+      "monto": 22
+    },
+    {
+      "id": 117,
+      "sucursal_id": 5,
+      "mes": "2026-07",
+      "categoria": "Mantenimiento",
+      "monto": 18
+    },
+    {
+      "id": 118,
+      "sucursal_id": 6,
+      "mes": "2026-07",
+      "categoria": "Mantenimiento",
+      "monto": 21
+    },
+    {
+      "id": 119,
+      "sucursal_id": 7,
+      "mes": "2026-07",
+      "categoria": "Mantenimiento",
+      "monto": 17
+    },
+    {
+      "id": 120,
+      "sucursal_id": 8,
+      "mes": "2026-07",
+      "categoria": "Mantenimiento",
+      "monto": 20
+    },
+    {
+      "id": 121,
+      "sucursal_id": 1,
+      "mes": "2026-07",
+      "categoria": "Otros",
+      "monto": 22
+    },
+    {
+      "id": 122,
+      "sucursal_id": 2,
+      "mes": "2026-07",
+      "categoria": "Otros",
+      "monto": 26
+    },
+    {
+      "id": 123,
+      "sucursal_id": 3,
+      "mes": "2026-07",
+      "categoria": "Otros",
+      "monto": 21
+    },
+    {
+      "id": 124,
+      "sucursal_id": 4,
+      "mes": "2026-07",
+      "categoria": "Otros",
+      "monto": 25
+    },
+    {
+      "id": 125,
+      "sucursal_id": 5,
+      "mes": "2026-07",
+      "categoria": "Otros",
+      "monto": 20
+    },
+    {
+      "id": 126,
+      "sucursal_id": 6,
+      "mes": "2026-07",
+      "categoria": "Otros",
+      "monto": 23
+    },
+    {
+      "id": 127,
+      "sucursal_id": 7,
+      "mes": "2026-07",
+      "categoria": "Otros",
+      "monto": 19
+    },
+    {
+      "id": 128,
+      "sucursal_id": 8,
+      "mes": "2026-07",
+      "categoria": "Otros",
+      "monto": 22
+    },
+    {
+      "id": 129,
+      "sucursal_id": 1,
+      "mes": "2026-08",
+      "categoria": "Sueldos",
+      "monto": 74
+    },
+    {
+      "id": 130,
+      "sucursal_id": 2,
+      "mes": "2026-08",
+      "categoria": "Sueldos",
+      "monto": 64
+    },
+    {
+      "id": 131,
+      "sucursal_id": 3,
+      "mes": "2026-08",
+      "categoria": "Sueldos",
+      "monto": 78
+    },
+    {
+      "id": 132,
+      "sucursal_id": 4,
+      "mes": "2026-08",
+      "categoria": "Sueldos",
+      "monto": 67
+    },
+    {
+      "id": 133,
+      "sucursal_id": 5,
+      "mes": "2026-08",
+      "categoria": "Sueldos",
+      "monto": 82
+    },
+    {
+      "id": 134,
+      "sucursal_id": 6,
+      "mes": "2026-08",
+      "categoria": "Sueldos",
+      "monto": 71
+    },
+    {
+      "id": 135,
+      "sucursal_id": 7,
+      "mes": "2026-08",
+      "categoria": "Sueldos",
+      "monto": 60
+    },
+    {
+      "id": 136,
+      "sucursal_id": 8,
+      "mes": "2026-08",
+      "categoria": "Sueldos",
+      "monto": 74
+    },
+    {
+      "id": 137,
+      "sucursal_id": 1,
+      "mes": "2026-08",
+      "categoria": "Servicios",
+      "monto": 20
+    },
+    {
+      "id": 138,
+      "sucursal_id": 2,
+      "mes": "2026-08",
+      "categoria": "Servicios",
+      "monto": 17
+    },
+    {
+      "id": 139,
+      "sucursal_id": 3,
+      "mes": "2026-08",
+      "categoria": "Servicios",
+      "monto": 21
+    },
+    {
+      "id": 140,
+      "sucursal_id": 4,
+      "mes": "2026-08",
+      "categoria": "Servicios",
+      "monto": 18
+    },
+    {
+      "id": 141,
+      "sucursal_id": 5,
+      "mes": "2026-08",
+      "categoria": "Servicios",
+      "monto": 22
+    },
+    {
+      "id": 142,
+      "sucursal_id": 6,
+      "mes": "2026-08",
+      "categoria": "Servicios",
+      "monto": 19
+    },
+    {
+      "id": 143,
+      "sucursal_id": 7,
+      "mes": "2026-08",
+      "categoria": "Servicios",
+      "monto": 16
+    },
+    {
+      "id": 144,
+      "sucursal_id": 8,
+      "mes": "2026-08",
+      "categoria": "Servicios",
+      "monto": 20
+    },
+    {
+      "id": 145,
+      "sucursal_id": 1,
+      "mes": "2026-08",
+      "categoria": "Mantenimiento",
+      "monto": 19
+    },
+    {
+      "id": 146,
+      "sucursal_id": 2,
+      "mes": "2026-08",
+      "categoria": "Mantenimiento",
+      "monto": 16
+    },
+    {
+      "id": 147,
+      "sucursal_id": 3,
+      "mes": "2026-08",
+      "categoria": "Mantenimiento",
+      "monto": 20
+    },
+    {
+      "id": 148,
+      "sucursal_id": 4,
+      "mes": "2026-08",
+      "categoria": "Mantenimiento",
+      "monto": 17
+    },
+    {
+      "id": 149,
+      "sucursal_id": 5,
+      "mes": "2026-08",
+      "categoria": "Mantenimiento",
+      "monto": 21
+    },
+    {
+      "id": 150,
+      "sucursal_id": 6,
+      "mes": "2026-08",
+      "categoria": "Mantenimiento",
+      "monto": 18
+    },
+    {
+      "id": 151,
+      "sucursal_id": 7,
+      "mes": "2026-08",
+      "categoria": "Mantenimiento",
+      "monto": 15
+    },
+    {
+      "id": 152,
+      "sucursal_id": 8,
+      "mes": "2026-08",
+      "categoria": "Mantenimiento",
+      "monto": 19
+    },
+    {
+      "id": 153,
+      "sucursal_id": 1,
+      "mes": "2026-08",
+      "categoria": "Otros",
+      "monto": 22
+    },
+    {
+      "id": 154,
+      "sucursal_id": 2,
+      "mes": "2026-08",
+      "categoria": "Otros",
+      "monto": 19
+    },
+    {
+      "id": 155,
+      "sucursal_id": 3,
+      "mes": "2026-08",
+      "categoria": "Otros",
+      "monto": 23
+    },
+    {
+      "id": 156,
+      "sucursal_id": 4,
+      "mes": "2026-08",
+      "categoria": "Otros",
+      "monto": 20
+    },
+    {
+      "id": 157,
+      "sucursal_id": 5,
+      "mes": "2026-08",
+      "categoria": "Otros",
+      "monto": 24
+    },
+    {
+      "id": 158,
+      "sucursal_id": 6,
+      "mes": "2026-08",
+      "categoria": "Otros",
+      "monto": 21
+    },
+    {
+      "id": 159,
+      "sucursal_id": 7,
+      "mes": "2026-08",
+      "categoria": "Otros",
+      "monto": 18
+    },
+    {
+      "id": 160,
+      "sucursal_id": 8,
+      "mes": "2026-08",
+      "categoria": "Otros",
+      "monto": 22
+    },
+    {
+      "id": 161,
+      "sucursal_id": 1,
+      "mes": "2026-09",
+      "categoria": "Sueldos",
+      "monto": 183
+    },
+    {
+      "id": 162,
+      "sucursal_id": 2,
+      "mes": "2026-09",
+      "categoria": "Sueldos",
+      "monto": 167
+    },
+    {
+      "id": 163,
+      "sucursal_id": 3,
+      "mes": "2026-09",
+      "categoria": "Sueldos",
+      "monto": 150
+    },
+    {
+      "id": 164,
+      "sucursal_id": 4,
+      "mes": "2026-09",
+      "categoria": "Sueldos",
+      "monto": 192
+    },
+    {
+      "id": 165,
+      "sucursal_id": 5,
+      "mes": "2026-09",
+      "categoria": "Sueldos",
+      "monto": 175
+    },
+    {
+      "id": 166,
+      "sucursal_id": 6,
+      "mes": "2026-09",
+      "categoria": "Sueldos",
+      "monto": 158
+    },
+    {
+      "id": 167,
+      "sucursal_id": 7,
+      "mes": "2026-09",
+      "categoria": "Sueldos",
+      "monto": 142
+    },
+    {
+      "id": 168,
+      "sucursal_id": 8,
+      "mes": "2026-09",
+      "categoria": "Sueldos",
+      "monto": 183
+    },
+    {
+      "id": 169,
+      "sucursal_id": 1,
+      "mes": "2026-09",
+      "categoria": "Servicios",
+      "monto": 50
+    },
+    {
+      "id": 170,
+      "sucursal_id": 2,
+      "mes": "2026-09",
+      "categoria": "Servicios",
+      "monto": 45
+    },
+    {
+      "id": 171,
+      "sucursal_id": 3,
+      "mes": "2026-09",
+      "categoria": "Servicios",
+      "monto": 41
+    },
+    {
+      "id": 172,
+      "sucursal_id": 4,
+      "mes": "2026-09",
+      "categoria": "Servicios",
+      "monto": 52
+    },
+    {
+      "id": 173,
+      "sucursal_id": 5,
+      "mes": "2026-09",
+      "categoria": "Servicios",
+      "monto": 48
+    },
+    {
+      "id": 174,
+      "sucursal_id": 6,
+      "mes": "2026-09",
+      "categoria": "Servicios",
+      "monto": 43
+    },
+    {
+      "id": 175,
+      "sucursal_id": 7,
+      "mes": "2026-09",
+      "categoria": "Servicios",
+      "monto": 39
+    },
+    {
+      "id": 176,
+      "sucursal_id": 8,
+      "mes": "2026-09",
+      "categoria": "Servicios",
+      "monto": 50
+    },
+    {
+      "id": 177,
+      "sucursal_id": 1,
+      "mes": "2026-09",
+      "categoria": "Mantenimiento",
+      "monto": 47
+    },
+    {
+      "id": 178,
+      "sucursal_id": 2,
+      "mes": "2026-09",
+      "categoria": "Mantenimiento",
+      "monto": 42
+    },
+    {
+      "id": 179,
+      "sucursal_id": 3,
+      "mes": "2026-09",
+      "categoria": "Mantenimiento",
+      "monto": 38
+    },
+    {
+      "id": 180,
+      "sucursal_id": 4,
+      "mes": "2026-09",
+      "categoria": "Mantenimiento",
+      "monto": 49
+    },
+    {
+      "id": 181,
+      "sucursal_id": 5,
+      "mes": "2026-09",
+      "categoria": "Mantenimiento",
+      "monto": 45
+    },
+    {
+      "id": 182,
+      "sucursal_id": 6,
+      "mes": "2026-09",
+      "categoria": "Mantenimiento",
+      "monto": 40
+    },
+    {
+      "id": 183,
+      "sucursal_id": 7,
+      "mes": "2026-09",
+      "categoria": "Mantenimiento",
+      "monto": 36
+    },
+    {
+      "id": 184,
+      "sucursal_id": 8,
+      "mes": "2026-09",
+      "categoria": "Mantenimiento",
+      "monto": 47
+    },
+    {
+      "id": 185,
+      "sucursal_id": 1,
+      "mes": "2026-09",
+      "categoria": "Otros",
+      "monto": 53
+    },
+    {
+      "id": 186,
+      "sucursal_id": 2,
+      "mes": "2026-09",
+      "categoria": "Otros",
+      "monto": 49
+    },
+    {
+      "id": 187,
+      "sucursal_id": 3,
+      "mes": "2026-09",
+      "categoria": "Otros",
+      "monto": 44
+    },
+    {
+      "id": 188,
+      "sucursal_id": 4,
+      "mes": "2026-09",
+      "categoria": "Otros",
+      "monto": 56
+    },
+    {
+      "id": 189,
+      "sucursal_id": 5,
+      "mes": "2026-09",
+      "categoria": "Otros",
+      "monto": 51
+    },
+    {
+      "id": 190,
+      "sucursal_id": 6,
+      "mes": "2026-09",
+      "categoria": "Otros",
+      "monto": 46
+    },
+    {
+      "id": 191,
+      "sucursal_id": 7,
+      "mes": "2026-09",
+      "categoria": "Otros",
+      "monto": 41
+    },
+    {
+      "id": 192,
+      "sucursal_id": 8,
+      "mes": "2026-09",
+      "categoria": "Otros",
+      "monto": 53
+    }
+  ],
+  "error": null
+}
