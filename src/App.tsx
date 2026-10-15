@@ -12,7 +12,7 @@ import RepartidorMovil from "./pages/RepartidorMovil";
 import DashboardAdmin from "./pages/DashboardAdmin";
 import Reportes from "./pages/Reportes";
 import Auditoria from "./pages/Auditoria";
-import { RutaProtegida } from "./components/RutaProtegida";
+import { RutaProtegida } from "./copac/components/RutaProtegida";
 import { ROLES_POR_RUTA } from "./config/roles";
 
 const conRuta = (ruta: string, Pagina: ComponentType) => () => (
