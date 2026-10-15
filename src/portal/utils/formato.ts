@@ -1,4 +1,4 @@
-import type { EstadoPedido } from "../../types";
+import type { EstadoPedido } from "../../copac/types";
 
 export const quetzales = (n: number) => `Q${n.toFixed(2)}`;
 

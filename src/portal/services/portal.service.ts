@@ -1,8 +1,8 @@
-import { ApiError, request } from "../../services/http";
-import { clientesService } from "../../services/clientes.service";
-import { pedidosService } from "../../services/pedidos.service";
-import { USE_MOCKS } from "../../config/api";
-import type { Cliente, DetallePedido, EstadoPedido, Pedido, PedidoConDetalles, PedidoCreateInput } from "../../types";
+import { ApiError, request } from "../../copac/services/http";
+import { clientesService } from "../../copac/services/clientes.service";
+import { pedidosService } from "../../copac/services/pedidos.service";
+import { USE_MOCKS } from "../../copac/config/api";
+import type { Cliente, DetallePedido, EstadoPedido, Pedido, PedidoConDetalles, PedidoCreateInput } from "../../copac/types";
 import type { ItemCarrito } from "../store/carrito";
 
 // Tarifa fija de envio mostrada en el portal (el backend aun no la calcula).

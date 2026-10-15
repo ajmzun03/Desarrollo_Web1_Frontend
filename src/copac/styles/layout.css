@@ -1,0 +1,98 @@
+/* Layout compartido de las vistas del sistema COPAC (escritorio). */
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+  background-color: var(--color-bg-main);
+}
+
+.layout__sidebar {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-carbon);
+  color: var(--color-white);
+  padding: 1rem 0.75rem;
+  gap: 1.5rem;
+}
+
+.layout__brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  padding: 0 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.layout__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.layout__link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-border);
+  text-decoration: none;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.layout__link:hover {
+  background-color: var(--color-carbon-light);
+  color: var(--color-white);
+}
+
+.layout__link--activo {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.layout__main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.layout__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.layout__usuario {
+  font-weight: 600;
+  color: var(--color-carbon);
+}
+
+.layout__logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: transparent;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 0.5rem;
+  color: var(--color-text-secondary);
+  padding: 0.4rem 0.75rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.layout__logout:hover {
+  background-color: var(--color-bg-soft);
+  color: var(--color-carbon);
+}
+
+.layout__content {
+  padding: 1.5rem;
+  flex: 1;
+}

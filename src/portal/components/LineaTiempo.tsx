@@ -1,4 +1,4 @@
-import type { EstadoPedido } from "../../types";
+import type { EstadoPedido } from "../../copac/types";
 import { PASOS_PEDIDO, hora, indicePaso } from "../utils/formato";
 import type { EventoEstado } from "../services/portal.service";
 

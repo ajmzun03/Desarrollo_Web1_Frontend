@@ -7,7 +7,7 @@ import { useDatos } from "../../hooks/useDatos";
 import { useNombresProducto } from "../hooks/useNombresProducto";
 import { useRepetirPedido } from "../hooks/useRepetirPedido";
 import { COSTO_ENVIO, portalService } from "../services/portal.service";
-import { ESTADO_CLASE, ESTADO_LABEL } from "../../utils/pedidoEstados";
+import { ESTADO_CLASE, ESTADO_LABEL } from "../../copac/utils/pedidoEstados";
 import { fechaCorta, hora, numeroPedido, quetzales } from "../utils/formato";
 
 export default function PedidoDetalle() {

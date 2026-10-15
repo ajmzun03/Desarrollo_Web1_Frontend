@@ -1,17 +1,19 @@
 import { Route, Router } from "wouter";
 import type { ComponentType } from "react";
-import Login from "./pages/Login";
-import Usuarios from "./pages/Usuarios";
-import Ventas from "./pages/Ventas";
-import Cocina from "./pages/Cocina";
-import Despacho from "./pages/Despacho";
-import Compras from "./pages/Compras";
-import Notificaciones from "./pages/Notificaciones";
-import Dashboard from "./pages/Dashboard";
-import Reportes from "./pages/Reportes";
-import Auditoria from "./pages/Auditoria";
-import { RutaProtegida } from "./components/RutaProtegida";
-import { ROLES_POR_RUTA } from "./config/roles";
+import Login from "./copac/pages/Login";
+import Usuarios from "./copac/pages/Usuarios";
+import Ventas from "./copac/pages/Ventas";
+import Cocina from "./copac/pages/Cocina";
+import Despacho from "./copac/pages/Despacho";
+import Compras from "./copac/pages/Compras";
+import Notificaciones from "./copac/pages/Notificaciones";
+import Bodega from "./copac/pages/Bodega";
+import RepartidorMovil from "./copac/pages/RepartidorMovil";
+import DashboardAdmin from "./copac/pages/DashboardAdmin";
+import Reportes from "./copac/pages/Reportes";
+import Auditoria from "./copac/pages/Auditoria";
+import { RutaProtegida } from "./copac/components/RutaProtegida";
+import { ROLES_POR_RUTA } from "./copac/config/roles";
 import Home from "./portal/pages/Home";
 import Menu from "./portal/pages/Menu";
 import ProductoDetalle from "./portal/pages/ProductoDetalle";
@@ -50,15 +52,17 @@ export const App = () => {
 
       {/* Sistema interno (personal) */}
       <Route path="/copac/login" component={Login} />
-      <Route path="/copac/usuarios" component={conRuta("/copac/usuarios", Usuarios)} />
-      <Route path="/copac/dashboard" component={conRuta("/copac/dashboard", Dashboard)} />
-      <Route path="/copac/reportes" component={conRuta("/copac/reportes", Reportes)} />
-      <Route path="/copac/auditoria" component={conRuta("/copac/auditoria", Auditoria)} />
       <Route path="/copac/ventas" component={conRuta("/copac/ventas", Ventas)} />
       <Route path="/copac/cocina" component={conRuta("/copac/cocina", Cocina)} />
       <Route path="/copac/despacho" component={conRuta("/copac/despacho", Despacho)} />
       <Route path="/copac/compras" component={conRuta("/copac/compras", Compras)} />
       <Route path="/copac/notificaciones" component={conRuta("/copac/notificaciones", Notificaciones)} />
+      <Route path="/copac/bodega" component={conRuta("/copac/bodega", Bodega)} />
+      <Route path="/copac/repartidor" component={conRuta("/copac/repartidor", RepartidorMovil)} />
+      <Route path="/copac/dashboard" component={conRuta("/copac/dashboard", DashboardAdmin)} />
+      <Route path="/copac/reportes" component={conRuta("/copac/reportes", Reportes)} />
+      <Route path="/copac/auditoria" component={conRuta("/copac/auditoria", Auditoria)} />
+      <Route path="/copac/usuarios" component={conRuta("/copac/usuarios", Usuarios)} />
     </Router>
   )
 }

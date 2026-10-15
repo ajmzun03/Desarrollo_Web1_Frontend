@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from "react";
-import type { Cliente } from "../../types";
+import type { Cliente } from "../../copac/types";
 
 // Sesion del cliente del portal. La API V1 no tiene login de clientes (solo de
 // personal), asi que se identifica al cliente por su registro en /clientes y se

@@ -1,4 +1,4 @@
-import { productosService } from "../../services/productos.service";
+import { productosService } from "../../copac/services/productos.service";
 import { useDatos } from "../../hooks/useDatos";
 
 // Devuelve una funcion id -> nombre del producto (los detalles del pedido solo traen producto_id).

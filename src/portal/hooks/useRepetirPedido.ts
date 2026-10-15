@@ -1,5 +1,5 @@
 import { useLocation } from "wouter";
-import { productosService } from "../../services/productos.service";
+import { productosService } from "../../copac/services/productos.service";
 import { carrito } from "../store/carrito";
 import { portalService } from "../services/portal.service";
 

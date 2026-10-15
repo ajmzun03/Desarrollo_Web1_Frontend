@@ -4,15 +4,17 @@ import type { RolUsuario } from "../types";
 // Nota: el backend expone endpoints con requireRole, pero no conocemos
 // todavia los guards de las vistas nuevas; esto es solo control de UI.
 export const ROLES_POR_RUTA: Record<string, RolUsuario[]> = {
-  "/copac/dashboard": ["ADMIN"],
-  "/copac/reportes": ["ADMIN"],
-  "/copac/auditoria": ["ADMIN"],
   "/copac/ventas": ["ADMIN", "CAJERO"],
   "/copac/cocina": ["ADMIN", "BODEGUERO"],
   "/copac/despacho": ["ADMIN", "DESPACHADOR"],
   "/copac/compras": ["ADMIN", "BODEGUERO"],
   "/copac/notificaciones": ["ADMIN", "BODEGUERO", "DESPACHADOR", "REPARTIDOR", "CAJERO"],
-  "/copac/usuarios": ["ADMIN"],
+  // Rutas nuevas (Fase 1). Propuesta aprobada; el repartidor también es accesible por ADMIN.
+  "/copac/bodega": ["ADMIN", "BODEGUERO"],
+  "/copac/repartidor": ["ADMIN", "REPARTIDOR"],
+  "/copac/dashboard": ["ADMIN"],
+  "/copac/reportes": ["ADMIN"],
+  "/copac/auditoria": ["ADMIN"],
 };
 
 export const TODOS_LOS_ROLES: RolUsuario[] = [
@@ -29,3 +31,11 @@ export function tieneAcceso(rol: RolUsuario | null | undefined, ruta: string): b
   if (!permitidos) return true;
   return permitidos.includes(rol);
 }
+
+export const ROL_LABEL: Record<RolUsuario, string> = {
+  ADMIN: "Administrador",
+  BODEGUERO: "Bodeguero",
+  DESPACHADOR: "Despachador",
+  REPARTIDOR: "Repartidor",
+  CAJERO: "Cajero",
+};

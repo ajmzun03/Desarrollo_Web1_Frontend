@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { usuariosService } from "../services/usuarios.service";
-import { ROL_LABEL } from "../config/navegacion";
+import { ROL_LABEL } from "../config/roles";
 import type { Usuario } from "../types";
 import "../styles/ui.css";
 import "../styles/usuarios.css";

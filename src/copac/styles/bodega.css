@@ -1,0 +1,704 @@
+/* ============ Bodega (src/pages/Bodega.tsx) ============ */
+.bodega {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-align: left;
+}
+
+/* ---- Tab bar ---- */
+.bodega__tabbar {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.25rem;
+  padding: 0 1.5rem;
+  background-color: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+
+.bodega__tab {
+  padding: 0.65rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.bodega__tab:hover {
+  color: var(--color-carbon);
+}
+
+.bodega__tab--active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.bodega__tab-count {
+  margin-left: 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--color-white);
+  background-color: var(--color-primary);
+  border-radius: 999px;
+  padding: 0.1rem 0.45rem;
+}
+
+/* ---- Layout interno ---- */
+.bodega__content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.bodega__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-carbon);
+}
+
+.bodega__subtitle {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.25rem;
+}
+
+.bodega__section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.bodega__head-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ---- Dashboard: KPIs ---- */
+.bodega__kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.bodega__kpi {
+  border-radius: 0.75rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-white);
+}
+
+.bodega__kpi--blue { background-color: var(--color-info-bg); color: var(--color-info); }
+.bodega__kpi--amber { background-color: var(--color-warning-bg); color: var(--color-warning-text-dark); }
+.bodega__kpi--green { background-color: var(--color-success-bg); color: var(--color-success-text-dark); }
+.bodega__kpi--soft { background-color: var(--color-bg-soft); color: var(--color-carbon); }
+.bodega__kpi--red { background-color: var(--color-error-bg); color: var(--color-error); }
+
+.bodega__kpi-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  flex-shrink: 0;
+}
+
+.bodega__kpi-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.bodega__kpi-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.bodega__kpi-sub {
+  font-size: 0.65rem;
+  font-weight: 500;
+  opacity: 0.8;
+  margin-top: 0.1rem;
+}
+
+/* ---- Dashboard: dos columnas ---- */
+.bodega__cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+
+.bodega__box {
+  padding: 1.1rem;
+}
+
+.bodega__box-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.bodega__box-title {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--color-carbon);
+}
+
+/* ---- Alertas ---- */
+.bodega__alert {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--color-border);
+  margin-bottom: 0.5rem;
+}
+
+.bodega__alert:last-child {
+  margin-bottom: 0;
+}
+
+.bodega__alert--danger { background-color: var(--color-error-bg); border-color: var(--color-error-bg); }
+.bodega__alert--warning { background-color: var(--color-warning-bg); border-color: var(--color-warning-bg); }
+.bodega__alert--info { background-color: var(--color-info-bg); border-color: var(--color-info-bg); }
+
+.bodega__alert-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.bodega__alert--danger .bodega__alert-icon { color: var(--color-error); }
+.bodega__alert--warning .bodega__alert-icon { color: var(--color-warning-text-dark); }
+.bodega__alert--info .bodega__alert-icon { color: var(--color-info); }
+
+.bodega__alert-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.bodega__alert-text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-carbon);
+}
+
+.bodega__alert-sub {
+  font-size: 0.68rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.1rem;
+}
+
+.bodega__alert-action {
+  border: none;
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.bodega__alert-action:hover {
+  text-decoration: underline;
+}
+
+/* ---- Lista simple (traslados recientes) ---- */
+.bodega__list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.78rem;
+}
+
+.bodega__list-row:last-child {
+  border-bottom: none;
+}
+
+.bodega__list-main {
+  font-weight: 600;
+  color: var(--color-carbon);
+}
+
+.bodega__list-meta {
+  color: var(--color-text-secondary);
+  font-size: 0.72rem;
+}
+
+/* ---- Tablas ---- */
+.bodega__table-wrap {
+  overflow-x: auto;
+}
+
+.bodega__table-wrap .ui-table {
+  min-width: 640px;
+}
+
+.bodega__row--selected {
+  background-color: var(--color-warning-bg);
+}
+
+.bodega__fila {
+  cursor: pointer;
+}
+
+.bodega__num {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.bodega__strong {
+  font-weight: 600;
+  color: var(--color-carbon);
+}
+
+.bodega__neg {
+  color: var(--color-error);
+  font-weight: 700;
+}
+
+.bodega__pos {
+  color: var(--color-success-text-dark);
+  font-weight: 700;
+}
+
+/* ---- Tags de estado ---- */
+.bodega__tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.bodega__tag--warning { background-color: var(--color-warning-bg); color: var(--color-warning-text-dark); }
+.bodega__tag--info { background-color: var(--color-info-bg); color: var(--color-info); }
+.bodega__tag--success { background-color: var(--color-success-bg); color: var(--color-success-text-dark); }
+.bodega__tag--danger { background-color: var(--color-error-bg); color: var(--color-error); }
+.bodega__tag--muted { background-color: var(--color-bg-cool-gray); color: var(--color-slate-gray); }
+
+/* ---- Formularios ---- */
+.bodega__form {
+  padding: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.bodega__form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.bodega__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.bodega__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-carbon);
+}
+
+.bodega__form-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.bodega__notice {
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning-text-dark);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ---- Recepción ---- */
+.bodega__rec-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.bodega__rec-meta {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.bodega__rec-meta-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.bodega__rec-meta-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-carbon);
+  margin-top: 0.15rem;
+}
+
+.bodega__cell-input {
+  width: 5.5rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--color-carbon);
+  background-color: var(--color-white);
+}
+
+.bodega__cell-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.bodega__cell-date {
+  width: 9rem;
+}
+
+/* ---- Control FEFO ---- */
+.bodega__fefo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.bodega__fefo-card {
+  border: 1px solid var(--color-border);
+  border-radius: 0.9rem;
+  background-color: var(--color-white);
+  padding: 1rem;
+}
+
+.bodega__fefo-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.bodega__fefo-name {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--color-carbon);
+}
+
+.bodega__fefo-cat {
+  font-size: 0.68rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.1rem;
+}
+
+.bodega__fefo-total {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.bodega__lote {
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.bodega__lote--primero {
+  background-color: var(--color-success-bg);
+  border-radius: 0.5rem;
+  padding: 0.6rem;
+  margin-top: 0.4rem;
+  border-top: none;
+}
+
+.bodega__lote-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+}
+
+.bodega__lote-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: var(--color-success-text-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.bodega__lote-lote {
+  font-weight: 700;
+  color: var(--color-carbon);
+}
+
+.bodega__lote-stock {
+  font-weight: 700;
+  color: var(--color-carbon);
+}
+
+.bodega__lote-meta {
+  font-size: 0.68rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.2rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.bodega__bar {
+  height: 0.35rem;
+  border-radius: 999px;
+  background-color: var(--color-bg-soft);
+  margin-top: 0.4rem;
+  overflow: hidden;
+}
+
+.bodega__bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background-color: var(--color-success);
+}
+
+.bodega__crit {
+  color: var(--color-error);
+  font-weight: 700;
+}
+
+/* ---- Cuadre ---- */
+.bodega__resumen {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.bodega__resumen-item {
+  padding: 0.9rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-white);
+}
+
+.bodega__resumen-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.bodega__resumen-value {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--color-carbon);
+  margin-top: 0.2rem;
+}
+
+/* ---- Detalle lateral (solicitudes) ---- */
+.bodega__split {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 1rem;
+  align-items: start;
+}
+
+.bodega__aside {
+  border: 1px solid var(--color-border);
+  border-radius: 0.9rem;
+  background-color: var(--color-white);
+  padding: 1.1rem;
+  position: sticky;
+  top: 1rem;
+}
+
+.bodega__aside-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.85rem;
+}
+
+.bodega__aside-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--color-carbon);
+}
+
+.bodega__aside-close {
+  border: none;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 0.15rem;
+}
+
+.bodega__aside-close:hover {
+  color: var(--color-carbon);
+}
+
+.bodega__aside-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.bodega__aside-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.bodega__aside-value {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-carbon);
+  margin-top: 0.2rem;
+}
+
+.bodega__aside-sec-title {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--color-carbon);
+  margin-bottom: 0.5rem;
+}
+
+.bodega__item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.76rem;
+}
+
+.bodega__item:last-child {
+  border-bottom: none;
+}
+
+.bodega__item-name {
+  font-weight: 600;
+  color: var(--color-carbon);
+  flex: 1;
+}
+
+.bodega__item-meta {
+  color: var(--color-text-secondary);
+  text-align: right;
+}
+
+/* ---- Estado vacío ---- */
+.bodega__empty {
+  padding: 2.5rem 1rem;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.bodega__empty-icon {
+  color: var(--color-border-strong);
+  margin-bottom: 0.5rem;
+}
+
+/* ============================================================
+   Responsive (tablet <=1023px, móvil <=767px)
+   ============================================================ */
+@media (max-width: 1023px) {
+  .bodega__kpis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bodega__cols,
+  .bodega__fefo-grid,
+  .bodega__split {
+    grid-template-columns: 1fr;
+  }
+
+  .bodega__form-grid,
+  .bodega__resumen {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bodega__aside {
+    position: static;
+  }
+}
+
+@media (max-width: 767px) {
+  .bodega__content {
+    padding: 1rem;
+  }
+
+  .bodega__tabbar {
+    padding: 0 1rem;
+  }
+
+  .bodega__kpis,
+  .bodega__form-grid,
+  .bodega__resumen {
+    grid-template-columns: 1fr;
+  }
+
+  .bodega__section-head {
+    align-items: flex-start;
+  }
+
+  .bodega__rec-meta {
+    gap: 1rem;
+  }
+
+  .ui-btn,
+  .bodega__tab,
+  .bodega__alert-action {
+    min-height: 44px;
+  }
+
+  .bodega__tab {
+    padding: 0.6rem 0.75rem;
+  }
+}

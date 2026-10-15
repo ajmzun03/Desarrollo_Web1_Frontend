@@ -1,6 +1,6 @@
-import { categoriasService } from "../../services/categorias.service";
-import { productosService, type ProductoDisponibilidad } from "../../services/productos.service";
-import type { Categoria } from "../../types";
+import { categoriasService } from "../../copac/services/categorias.service";
+import { productosService, type ProductoDisponibilidad } from "../../copac/services/productos.service";
+import type { Categoria } from "../../copac/types";
 import { emojiDeCategoria } from "../utils/formato";
 import { useDatos } from "../../hooks/useDatos";
 

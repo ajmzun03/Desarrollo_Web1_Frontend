@@ -3,8 +3,8 @@ import { MapPin } from "lucide-react";
 import { PortalLayout } from "../components/PortalLayout";
 import { Cargando, ErrorMsg } from "../components/Estados";
 import { useDatos } from "../../hooks/useDatos";
-import { sucursalesService } from "../../services/sucursales.service";
-import { municipiosService } from "../../services/municipios.service";
+import { sucursalesService } from "../../copac/services/sucursales.service";
+import { municipiosService } from "../../copac/services/municipios.service";
 
 // La API V1 de sucursales solo trae nombre, direccion y municipio: no hay horarios,
 // telefono ni estado abierto/cerrado, asi que esta vista no los muestra.

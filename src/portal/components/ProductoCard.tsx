@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Plus } from "lucide-react";
-import type { Producto } from "../../types";
+import type { Producto } from "../../copac/types";
 import { carrito } from "../store/carrito";
 import { quetzales } from "../utils/formato";
 import { ProductImage } from "./ProductImage";

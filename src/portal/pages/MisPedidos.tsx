@@ -6,9 +6,9 @@ import { useDatos } from "../../hooks/useDatos";
 import { useRepetirPedido } from "../hooks/useRepetirPedido";
 import { portalService } from "../services/portal.service";
 import { useSesionCliente } from "../store/sesion";
-import { ESTADO_CLASE, ESTADO_LABEL } from "../../utils/pedidoEstados";
+import { ESTADO_CLASE, ESTADO_LABEL } from "../../copac/utils/pedidoEstados";
 import { fechaCorta, numeroPedido, quetzales } from "../utils/formato";
-import type { Pedido } from "../../types";
+import type { Pedido } from "../../copac/types";
 
 type Filtro = "todos" | "entregados" | "cancelados" | "proceso";
 const FILTROS: { id: Filtro; label: string; ok: (p: Pedido) => boolean }[] = [

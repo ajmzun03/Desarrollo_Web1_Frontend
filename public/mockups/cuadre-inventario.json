@@ -1,0 +1,13 @@
+{
+  "data": [
+    { "id": 1, "bodega_id": 1, "materia_prima_id": 1, "stock_sistema": 80, "stock_fisico": 78, "justificacion": "Merma no registrada" },
+    { "id": 2, "bodega_id": 1, "materia_prima_id": 2, "stock_sistema": 200, "stock_fisico": 200, "justificacion": null },
+    { "id": 3, "bodega_id": 1, "materia_prima_id": 3, "stock_sistema": 10, "stock_fisico": 9, "justificacion": null },
+    { "id": 4, "bodega_id": 1, "materia_prima_id": 4, "stock_sistema": 0, "stock_fisico": 0, "justificacion": null },
+    { "id": 5, "bodega_id": 1, "materia_prima_id": 5, "stock_sistema": 250, "stock_fisico": 250, "justificacion": null },
+    { "id": 6, "bodega_id": 1, "materia_prima_id": 6, "stock_sistema": 400, "stock_fisico": 402, "justificacion": "Reconteo de bulto" },
+    { "id": 7, "bodega_id": 1, "materia_prima_id": 7, "stock_sistema": 5, "stock_fisico": 3, "justificacion": null },
+    { "id": 8, "bodega_id": 1, "materia_prima_id": 8, "stock_sistema": 0, "stock_fisico": 0, "justificacion": null }
+  ],
+  "error": null
+}
