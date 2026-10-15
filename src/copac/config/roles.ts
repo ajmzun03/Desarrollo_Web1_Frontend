@@ -1,4 +1,4 @@
-import type { RolUsuario } from "../types";
+import type { RolUsuario } from "../copac/types";
 
 // Mapa de acceso propuesto segun el plan aprobado.
 // Nota: el backend expone endpoints con requireRole, pero no conocemos
