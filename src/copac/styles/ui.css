@@ -130,6 +130,10 @@
 /* Estados de pedido */
 .ui-badge--creado { background-color: var(--color-bg-cool-gray); color: var(--color-slate-gray); }
 .ui-badge--creado .ui-badge__dot { background-color: var(--color-text-secondary); }
+.ui-badge--en-preparacion { background-color: var(--color-purple-bg); color: var(--color-purple); }
+.ui-badge--en-preparacion .ui-badge__dot { background-color: var(--color-purple); }
+.ui-badge--en-despacho { background-color: var(--color-info-bg); color: var(--color-info); }
+.ui-badge--en-despacho .ui-badge__dot { background-color: var(--color-info); }
 .ui-badge--listo { background-color: var(--color-warning-bg); color: var(--color-warning-text-dark); }
 .ui-badge--listo .ui-badge__dot { background-color: var(--color-warning); }
 .ui-badge--anulado { background-color: var(--color-error-bg); color: var(--color-error); }

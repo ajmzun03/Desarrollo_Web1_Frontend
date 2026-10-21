@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { Link, useParams } from "wouter";
 import { PortalLayout } from "../components/PortalLayout";
 import { Cargando, ErrorMsg } from "../components/Estados";
 import { useDatos } from "../../hooks/useDatos";
-import { COSTO_ENVIO, portalService } from "../services/portal.service";
+import { portalService } from "../services/portal.service";
 import { useNombresProducto } from "../hooks/useNombresProducto";
 import { numeroPedido, quetzales } from "../utils/formato";
 
@@ -10,6 +11,24 @@ export default function Confirmacion() {
   const { id } = useParams<{ id: string }>();
   const { datos: pedido, cargando, error } = useDatos(() => portalService.getPedido(Number(id)), id);
   const nombreDe = useNombresProducto();
+  const [pagando, setPagando] = useState(false);
+  const [falloPago, setFalloPago] = useState<string | null>(null);
+
+  // Pedido con tarjeta que aun no se pagó (por ejemplo, el cliente canceló en Stripe): permite reintentar.
+  const pendienteDePago = pedido?.metodo_pago === "TARJETA" && !pedido.pagado && pedido.estado !== "ANULADO";
+
+  const pagar = async () => {
+    if (!pedido) return;
+    setPagando(true);
+    setFalloPago(null);
+    try {
+      const items = pedido.detalles.map((d) => ({ nombre: nombreDe(d.producto_id), cantidad: d.cantidad, monto: d.precio_unitario }));
+      window.location.assign(await portalService.iniciarPago(pedido.id, items));
+    } catch (e) {
+      setFalloPago(e instanceof Error ? e.message : "No se pudo iniciar el pago.");
+      setPagando(false);
+    }
+  };
 
   return (
     <PortalLayout>
@@ -18,16 +37,19 @@ export default function Confirmacion() {
         {error && <ErrorMsg mensaje={error} />}
         {pedido && (
           <div className="p-panel p-confirmacion">
-            <div className="p-check" aria-hidden="true">✓</div>
-            <h1 className="p-titulo">¡Pedido recibido!</h1>
-            <p className="p-sub">Tu pedido {numeroPedido(pedido.id)} ha sido enviado correctamente y estará contigo pronto.</p>
+            <div className="p-check" aria-hidden="true">{pendienteDePago ? "…" : "✓"}</div>
+            <h1 className="p-titulo">{pendienteDePago ? "Pedido creado" : "¡Pedido recibido!"}</h1>
+            <p className="p-sub">
+              {pendienteDePago
+                ? `Tu pedido ${numeroPedido(pedido.id)} está esperando el pago con tarjeta.`
+                : `Tu pedido ${numeroPedido(pedido.id)} ha sido enviado correctamente y estará contigo pronto.`}
+            </p>
 
             <dl className="p-datos p-datos--rejilla">
               <div><dt>NÚMERO DE PEDIDO</dt><dd>{numeroPedido(pedido.id)}</dd></div>
-              <div><dt>TOTAL A PAGAR</dt><dd>{quetzales(pedido.total + COSTO_ENVIO)}</dd></div>
-              {pedido.metodoPago && <div><dt>MÉTODO DE PAGO</dt><dd>{pedido.metodoPago}</dd></div>}
-              <div><dt>TIEMPO ESTIMADO</dt><dd>25–35 minutos</dd></div>
-              {pedido.direccion && <div className="p-datos__ancho"><dt>DIRECCIÓN DE ENTREGA</dt><dd>{pedido.direccion}</dd></div>}
+              <div><dt>TOTAL</dt><dd>{quetzales(pedido.total)}</dd></div>
+              <div><dt>MÉTODO DE PAGO</dt><dd>{pedido.metodo_pago === "TARJETA" ? (pedido.pagado ? "Tarjeta · pagado" : "Tarjeta · pendiente") : "Efectivo contra entrega"}</dd></div>
+              <div><dt>ENTREGA</dt><dd>{pedido.tipo_entrega === "RECOGER" ? "Recoger en sucursal" : "A domicilio"}</dd></div>
             </dl>
 
             <h2>Productos ordenados</h2>
@@ -37,8 +59,10 @@ export default function Confirmacion() {
               ))}
             </ul>
             {pedido.observaciones && <p className="p-sub">Notas: {pedido.observaciones}</p>}
+            {falloPago && <ErrorMsg mensaje={falloPago} />}
 
             <div className="p-acciones p-acciones--centro">
+              {pendienteDePago && <button type="button" className="p-btn p-btn--acento" disabled={pagando} onClick={pagar}>{pagando ? "REDIRIGIENDO…" : "PAGAR AHORA"}</button>}
               <Link href={`/pedido/${pedido.id}/seguimiento`} className="p-btn">VER ESTADO DEL PEDIDO</Link>
               <Link href="/menu" className="p-btn p-btn--fantasma">VOLVER AL MENÚ</Link>
             </div>

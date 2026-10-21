@@ -3,6 +3,8 @@ import type { Producto, ProductoInput } from "../types";
 
 export interface ProductoDisponibilidad extends Producto {
   disponible: number;
+  agotado?: boolean;
+  bajo_minimo?: boolean;
 }
 
 export const productosService = {
@@ -12,8 +14,7 @@ export const productosService = {
   async getById(id: number): Promise<Producto> {
     return request<Producto>("producto", `/productos/${id}`);
   },
-  // Nota: hoy el endpoint devuelve productos sin disponibilidad real calculada.
-  async getDisponibilidad(sucursalId?: number): Promise<ProductoDisponibilidad[]> {
+    async getDisponibilidad(sucursalId?: number): Promise<ProductoDisponibilidad[]> {
     return request<ProductoDisponibilidad[]>("producto", `/productos/disponibilidad${toQuery({ sucursal_id: sucursalId })}`);
   },
   async create(data: ProductoInput): Promise<Producto> {
@@ -22,7 +23,6 @@ export const productosService = {
   async update(id: number, data: Partial<ProductoInput>): Promise<Producto> {
     return request<Producto>("producto", `/productos/${id}`, { method: "PATCH", body: JSON.stringify(data) });
   },
-  // TODO: endpoint existe pero PRODUCTO no tiene columna stock_minimo en la BD.
   async updateStockMinimo(id: number, stockMinimo: number): Promise<Producto> {
     return request<Producto>("producto", `/productos/${id}/stock-minimo`, {
       method: "PATCH",

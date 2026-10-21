@@ -55,7 +55,7 @@ export default function Home() {
         </div>
         <div className="p-grid">
           {datos?.productos.slice(0, 4).map((p) => (
-            <ProductoCard key={p.id} producto={p} emoji={datos.emojiDe(p.categoria_id)} disponible={datos.estaDisponible(p)} />
+            <ProductoCard key={p.id} item={{ tipo: "producto", id: p.id, nombre: p.producto, precio: p.precio, imagen: p.imagen_url, descripcion: p.descripcion }} emoji={datos.emojiDe(p.categoria_id)} disponible={datos.estaDisponible(p)} />
           ))}
         </div>
       </section>

@@ -68,7 +68,9 @@ const PERIODO_NOMBRE: Record<Periodo, string> = { hoy: "Hoy", semana: "Semana", 
 
 const ESTADO_CLASE: Record<EstadoPedido, string> = {
   CREADO: "dash__badge--info",
+  EN_PREPARACION: "dash__badge--info",
   LISTO: "dash__badge--accent",
+  EN_DESPACHO: "dash__badge--petro",
   EN_RUTA: "dash__badge--petro",
   ENTREGADO: "dash__badge--ok",
   ANULADO: "dash__badge--error",

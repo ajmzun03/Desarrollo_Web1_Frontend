@@ -6,7 +6,7 @@ import { Cargando, ErrorMsg } from "../components/Estados";
 import { useDatos } from "../../hooks/useDatos";
 import { useNombresProducto } from "../hooks/useNombresProducto";
 import { useRepetirPedido } from "../hooks/useRepetirPedido";
-import { COSTO_ENVIO, portalService } from "../services/portal.service";
+import { portalService } from "../services/portal.service";
 import { ESTADO_CLASE, ESTADO_LABEL } from "../../copac/utils/pedidoEstados";
 import { fechaCorta, hora, numeroPedido, quetzales } from "../utils/formato";
 
@@ -41,21 +41,17 @@ export default function PedidoDetalle() {
                       <span>{quetzales(d.precio_unitario * d.cantidad)}</span>
                     </li>
                   ))}
-                  <li><span>Subtotal</span><span>{quetzales(pedido.total)}</span></li>
-                  <li><span>Envío</span><span>{quetzales(COSTO_ENVIO)}</span></li>
-                  <li className="p-resumen__total"><span>Total</span><span>{quetzales(pedido.total + COSTO_ENVIO)}</span></li>
+                  <li className="p-resumen__total"><span>Total</span><span>{quetzales(pedido.total)}</span></li>
                 </ul>
                 {pedido.observaciones && <p className="p-sub">Notas: {pedido.observaciones}</p>}
               </section>
               <aside className="p-panel">
                 <h2>Historial de estados</h2>
                 <LineaTiempo estado={pedido.estado} eventos={pedido.eventos} />
-                {(pedido.direccion || pedido.metodoPago) && (
-                  <dl className="p-datos">
-                    {pedido.direccion && <div><dt>DIRECCIÓN</dt><dd>{pedido.direccion}</dd></div>}
-                    {pedido.metodoPago && <div><dt>PAGO</dt><dd>{pedido.metodoPago}</dd></div>}
-                  </dl>
-                )}
+                <dl className="p-datos">
+                  <div><dt>ENTREGA</dt><dd>{pedido.tipo_entrega === "RECOGER" ? "Recoger en sucursal" : "A domicilio"}</dd></div>
+                  <div><dt>PAGO</dt><dd>{pedido.metodo_pago === "TARJETA" ? (pedido.pagado ? "Tarjeta · pagado" : "Tarjeta · pendiente") : "Efectivo contra entrega"}</dd></div>
+                </dl>
                 {fallo && <ErrorMsg mensaje={fallo} />}
                 <div className="p-acciones">
                   <Link href="/mis-pedidos" className="p-btn p-btn--fantasma">← Volver</Link>

@@ -1,29 +1,23 @@
-import type { RolUsuario } from "../types";
+import { ROLES, type RolUsuario } from "../types";
 
 // Mapa de acceso propuesto segun el plan aprobado.
 // Nota: el backend expone endpoints con requireRole, pero no conocemos
 // todavia los guards de las vistas nuevas; esto es solo control de UI.
 export const ROLES_POR_RUTA: Record<string, RolUsuario[]> = {
-  "/copac/ventas": ["ADMIN", "CAJERO"],
-  "/copac/cocina": ["ADMIN", "BODEGUERO"],
-  "/copac/despacho": ["ADMIN", "DESPACHADOR"],
-  "/copac/compras": ["ADMIN", "BODEGUERO"],
-  "/copac/notificaciones": ["ADMIN", "BODEGUERO", "DESPACHADOR", "REPARTIDOR", "CAJERO"],
-  // Rutas nuevas (Fase 1). Propuesta aprobada; el repartidor también es accesible por ADMIN.
+  "/copac/dashboard": ["ADMIN", "GERENTE"],
+  "/copac/ventas": ["ADMIN", "GERENTE", "CAJERO"],
+  "/copac/cocina": ["ADMIN", "BODEGUERO", "JEFE_COCINA", "COCINERO"],
+  "/copac/despacho": ["ADMIN", "GERENTE", "DESPACHADOR"],
+  "/copac/compras": ["ADMIN", "GERENTE", "BODEGUERO", "COMPRAS"],
   "/copac/bodega": ["ADMIN", "BODEGUERO"],
   "/copac/repartidor": ["ADMIN", "REPARTIDOR"],
-  "/copac/dashboard": ["ADMIN"],
-  "/copac/reportes": ["ADMIN"],
+  "/copac/reportes": ["ADMIN", "GERENTE"],
   "/copac/auditoria": ["ADMIN"],
+  "/copac/notificaciones": [...ROLES],
+  "/copac/usuarios": ["ADMIN"],
 };
 
-export const TODOS_LOS_ROLES: RolUsuario[] = [
-  "ADMIN",
-  "BODEGUERO",
-  "DESPACHADOR",
-  "REPARTIDOR",
-  "CAJERO",
-];
+export const TODOS_LOS_ROLES: RolUsuario[] = [...ROLES];
 
 export function tieneAcceso(rol: RolUsuario | null | undefined, ruta: string): boolean {
   if (!rol) return false;
@@ -34,8 +28,12 @@ export function tieneAcceso(rol: RolUsuario | null | undefined, ruta: string): b
 
 export const ROL_LABEL: Record<RolUsuario, string> = {
   ADMIN: "Administrador",
+  GERENTE: "Gerente",
   BODEGUERO: "Bodeguero",
   DESPACHADOR: "Despachador",
   REPARTIDOR: "Repartidor",
   CAJERO: "Cajero",
+  COMPRAS: "Encargado de compras",
+  COCINERO: "Cocinero",
+  JEFE_COCINA: "Jefe de cocina",
 };

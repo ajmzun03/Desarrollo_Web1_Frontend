@@ -1,11 +1,10 @@
-import { request } from "./http";
+import { listaOpcional, request } from "./http";
 import type { GastoOperativo } from "../types";
 
-// TEMPORAL: no existe tabla ni endpoint de gastos operativos en el backend.
-// Cuando exista, reemplazar el mock por GET /gastos-operativos (o similar).
+// El backend no tiene gastos operativos por categoria y mes (solo GET /reportes/gastos-operativos,
+// que resume cierres de caja). Con la API real la lista llega vacia; en modo mock se usa el JSON.
 export const gastosOperativosService = {
   async getAll(): Promise<GastoOperativo[]> {
-    // TODO: endpoint pendiente en backend.
-    return request<GastoOperativo[]>("gastos-operativos", "/gastos-operativos");
+    return listaOpcional(request<GastoOperativo[]>("gastos-operativos", "/gastos-operativos"));
   },
 };

@@ -1,18 +1,33 @@
 import { useSyncExternalStore } from "react";
 
 // Carrito del portal del cliente. Vive en localStorage para sobrevivir recargas.
-// Las personalizaciones ("Sin cebolla", notas) se guardan en `nota` y viajan como
-// `observaciones` del pedido: la API V1 no soporta extras con precio.
-export interface ItemCarrito {
-  productoId: number;
+// Un item es un producto o un combo; los productos pueden llevar extras (con precio, validados
+// por el backend) y una nota libre que viaja en las observaciones del pedido.
+export interface ExtraCarrito {
+  id: number;
   nombre: string;
   precio: number;
+}
+
+export interface ItemCarrito {
+  clave: string;
+  tipo: "producto" | "combo";
+  refId: number; // producto_id o combo_id
+  nombre: string;
+  precio: number; // precio base de una unidad, sin extras
   imagen_url?: string | null;
   cantidad: number;
   nota: string;
+  extras: ExtraCarrito[];
 }
 
-const KEY = "copac_carrito";
+export type NuevoItem = Omit<ItemCarrito, "clave" | "cantidad" | "nota" | "extras"> & {
+  cantidad?: number;
+  nota?: string;
+  extras?: ExtraCarrito[];
+};
+
+const KEY = "copac_carrito_v2";
 const listeners = new Set<() => void>();
 
 const leer = (): ItemCarrito[] => {
@@ -42,23 +57,30 @@ const suscribir = (cb: () => void) => {
   return () => listeners.delete(cb);
 };
 
+export const claveDe = (tipo: string, refId: number, extras: ExtraCarrito[], nota: string) =>
+  `${tipo}-${refId}-${extras.map((e) => e.id).sort((a, b) => a - b).join(",")}-${nota}`;
+
+export const precioUnitario = (i: ItemCarrito) => i.precio + i.extras.reduce((a, e) => a + e.precio, 0);
+
 export const carrito = {
-  agregar(nuevo: Omit<ItemCarrito, "cantidad" | "nota"> & { cantidad?: number; nota?: string }) {
+  agregar(nuevo: NuevoItem) {
     const cantidad = nuevo.cantidad ?? 1;
     const nota = nuevo.nota ?? "";
-    const existente = items.find((i) => i.productoId === nuevo.productoId && i.nota === nota);
+    const extras = nuevo.extras ?? [];
+    const clave = claveDe(nuevo.tipo, nuevo.refId, extras, nota);
+    const existente = items.find((i) => i.clave === clave);
     if (existente) {
       guardar(items.map((i) => (i === existente ? { ...i, cantidad: i.cantidad + cantidad } : i)));
     } else {
-      guardar([...items, { ...nuevo, cantidad, nota }]);
+      guardar([...items, { ...nuevo, clave, cantidad, nota, extras }]);
     }
   },
-  setCantidad(productoId: number, nota: string, cantidad: number) {
-    if (cantidad <= 0) return carrito.quitar(productoId, nota);
-    guardar(items.map((i) => (i.productoId === productoId && i.nota === nota ? { ...i, cantidad } : i)));
+  setCantidad(clave: string, cantidad: number) {
+    if (cantidad <= 0) return carrito.quitar(clave);
+    guardar(items.map((i) => (i.clave === clave ? { ...i, cantidad } : i)));
   },
-  quitar(productoId: number, nota: string) {
-    guardar(items.filter((i) => !(i.productoId === productoId && i.nota === nota)));
+  quitar(clave: string) {
+    guardar(items.filter((i) => i.clave !== clave));
   },
   vaciar() {
     guardar([]);
@@ -68,6 +90,6 @@ export const carrito = {
 export const useCarrito = () => {
   const lista = useSyncExternalStore(suscribir, () => items);
   const cantidadTotal = lista.reduce((acc, i) => acc + i.cantidad, 0);
-  const subtotal = lista.reduce((acc, i) => acc + i.precio * i.cantidad, 0);
+  const subtotal = lista.reduce((acc, i) => acc + precioUnitario(i) * i.cantidad, 0);
   return { items: lista, cantidadTotal, subtotal };
 };

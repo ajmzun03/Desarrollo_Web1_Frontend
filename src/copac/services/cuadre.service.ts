@@ -1,11 +1,10 @@
-import { request } from "./http";
+import { listaOpcional, request } from "./http";
 import type { CuadreInventario } from "../types";
 
-// TEMPORAL: no existe tabla ni endpoint de cuadre de inventario en el backend.
-// Se resuelve con el mock "cuadre-inventario".
-// TODO: endpoint pendiente en backend.
+// El backend solo permite registrar un cuadre (POST /inventario/cuadre); no hay listado. Con la
+// API real la lista llega vacia (404 controlado). En modo mock se usa public/mockups/cuadre-inventario.json.
 export const cuadreService = {
   async getAll(): Promise<CuadreInventario[]> {
-    return request<CuadreInventario[]>("cuadre-inventario", "/cuadres");
+    return listaOpcional(request<CuadreInventario[]>("cuadre-inventario", "/cuadres"));
   },
 };

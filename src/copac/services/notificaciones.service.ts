@@ -1,11 +1,10 @@
-import { request } from "./http";
+import { listaOpcional, request } from "./http";
 import type { Notificacion } from "../types";
 
-// TEMPORAL: no existe tabla ni endpoint de notificaciones en el backend.
-// Cuando exista, reemplazar el mock por GET /notificaciones (o similar).
+// El backend aun no tiene tabla ni endpoint de notificaciones: con la API real la lista llega
+// vacia (404 controlado). En modo mock se lee de public/mockups/notificaciones.json.
 export const notificacionesService = {
   async getAll(): Promise<Notificacion[]> {
-    // TODO: endpoint pendiente en backend.
-    return request<Notificacion[]>("notificaciones", "/notificaciones");
+    return listaOpcional(request<Notificacion[]>("notificaciones", "/notificaciones"));
   },
 };

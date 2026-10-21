@@ -26,6 +26,7 @@ import PedidoDetalle from "./portal/pages/PedidoDetalle";
 import Sucursales from "./portal/pages/Sucursales";
 import ClienteLogin from "./portal/pages/ClienteLogin";
 import Registro from "./portal/pages/Registro";
+import PagoRetorno from "./portal/pages/PagoRetorno";
 
 const conRuta = (ruta: string, Pagina: ComponentType) => () => (
   <RutaProtegida ruta={ruta} roles={ROLES_POR_RUTA[ruta]}>
@@ -49,6 +50,8 @@ export const App = () => {
       <Route path="/sucursales" component={Sucursales} />
       <Route path="/login" component={ClienteLogin} />
       <Route path="/registro" component={Registro} />
+      <Route path="/pago/exito">{() => <PagoRetorno resultado="exito" />}</Route>
+      <Route path="/pago/cancelado">{() => <PagoRetorno resultado="cancelado" />}</Route>
 
       {/* Sistema interno (personal) */}
       <Route path="/copac/login" component={Login} />

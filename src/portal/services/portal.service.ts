@@ -1,28 +1,67 @@
 import { ApiError, request } from "../../copac/services/http";
-import { clientesService } from "../../copac/services/clientes.service";
-import { pedidosService } from "../../copac/services/pedidos.service";
 import { USE_MOCKS } from "../../copac/config/api";
-import type { Cliente, DetallePedido, EstadoPedido, Pedido, PedidoConDetalles, PedidoCreateInput } from "../../copac/types";
+import { pedidosService } from "../../copac/services/pedidos.service";
+import type {
+  Cliente,
+  DetallePedido,
+  Direccion,
+  EstadoPedido,
+  MetodoPago,
+  Pedido,
+  PedidoConDetalles,
+  PedidoCreateInput,
+  TipoEntrega,
+} from "../../copac/types";
 import type { ItemCarrito } from "../store/carrito";
-
-// Tarifa fija de envio mostrada en el portal (el backend aun no la calcula).
-export const COSTO_ENVIO = 25;
+import { precioUnitario } from "../store/carrito";
+import type { SesionCliente } from "../store/sesion";
 
 export interface EventoEstado {
   estado: EstadoPedido;
   hora: string;
 }
 
+// Los pedidos del backend no guardan historial de estados con hora; solo los demo (modo mock) lo traen.
 export interface PedidoPortal extends PedidoConDetalles {
-  // Solo informativo; la API V1 no guarda direccion ni metodo de pago en el pedido.
-  direccion?: string;
-  referencia?: string;
-  metodoPago?: string;
   eventos?: EventoEstado[];
 }
 
-// En modo mock el POST /pedidos del servicio base no persiste nada, asi que los
-// pedidos creados desde el portal se guardan en localStorage y se mezclan con el mock.
+export interface DatosRegistro {
+  nombre: string;
+  apellido: string;
+  correo_electronico: string;
+  telefono: string;
+  telefono_ref?: string;
+  contrasenia: string;
+}
+
+export type ResultadoLoginCliente =
+  | { tipo: "sesion"; sesion: SesionCliente }
+  | { tipo: "verificacion"; tmpToken: string; canal: string };
+
+interface RespuestaLoginCliente {
+  requiereVerificacion?: boolean;
+  tmpToken?: string;
+  canal?: string;
+  token?: string;
+  cliente?: Cliente;
+}
+
+export interface ItemPago {
+  nombre: string;
+  cantidad: number;
+  monto: number;
+}
+
+export interface DatosEntrega {
+  tipoEntrega: TipoEntrega;
+  metodoPago: MetodoPago;
+  sucursalId?: number;
+  direccionId?: number;
+}
+
+// En modo mock el POST /pedidos del servicio base no persiste nada, asi que los pedidos creados
+// desde el portal se guardan en localStorage y se mezclan con el mock.
 const LOCAL_KEY = "copac_pedidos_demo";
 
 const leerLocales = (): PedidoPortal[] => {
@@ -40,45 +79,91 @@ const guardarLocales = (lista: PedidoPortal[]) => {
   }
 };
 
-export interface DatosEntrega {
-  direccion: string;
-  referencia: string;
-  metodoPago: string;
-}
+const post = <T,>(ruta: string, cuerpo: unknown) =>
+  request<T>("cliente", ruta, { method: "POST", body: JSON.stringify(cuerpo) });
+
+const clienteDemo = (): SesionCliente => ({
+  token: `demo-cliente-${Date.now()}`,
+  cliente: { id: 1, nombre: "Cliente", apellido: "Demo", telefono: "55510001", telefono_ref: null, creado_en: new Date().toISOString() },
+});
 
 export const portalService = {
-  // Registro: crea el cliente en POST /clientes (telefono y referencia: 8 digitos distintos).
-  async registrar(data: Omit<Cliente, "id" | "creado_en">): Promise<Cliente> {
-    if (USE_MOCKS) {
-      const existentes = await clientesService.getAll();
-      if (existentes.some((c) => c.telefono === data.telefono)) {
-        throw new ApiError("Ese teléfono ya está registrado.", 400);
-      }
-      return { ...data, id: 1000 + Math.floor(Math.random() * 9000), creado_en: new Date().toISOString() };
+  // ---- Autenticacion de clientes (POST /cliente/auth/*) ----
+  async registrar(data: DatosRegistro): Promise<SesionCliente> {
+    if (USE_MOCKS) return clienteDemo();
+    const r = await post<{ cliente: Cliente; token: string }>("/cliente/auth/registro", data);
+    return { cliente: r.cliente, token: r.token };
+  },
+
+  // 202 -> pide el codigo de 6 digitos; 200 -> sesion directa (solo cuando el backend corre sin Redis en desarrollo).
+  async login(correo_electronico: string, contrasenia: string): Promise<ResultadoLoginCliente> {
+    if (USE_MOCKS) return { tipo: "sesion", sesion: clienteDemo() };
+    const r = await post<RespuestaLoginCliente>("/cliente/auth/login", { correo_electronico, contrasenia });
+    if (r.requiereVerificacion && r.tmpToken) return { tipo: "verificacion", tmpToken: r.tmpToken, canal: r.canal ?? "" };
+    if (r.token && r.cliente) return { tipo: "sesion", sesion: { cliente: r.cliente, token: r.token } };
+    throw new ApiError("Respuesta de inicio de sesión inesperada.");
+  },
+
+  async verificar(tmpToken: string, codigo: string): Promise<SesionCliente> {
+    const r = await post<{ cliente: Cliente; token: string }>("/cliente/auth/verificar", { tmpToken, codigo });
+    return { cliente: r.cliente, token: r.token };
+  },
+
+  async recuperar(correo_electronico: string): Promise<void> {
+    await post<unknown>("/cliente/auth/recuperar", { correo_electronico });
+  },
+
+  async restablecer(correo_electronico: string, codigo: string, nuevaContrasenia: string): Promise<void> {
+    await post<unknown>("/cliente/auth/restablecer", { correo_electronico, codigo, nuevaContrasenia });
+  },
+
+  async logout(): Promise<void> {
+    if (USE_MOCKS) return;
+    try {
+      await post<unknown>("/cliente/auth/logout", {});
+    } catch {
+      // Token ya vencido: igual se cierra la sesion local.
     }
-    return clientesService.create(data);
   },
 
-  // Login: identifica al cliente por su telefono (GET /clientes?telefono=).
-  async identificar(telefono: string): Promise<Cliente> {
-    const lista = await clientesService.getAll(USE_MOCKS ? undefined : telefono);
-    const cliente = lista.find((c) => c.telefono === telefono);
-    if (!cliente) throw new ApiError("No encontramos un cliente con ese teléfono.", 404);
-    return cliente;
+  // ---- Direcciones del cliente ----
+  async getDirecciones(): Promise<Direccion[]> {
+    return request<Direccion[]>("direccion", "/direcciones");
   },
 
-  async crearPedido(clienteId: number, items: ItemCarrito[], entrega: DatosEntrega): Promise<PedidoPortal> {
+  async crearDireccion(data: { municipio_id: number; direccion1: string; direccion2: string }): Promise<Direccion> {
+    if (USE_MOCKS) return { id: Date.now(), cliente_id: 1, ...data };
+    return post<Direccion>("/direcciones", data);
+  },
+
+  // ---- Pedidos ----
+  // El backend toma el cliente del token y calcula precios y total desde el catalogo.
+  async crearPedido(
+    cliente: Cliente,
+    items: ItemCarrito[],
+    entrega: DatosEntrega,
+    observacionesExtra?: string,
+  ): Promise<PedidoPortal> {
     const notas = items.filter((i) => i.nota).map((i) => `${i.nombre}: ${i.nota}`);
-    const observaciones = [...notas, entrega.referencia && `Ref.: ${entrega.referencia}`].filter(Boolean).join(" | ");
+    // Las observaciones del backend admiten 255 caracteres.
+    const observaciones = [...notas, observacionesExtra].filter(Boolean).join(" | ").slice(0, 255);
+
     const input: PedidoCreateInput = {
-      cliente_id: clienteId,
-      observaciones: observaciones || undefined,
-      items: items.map((i) => ({ producto_id: i.productoId, cantidad: i.cantidad })),
+      ...(observaciones ? { observaciones } : {}),
+      ...(entrega.direccionId ? { direccion_id: entrega.direccionId } : {}),
+      ...(entrega.sucursalId ? { sucursal_id: entrega.sucursalId } : {}),
+      metodo_pago: entrega.metodoPago,
+      tipo_entrega: entrega.tipoEntrega,
+      items: items.map((i) => ({
+        ...(i.tipo === "combo" ? { combo_id: i.refId } : { producto_id: i.refId }),
+        cantidad: i.cantidad,
+        ...(i.extras.length ? { extras: i.extras.map((e) => ({ producto_extra_id: e.id })) } : {}),
+      })),
     };
 
     if (!USE_MOCKS) {
       const creado = await pedidosService.create(input);
-      return { ...creado, ...entrega };
+      return { ...creado, detalles: creado.detalles ?? [] };
     }
 
     const locales = leerLocales();
@@ -86,29 +171,43 @@ export const portalService = {
     const detalles: DetallePedido[] = items.map((i, n) => ({
       id: id * 100 + n,
       pedido_id: id,
-      producto_id: i.productoId,
-      precio_unitario: i.precio,
+      producto_id: i.refId,
+      precio_unitario: precioUnitario(i),
       cantidad: i.cantidad,
     }));
     const ahora = new Date().toISOString();
     const pedido: PedidoPortal = {
       id,
-      cliente_id: clienteId,
+      cliente_id: cliente.id,
       fecha_pedido: ahora,
       observaciones: input.observaciones ?? null,
-      total: items.reduce((a, i) => a + i.precio * i.cantidad, 0),
+      total: items.reduce((a, i) => a + precioUnitario(i) * i.cantidad, 0),
       estado: "CREADO",
+      metodo_pago: entrega.metodoPago,
+      tipo_entrega: entrega.tipoEntrega,
+      pagado: false,
       detalles,
-      ...entrega,
       eventos: [{ estado: "CREADO", hora: ahora }],
     };
     guardarLocales([pedido, ...locales]);
     return pedido;
   },
 
+  // Crea la sesion de Stripe Checkout y devuelve la URL de pago. El monto lo calcula el servidor
+  // a partir del pedido; `items` solo describe la compra.
+  async iniciarPago(pedidoId: number, items: ItemPago[]): Promise<string> {
+    const r = await post<{ url: string | null }>("/pagos/checkout", {
+      pedido_id: pedidoId,
+      items: items.map((i) => ({ nombre: i.nombre, cantidad: Math.max(1, Math.round(i.cantidad)), monto: Math.max(0.01, i.monto) })),
+    });
+    if (!r.url) throw new ApiError("No se pudo obtener el enlace de pago.");
+    return r.url;
+  },
+
   async getPedidosDeCliente(clienteId: number): Promise<Pedido[]> {
     const todos = await request<Pedido[]>("pedido", "/pedidos");
-    const propios = todos.filter((p) => p.cliente_id === clienteId);
+    // El backend ya filtra por el cliente del token; el filtro cubre el modo mock.
+    const propios = todos.filter((p) => Number(p.cliente_id) === Number(clienteId));
     if (!USE_MOCKS) return propios;
     const locales = leerLocales().filter((p) => p.cliente_id === clienteId);
     return [...locales, ...propios.filter((p) => !locales.some((l) => l.id === p.id))];

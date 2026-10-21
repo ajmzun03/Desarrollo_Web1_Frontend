@@ -21,8 +21,8 @@ const FILTROS: { id: Filtro; label: string; ok: (p: Pedido) => boolean }[] = [
 export default function MisPedidos() {
   const cliente = useSesionCliente();
   const { datos, cargando, error } = useDatos(
-    () => (cliente ? portalService.getPedidosDeCliente(cliente.id) : Promise.resolve([] as Pedido[])),
-    cliente?.id ?? null,
+    () => (cliente ? portalService.getPedidosDeCliente(cliente.cliente.id) : Promise.resolve([] as Pedido[])),
+    cliente?.cliente.id ?? null,
   );
   const [filtro, setFiltro] = useState<Filtro>("todos");
   const repetir = useRepetirPedido();
@@ -42,7 +42,7 @@ export default function MisPedidos() {
 
         {!cliente ? (
           <Vacio titulo="Inicia sesión para ver tus pedidos" texto="Identifícate con tu teléfono para ver tu historial.">
-            <Link href="/login" className="p-btn">INICIAR SESIÓN</Link>
+            <Link href="/login?volver=%2Fmis-pedidos" className="p-btn">INICIAR SESIÓN</Link>
           </Vacio>
         ) : (
           <>

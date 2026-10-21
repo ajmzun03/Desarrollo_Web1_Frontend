@@ -104,7 +104,7 @@ export default function Despacho() {
         turnosService.getAll(),
         liquidacionesService.getAll(),
       ]);
-      const despacho = peds.filter((p) => p.estado === "LISTO" || p.estado === "EN_RUTA");
+      const despacho = peds.filter((p) => p.estado === "LISTO" || p.estado === "EN_DESPACHO" || p.estado === "EN_RUTA");
       const dets = await Promise.all(despacho.map((p) => pedidosService.getById(p.id)));
       const mapa: Record<number, DetallePedido[]> = {};
       dets.forEach((d) => {

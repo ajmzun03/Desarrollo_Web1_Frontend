@@ -1,12 +1,10 @@
-import { request } from "./http";
+import { listaOpcional, request } from "./http";
 import type { TrasladoInventario } from "../types";
 
-// TEMPORAL: no existe tabla ni endpoint de traslados de inventario en el backend.
-// El único rastro es tipo_movimiento = "TRASLADO" dentro de KARDEX_BODEGA, que
-// NO incluye origen/destino/estado. Se resuelve con el mock "traslado-inventario".
-// TODO: endpoint pendiente en backend.
+// El backend solo permite crear traslados (POST /traslados); no hay listado. Con la API real la
+// lista llega vacia (404 controlado). En modo mock se usa public/mockups/traslado-inventario.json.
 export const trasladosService = {
   async getAll(): Promise<TrasladoInventario[]> {
-    return request<TrasladoInventario[]>("traslado-inventario", "/traslados");
+    return listaOpcional(request<TrasladoInventario[]>("traslado-inventario", "/traslados"));
   },
 };

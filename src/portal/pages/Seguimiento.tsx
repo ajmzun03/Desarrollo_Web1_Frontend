@@ -5,7 +5,7 @@ import { LineaTiempo } from "../components/LineaTiempo";
 import { Cargando, ErrorMsg } from "../components/Estados";
 import { useDatos } from "../../hooks/useDatos";
 import { useNombresProducto } from "../hooks/useNombresProducto";
-import { COSTO_ENVIO, portalService } from "../services/portal.service";
+import { portalService } from "../services/portal.service";
 import { PASOS_PEDIDO, indicePaso, numeroPedido, quetzales } from "../utils/formato";
 
 export default function Seguimiento() {
@@ -47,18 +47,17 @@ export default function Seguimiento() {
                 )}
               </section>
               <aside className="p-panel">
-                <h2>Información de entrega</h2>
-                <dl className="p-datos">
-                  {pedido.direccion && <div><dt>DIRECCIÓN</dt><dd>{pedido.direccion}</dd></div>}
-                  {pedido.referencia && <div><dt>REFERENCIA</dt><dd>{pedido.referencia}</dd></div>}
-                </dl>
                 <h2>Productos</h2>
                 <ul className="p-resumen__items">
                   {pedido.detalles.map((d) => (
                     <li key={d.id}><span>{d.cantidad}× {nombreDe(d.producto_id)}</span><span>{quetzales(d.precio_unitario * d.cantidad)}</span></li>
                   ))}
-                  <li className="p-resumen__total"><span>Total (con envío)</span><span>{quetzales(pedido.total + COSTO_ENVIO)}</span></li>
+                  <li className="p-resumen__total"><span>Total</span><span>{quetzales(pedido.total)}</span></li>
                 </ul>
+                <p className="p-sub">
+                  {pedido.tipo_entrega === "RECOGER" ? "Recoges en sucursal" : "Entrega a domicilio"} ·{" "}
+                  {pedido.metodo_pago === "TARJETA" ? (pedido.pagado ? "Pagado con tarjeta" : "Pago con tarjeta pendiente") : "Pago en efectivo"}
+                </p>
                 <Link href={`/mis-pedidos/${pedido.id}`} className="p-enlace">Ver detalle del pedido →</Link>
               </aside>
             </div>

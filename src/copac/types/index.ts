@@ -5,8 +5,20 @@
 // ============================================================
 // Enums (valores tal cual los expone la API)
 // ============================================================
-export const ROLES = ["ADMIN", "BODEGUERO", "DESPACHADOR", "REPARTIDOR", "CAJERO"] as const;
-export const ESTADOS_PEDIDO = ["CREADO", "LISTO", "ANULADO", "EN_RUTA", "ENTREGADO"] as const;
+export const ROLES = [
+  "ADMIN",
+  "GERENTE",
+  "BODEGUERO",
+  "DESPACHADOR",
+  "REPARTIDOR",
+  "CAJERO",
+  "COMPRAS",
+  "COCINERO",
+  "JEFE_COCINA",
+] as const;
+export const ESTADOS_PEDIDO = ["CREADO", "EN_PREPARACION", "LISTO", "ANULADO", "EN_DESPACHO", "EN_RUTA", "ENTREGADO"] as const;
+export const METODOS_PAGO = ["EFECTIVO", "TARJETA"] as const;
+export const TIPOS_ENTREGA = ["DOMICILIO", "RECOGER"] as const;
 export const ESTADOS_ORDEN_COMPRA = ["CREADA", "EN_PROCESO", "FINALIZADO", "ANULADO"] as const;
 export const ESTADOS_ORDEN_TRABAJO = ["GENERADA", "EN_PROCESO", "ANULADA", "FINALIZADA"] as const;
 export const ESTADOS_LOTE = ["VIGENTE", "VENCIDO", "AGOTADO"] as const;
@@ -18,6 +30,8 @@ export const ESTADOS_SOLICITUD_INSUMO = ["PENDIENTE", "ENVIADA", "RECIBIDA", "CA
 
 export type RolUsuario = (typeof ROLES)[number];
 export type EstadoPedido = (typeof ESTADOS_PEDIDO)[number];
+export type MetodoPago = (typeof METODOS_PAGO)[number];
+export type TipoEntrega = (typeof TIPOS_ENTREGA)[number];
 export type EstadoOrdenCompra = (typeof ESTADOS_ORDEN_COMPRA)[number];
 export type EstadoOrdenTrabajo = (typeof ESTADOS_ORDEN_TRABAJO)[number];
 export type EstadoLote = (typeof ESTADOS_LOTE)[number];
@@ -49,8 +63,9 @@ export interface Cliente {
   id: number;
   nombre: string;
   apellido: string;
+  correo_electronico?: string | null;
   telefono: string;
-  telefono_ref: string;
+  telefono_ref: string | null;
   creado_en: string;
 }
 
@@ -156,8 +171,26 @@ export interface Producto {
   unidad_medida_id: number;
   producto: string;
   precio: number;
-  // V2 del backend: URL de la imagen del producto (aun no existe en la API V1).
   imagen_url?: string | null;
+  descripcion?: string | null;
+  stock_minimo?: number;
+  activo?: boolean;
+}
+
+export interface Combo {
+  id: number;
+  nombre: string;
+  precio: number;
+  imagen?: string | null;
+  activo: boolean;
+}
+
+export interface ProductoExtra {
+  id: number;
+  producto_id: number;
+  nombre: string;
+  precio: number;
+  activo: boolean;
 }
 
 export interface Pedido {
@@ -167,6 +200,12 @@ export interface Pedido {
   observaciones: string | null;
   total: number;
   estado: EstadoPedido;
+  direccion_id?: number | null;
+  sucursal_id?: number | null;
+  metodo_pago?: MetodoPago;
+  tipo_entrega?: TipoEntrega;
+  pagado?: boolean;
+  stripe_payment_id?: string | null;
 }
 
 export interface DetallePedido {
@@ -332,7 +371,9 @@ export interface Usuario {
   id: number;
   usuario: string | null;
   correo_electronico: string | null;
+  telefono?: string | null;
   rol: RolUsuario;
+  activo?: boolean;
   creado_en: string;
 }
 
@@ -382,13 +423,21 @@ export interface OrdenCompraConDetalles extends OrdenCompra {
 // DTOs de entrada (request bodies reales de los controllers)
 // ============================================================
 export interface PedidoItemInput {
-  producto_id: number;
+  // Cada item lleva producto_id o combo_id (solo uno).
+  producto_id?: number;
+  combo_id?: number;
   cantidad: number;
+  extras?: { producto_extra_id: number; cantidad?: number }[];
 }
 
 export interface PedidoCreateInput {
-  cliente_id: number;
+  // Solo lo envia el personal; para un cliente final el backend usa el id de su token.
+  cliente_id?: number;
   observaciones?: string;
+  direccion_id?: number;
+  sucursal_id?: number;
+  metodo_pago?: MetodoPago;
+  tipo_entrega?: TipoEntrega;
   items: PedidoItemInput[];
 }
 

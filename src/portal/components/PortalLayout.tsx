@@ -2,6 +2,7 @@ import { Link, useLocation } from "wouter";
 import { ClipboardList, Home, MapPin, Menu as MenuIcon, ShoppingCart, User, Utensils, X } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { useCarrito } from "../store/carrito";
+import { portalService } from "../services/portal.service";
 import { sesionCliente, useSesionCliente } from "../store/sesion";
 import "../styles/portal.css";
 
@@ -20,7 +21,8 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
   const { cantidadTotal } = useCarrito();
   const cliente = useSesionCliente();
 
-  const salir = () => {
+  const salir = async () => {
+    await portalService.logout();
     sesionCliente.cerrar();
     setAbierto(false);
     navegar("/");
@@ -47,7 +49,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
           <div className="p-header__acciones">
             {cliente ? (
               <button type="button" className="p-btn p-btn--fantasma p-header__sesion" onClick={salir}>
-                <User size={16} aria-hidden="true" /> {cliente.nombre}
+                <User size={16} aria-hidden="true" /> {cliente.cliente.nombre}
               </button>
             ) : (
               <Link href="/login" className="p-btn p-btn--fantasma p-header__sesion">
@@ -77,7 +79,7 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
             ))}
             {cliente ? (
               <button type="button" className="p-drawer__link" onClick={salir}>
-                <User size={18} aria-hidden="true" /> Salir ({cliente.nombre})
+                <User size={18} aria-hidden="true" /> Salir ({cliente.cliente.nombre})
               </button>
             ) : (
               <Link href="/login" className="p-drawer__link" onClick={() => setAbierto(false)}>

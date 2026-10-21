@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 import { getCookie, deleteCookie } from "../utils/cookies";
+import { authService } from "../services/auth.service";
 import "../styles/layout.css";
 
 const NAV_ITEMS = [
@@ -46,7 +47,9 @@ export const Layout = ({ rutaActiva, children }: Props) => {
     }
   };
 
-  const cerrarSesion = () => {
+  const cerrarSesion = async () => {
+    // Revoca el token en el servidor antes de borrar la sesion local.
+    await authService.logout();
     deleteCookie("token");
     deleteCookie("usuario");
     window.location.assign("/copac/login");

@@ -41,7 +41,7 @@ import type { ProductoDisponibilidad } from "../services/productos.service";
 
 type Tab = "dashboard" | "clientes" | "nuevo-pedido" | "seguimiento";
 
-const ORDEN_TRACKING: EstadoPedido[] = ["CREADO", "LISTO", "EN_RUTA", "ENTREGADO"];
+const ORDEN_TRACKING: EstadoPedido[] = ["CREADO", "EN_PREPARACION", "LISTO", "EN_RUTA", "ENTREGADO"];
 
 const q = (n: number) => `Q ${n.toFixed(2)}`;
 const nombreCliente = (c: Cliente) => `${c.nombre} ${c.apellido}`;

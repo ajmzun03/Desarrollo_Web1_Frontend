@@ -1,30 +1,59 @@
 import { useState, type FormEvent } from "react";
 import { Link, useLocation } from "wouter";
 import { PortalLayout } from "../components/PortalLayout";
-import { Vacio } from "../components/Estados";
-import { carrito, useCarrito } from "../store/carrito";
-import { sesionCliente, useSesionCliente } from "../store/sesion";
-import { COSTO_ENVIO, portalService } from "../services/portal.service";
+import { Cargando, Vacio } from "../components/Estados";
+import { carrito, precioUnitario, useCarrito } from "../store/carrito";
+import { useSesionCliente } from "../store/sesion";
+import { portalService, type DatosEntrega } from "../services/portal.service";
+import { useDatos } from "../../hooks/useDatos";
+import { municipiosService } from "../../copac/services/municipios.service";
+import { sucursalesService } from "../../copac/services/sucursales.service";
+import type { MetodoPago, TipoEntrega } from "../../copac/types";
 import { quetzales } from "../utils/formato";
 
-const PASOS = ["Datos", "Dirección", "Pago", "Resumen"];
-const OCHO_DIGITOS = /^\d{8}$/;
+const PASOS = ["Datos", "Entrega", "Pago", "Resumen"];
+const NUEVA = 0; // valor del selector para "usar una direccion nueva"
 
 export default function Checkout() {
   const [, navegar] = useLocation();
   const { items, subtotal } = useCarrito();
-  const cliente = useSesionCliente();
+  const sesion = useSesionCliente();
 
   const [paso, setPaso] = useState(0);
-  const [nombre, setNombre] = useState(cliente?.nombre ?? "");
-  const [apellido, setApellido] = useState(cliente?.apellido ?? "");
-  const [telefono, setTelefono] = useState(cliente?.telefono ?? "");
-  const [telefonoRef, setTelefonoRef] = useState(cliente?.telefono_ref ?? "");
+  const [tipoEntrega, setTipoEntrega] = useState<TipoEntrega>("DOMICILIO");
+  const [metodoPago, setMetodoPago] = useState<MetodoPago>("EFECTIVO");
+  const [direccionId, setDireccionId] = useState(NUEVA);
+  const [municipioId, setMunicipioId] = useState(0);
   const [direccion, setDireccion] = useState("");
   const [referencia, setReferencia] = useState("");
-  const [metodoPago] = useState("Efectivo contra entrega");
+  const [sucursalId, setSucursalId] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [enviando, setEnviando] = useState(false);
+
+  // Datos de apoyo: direcciones guardadas del cliente, municipios y sucursales.
+  const { datos: apoyo, cargando } = useDatos(async () => {
+    const [direcciones, municipios, sucursales] = await Promise.all([
+      sesion ? portalService.getDirecciones().catch(() => []) : Promise.resolve([]),
+      municipiosService.getAll(),
+      sucursalesService.getAll(),
+    ]);
+    return { direcciones, municipios, sucursales };
+  }, sesion?.cliente.id ?? "anonimo");
+
+  const volverA = encodeURIComponent("/checkout");
+
+  if (!sesion) {
+    return (
+      <PortalLayout>
+        <div className="p-contenedor p-contenedor--angosto">
+          <Vacio titulo="Inicia sesión para continuar" texto="Necesitamos tu cuenta para registrar tu pedido y que puedas darle seguimiento.">
+            <Link href={`/login?volver=${volverA}`} className="p-btn">INICIAR SESIÓN</Link>
+            <Link href={`/registro?volver=${volverA}`} className="p-btn p-btn--fantasma">CREAR CUENTA</Link>
+          </Vacio>
+        </div>
+      </PortalLayout>
+    );
+  }
 
   if (items.length === 0 && !enviando) {
     return (
@@ -38,17 +67,23 @@ export default function Checkout() {
     );
   }
 
-  const validarDatos = () => {
-    if (!nombre.trim() || !apellido.trim()) return "Ingresa tu nombre y apellido.";
-    if (!OCHO_DIGITOS.test(telefono)) return "El teléfono debe tener exactamente 8 dígitos.";
-    if (!OCHO_DIGITOS.test(telefonoRef)) return "El teléfono de referencia debe tener exactamente 8 dígitos.";
-    if (telefono === telefonoRef) return "El teléfono de referencia debe ser distinto al principal.";
+  const { cliente } = sesion;
+  const guardada = apoyo?.direcciones.find((d) => d.id === direccionId);
+  const sucursal = apoyo?.sucursales.find((s) => s.id === sucursalId);
+  const municipio = apoyo?.municipios.find((m) => m.id === municipioId);
+
+  const validarEntrega = () => {
+    if (tipoEntrega === "RECOGER") return sucursalId ? null : "Elige la sucursal donde recogerás tu pedido.";
+    if (direccionId !== NUEVA) return null;
+    if (!municipioId) return "Elige tu municipio.";
+    if (direccion.trim().length < 3) return "Ingresa tu dirección (mínimo 3 caracteres).";
+    if (!referencia.trim()) return "Agrega una referencia para encontrar tu dirección.";
     return null;
   };
 
   const siguiente = (e: FormEvent) => {
     e.preventDefault();
-    const problema = paso === 0 ? validarDatos() : paso === 1 && !direccion.trim() ? "Ingresa tu dirección de entrega." : null;
+    const problema = paso === 1 ? validarEntrega() : null;
     setError(problema);
     if (!problema) setPaso((p) => p + 1);
   };
@@ -57,12 +92,23 @@ export default function Checkout() {
     setEnviando(true);
     setError(null);
     try {
-      // Sin sesion (checkout como invitado): se registra al cliente antes de crear el pedido.
-      const actual =
-        cliente ?? (await portalService.registrar({ nombre: nombre.trim(), apellido: apellido.trim(), telefono, telefono_ref: telefonoRef }));
-      if (!cliente) sesionCliente.iniciar(actual);
-      const pedido = await portalService.crearPedido(actual.id, items, { direccion: direccion.trim(), referencia: referencia.trim(), metodoPago });
+      const entrega: DatosEntrega = { tipoEntrega, metodoPago };
+      if (tipoEntrega === "RECOGER") {
+        entrega.sucursalId = sucursalId;
+      } else if (direccionId !== NUEVA) {
+        entrega.direccionId = direccionId;
+      } else {
+        const nueva = await portalService.crearDireccion({ municipio_id: municipioId, direccion1: direccion.trim(), direccion2: referencia.trim() });
+        entrega.direccionId = nueva.id;
+      }
+      const pedido = await portalService.crearPedido(cliente, items, entrega);
+      const aPagar = items.map((i) => ({ nombre: i.nombre, cantidad: i.cantidad, monto: precioUnitario(i) }));
       carrito.vaciar();
+      if (metodoPago === "TARJETA") {
+        // Redirige a Stripe; al volver, /pago/exito o /pago/cancelado reciben el pedido.
+        window.location.assign(await portalService.iniciarPago(pedido.id, aPagar));
+        return;
+      }
       navegar(`/pedido/${pedido.id}/confirmacion`);
     } catch (e) {
       setError(e instanceof Error ? e.message : "No se pudo crear el pedido.");
@@ -84,41 +130,94 @@ export default function Checkout() {
 
         <div className="p-dos-col">
           <form className="p-panel" onSubmit={siguiente} noValidate>
+            {cargando && <Cargando />}
+
             {paso === 0 && (
               <>
                 <h2>Datos del cliente</h2>
-                <div className="p-campos">
-                  <label>Nombre<input className="p-input" value={nombre} onChange={(e) => setNombre(e.target.value)} autoComplete="given-name" /></label>
-                  <label>Apellido<input className="p-input" value={apellido} onChange={(e) => setApellido(e.target.value)} autoComplete="family-name" /></label>
-                  <label>Teléfono<input className="p-input" inputMode="numeric" maxLength={8} value={telefono} onChange={(e) => setTelefono(e.target.value.replace(/\D/g, ""))} autoComplete="tel" /></label>
-                  <label>Teléfono de referencia<input className="p-input" inputMode="numeric" maxLength={8} value={telefonoRef} onChange={(e) => setTelefonoRef(e.target.value.replace(/\D/g, ""))} /></label>
-                </div>
+                <dl className="p-datos">
+                  <div><dt>NOMBRE</dt><dd>{cliente.nombre} {cliente.apellido}</dd></div>
+                  {cliente.correo_electronico && <div><dt>CORREO</dt><dd>{cliente.correo_electronico}</dd></div>}
+                  <div><dt>TELÉFONO</dt><dd>{cliente.telefono}</dd></div>
+                </dl>
+                <h2>¿Cómo quieres recibir tu pedido?</h2>
+                <label className={tipoEntrega === "DOMICILIO" ? "p-opcion p-opcion--on" : "p-opcion"}>
+                  <input type="radio" name="entrega" checked={tipoEntrega === "DOMICILIO"} onChange={() => setTipoEntrega("DOMICILIO")} /> 🛵 A domicilio
+                </label>
+                <label className={tipoEntrega === "RECOGER" ? "p-opcion p-opcion--on" : "p-opcion"}>
+                  <input type="radio" name="entrega" checked={tipoEntrega === "RECOGER"} onChange={() => setTipoEntrega("RECOGER")} /> 🏪 Recoger en sucursal
+                </label>
               </>
             )}
-            {paso === 1 && (
+
+            {paso === 1 && tipoEntrega === "RECOGER" && (
+              <>
+                <h2>Sucursal para recoger</h2>
+                <label className="p-campos__ancho">Sucursal
+                  <select className="p-input" value={sucursalId} onChange={(e) => setSucursalId(Number(e.target.value))}>
+                    <option value={0}>Elige una sucursal…</option>
+                    {apoyo?.sucursales.map((s) => <option key={s.id} value={s.id}>{s.sucursal}{s.direccion ? ` — ${s.direccion}` : ""}</option>)}
+                  </select>
+                </label>
+              </>
+            )}
+
+            {paso === 1 && tipoEntrega === "DOMICILIO" && (
               <>
                 <h2>Dirección de entrega</h2>
-                <div className="p-campos">
-                  <label className="p-campos__ancho">Dirección<input className="p-input" value={direccion} onChange={(e) => setDireccion(e.target.value)} placeholder="6a Avenida 14-08, Zona 10" autoComplete="street-address" /></label>
-                  <label className="p-campos__ancho">Referencia<input className="p-input" value={referencia} onChange={(e) => setReferencia(e.target.value)} placeholder="Edificio azul, portón negro" /></label>
-                </div>
+                {(apoyo?.direcciones.length ?? 0) > 0 && (
+                  <label className="p-campos__ancho">Direcciones guardadas
+                    <select className="p-input" value={direccionId} onChange={(e) => setDireccionId(Number(e.target.value))}>
+                      {apoyo?.direcciones.map((d) => <option key={d.id} value={d.id}>{d.direccion1} ({d.direccion2})</option>)}
+                      <option value={NUEVA}>Usar una dirección nueva…</option>
+                    </select>
+                  </label>
+                )}
+                {direccionId === NUEVA && (
+                  <div className="p-campos">
+                    <label className="p-campos__ancho">Municipio
+                      <select className="p-input" value={municipioId} onChange={(e) => setMunicipioId(Number(e.target.value))}>
+                        <option value={0}>Elige tu municipio…</option>
+                        {apoyo?.municipios.map((m) => <option key={m.id} value={m.id}>{m.municipio}</option>)}
+                      </select>
+                    </label>
+                    <label className="p-campos__ancho">Dirección<input className="p-input" maxLength={155} value={direccion} onChange={(e) => setDireccion(e.target.value)} placeholder="6a Avenida 14-08, Zona 10" autoComplete="street-address" /></label>
+                    <label className="p-campos__ancho">Referencia<input className="p-input" maxLength={100} value={referencia} onChange={(e) => setReferencia(e.target.value)} placeholder="Edificio azul, portón negro" /></label>
+                  </div>
+                )}
               </>
             )}
+
             {paso === 2 && (
               <>
                 <h2>Método de pago</h2>
-                <label className="p-opcion p-opcion--on"><input type="radio" checked readOnly /> 💵 Efectivo contra entrega</label>
-                <label className="p-opcion p-opcion--off"><input type="radio" disabled /> 💳 Tarjeta (próximamente)</label>
+                <label className={metodoPago === "EFECTIVO" ? "p-opcion p-opcion--on" : "p-opcion"}>
+                  <input type="radio" name="pago" checked={metodoPago === "EFECTIVO"} onChange={() => setMetodoPago("EFECTIVO")} /> 💵 Efectivo contra entrega
+                </label>
+                <label className={metodoPago === "TARJETA" ? "p-opcion p-opcion--on" : "p-opcion"}>
+                  <input type="radio" name="pago" checked={metodoPago === "TARJETA"} onChange={() => setMetodoPago("TARJETA")} /> 💳 Tarjeta (pago seguro con Stripe)
+                </label>
               </>
             )}
+
             {paso === 3 && (
               <>
                 <h2>Confirma tu pedido</h2>
                 <dl className="p-datos">
-                  <div><dt>Cliente</dt><dd>{nombre} {apellido} · {telefono}</dd></div>
-                  <div><dt>Dirección</dt><dd>{direccion}{referencia && ` (${referencia})`}</dd></div>
-                  <div><dt>Pago</dt><dd>{metodoPago}</dd></div>
+                  <div><dt>CLIENTE</dt><dd>{cliente.nombre} {cliente.apellido} · {cliente.telefono}</dd></div>
+                  <div>
+                    <dt>{tipoEntrega === "RECOGER" ? "RECOGER EN" : "ENTREGA"}</dt>
+                    <dd>
+                      {tipoEntrega === "RECOGER"
+                        ? sucursal?.sucursal
+                        : guardada
+                          ? `${guardada.direccion1} (${guardada.direccion2})`
+                          : `${direccion}, ${municipio?.municipio ?? ""} (${referencia})`}
+                    </dd>
+                  </div>
+                  <div><dt>PAGO</dt><dd>{metodoPago === "TARJETA" ? "Tarjeta (Stripe)" : "Efectivo contra entrega"}</dd></div>
                 </dl>
+                {metodoPago === "TARJETA" && <p className="p-sub">Al confirmar te llevaremos a la página segura de Stripe para pagar.</p>}
               </>
             )}
 
@@ -138,13 +237,14 @@ export default function Checkout() {
             <h2>Tu pedido</h2>
             <ul className="p-resumen__items">
               {items.map((i) => (
-                <li key={`${i.productoId}-${i.nota}`}><span>{i.cantidad}× {i.nombre}</span><span>{quetzales(i.precio * i.cantidad)}</span></li>
+                <li key={i.clave}>
+                  <span>{i.cantidad}× {i.nombre}{i.extras.length > 0 && <small>+ {i.extras.map((e) => e.nombre).join(", ")}</small>}</span>
+                  <span>{quetzales(precioUnitario(i) * i.cantidad)}</span>
+                </li>
               ))}
             </ul>
             <dl>
-              <div><dt>Subtotal</dt><dd>{quetzales(subtotal)}</dd></div>
-              <div><dt>Envío</dt><dd>{quetzales(COSTO_ENVIO)}</dd></div>
-              <div className="p-resumen__total"><dt>Total</dt><dd>{quetzales(subtotal + COSTO_ENVIO)}</dd></div>
+              <div className="p-resumen__total"><dt>Total</dt><dd>{quetzales(subtotal)}</dd></div>
             </dl>
           </aside>
         </div>
