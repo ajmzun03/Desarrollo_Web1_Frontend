@@ -5,20 +5,33 @@ import type { Usuario } from "../types";
 export interface Sesion {
   token: string;
   usuario: Usuario;
+  /** Pantallas permitidas segun el backend (claves como "dashboard", "pos", "cocina"...). */
+  vistas?: string[];
 }
 
-// Paso 1 del login: o el backend inicia sesion directamente (sin Redis en desarrollo) o pide
-// el codigo de 6 digitos enviado por SMS/correo (2FA) y devuelve un token temporal.
+export type EstadoMfa = "verificar" | "enrolar";
+
+// Paso 1 del login: el backend valida usuario y contrasena y pide el segundo factor (app
+// autenticadora). En modo mock no hay segundo factor y se devuelve la sesion directamente.
 export type ResultadoLogin =
   | { tipo: "sesion"; sesion: Sesion }
-  | { tipo: "verificacion"; tmpToken: string; canal: string };
+  | { tipo: "verificacion"; mfa: EstadoMfa; tmpToken: string };
 
 interface RespuestaLogin {
   requiereVerificacion?: boolean;
+  mfa?: EstadoMfa;
   tmpToken?: string;
-  canal?: string;
   token?: string;
   usuario?: Usuario;
+  vistas?: string[];
+}
+
+export interface Enrolamiento {
+  /** Data URI SVG del QR: se muestra con <img src={qrCode}>. */
+  qrCode: string;
+  /** Secreto en texto, para quien no pueda escanear el QR. */
+  secret: string;
+  uri: string;
 }
 
 export const authService = {
@@ -40,13 +53,21 @@ export const authService = {
       body: JSON.stringify({ usuario, contrasenia }),
     });
     if (r.requiereVerificacion && r.tmpToken) {
-      return { tipo: "verificacion", tmpToken: r.tmpToken, canal: r.canal ?? "" };
+      return { tipo: "verificacion", mfa: r.mfa === "enrolar" ? "enrolar" : "verificar", tmpToken: r.tmpToken };
     }
-    if (r.token && r.usuario) return { tipo: "sesion", sesion: { token: r.token, usuario: r.usuario } };
+    if (r.token && r.usuario) return { tipo: "sesion", sesion: { token: r.token, usuario: r.usuario, vistas: r.vistas } };
     throw new Error("Respuesta de inicio de sesión inesperada.");
   },
 
-  // Paso 2: valida el codigo y devuelve la sesion.
+  // Solo la primera vez: crea el autenticador y devuelve el QR a escanear.
+  async enrolar(tmpToken: string): Promise<Enrolamiento> {
+    return request<Enrolamiento>("usuario", "/auth/mfa/enrolar", {
+      method: "POST",
+      body: JSON.stringify({ tmpToken }),
+    });
+  },
+
+  // Paso 2: valida el codigo de 6 digitos del autenticador y devuelve la sesion.
   async verificar(tmpToken: string, codigo: string): Promise<Sesion> {
     return request<Sesion>("usuario", "/auth/verificar", {
       method: "POST",
@@ -54,7 +75,7 @@ export const authService = {
     });
   },
 
-  // Siempre responde 202 aunque el usuario no exista (anti-enumeracion).
+  // Siempre responde 202 aunque el usuario no exista (anti-enumeracion): Supabase envia un correo con enlace.
   async recuperar(identificador: string): Promise<void> {
     await request<unknown>("usuario", "/auth/recuperar", {
       method: "POST",
@@ -62,11 +83,24 @@ export const authService = {
     });
   },
 
-  async restablecer(identificador: string, codigo: string, nuevaContrasenia: string): Promise<void> {
+  // tokenHash viene en el enlace del correo (?token_hash=...). 401 = enlace invalido, vencido o ya usado.
+  async restablecer(tokenHash: string, nuevaContrasenia: string): Promise<void> {
     await request<unknown>("usuario", "/auth/restablecer", {
       method: "POST",
-      body: JSON.stringify({ identificador, codigo, nuevaContrasenia }),
+      body: JSON.stringify({ tokenHash, nuevaContrasenia }),
     });
+  },
+
+  // Solo ADMIN: elimina el autenticador de quien perdio su telefono y cierra sus sesiones.
+  async reiniciarMfa(usuarioId: number): Promise<void> {
+    await request<unknown>("usuario", `/auth/usuarios/${usuarioId}/mfa`, { method: "DELETE" });
+  },
+
+  // Vistas actuales del usuario autenticado (y valida que el token siga vigente).
+  async me(): Promise<string[] | null> {
+    if (USE_MOCKS) return null;
+    const r = await request<{ vistas?: string[] }>("usuario", "/auth/me");
+    return r.vistas ?? null;
   },
 
   async logout(): Promise<void> {

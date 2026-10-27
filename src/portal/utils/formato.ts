@@ -8,16 +8,25 @@ export const fechaCorta = (iso: string) =>
 export const hora = (iso: string) =>
   new Date(iso).toLocaleTimeString("es-GT", { hour: "2-digit", minute: "2-digit" });
 
+// La descripcion de varios productos es igual a su nombre: en ese caso no se muestra dos veces.
+export const descripcionUtil = (nombre: string, descripcion?: string | null): string | null => {
+  const d = descripcion?.trim();
+  return d && d.toLowerCase() !== nombre.trim().toLowerCase() ? d : null;
+};
+
 export const numeroPedido = (id: number) => `#COPAC-${id}`;
 
 // Emoji por categoria (la API solo expone el nombre). Se usa cuando el producto no tiene imagen_url.
 export const emojiDeCategoria = (nombre: string): string => {
   const n = nombre.toLowerCase();
   if (/combo/.test(n)) return "🥘";
+  if (/wrap|burrito|taco/.test(n)) return "🌯";
+  if (/infantil|ni(ñ|n)o|kids/.test(n)) return "🧸";
   if (/burger|hamburg/.test(n)) return "🍔";
   if (/pollo|nugget/.test(n)) return "🍗";
   if (/papa|acompa/.test(n)) return "🍟";
-  if (/bebida|refresco|jugo|cafe|café/.test(n)) return "🥤";
+  if (/caf(e|é)/.test(n)) return "☕";
+  if (/bebida|refresco|jugo/.test(n)) return "🥤";
   if (/postre|helado|dulce|pastel/.test(n)) return "🍰";
   if (/desayuno/.test(n)) return "🍳";
   if (/pizza/.test(n)) return "🍕";

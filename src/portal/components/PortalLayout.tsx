@@ -93,10 +93,12 @@ export const PortalLayout = ({ children }: { children: ReactNode }) => {
       <main className="p-main">{children}</main>
 
       <footer className="p-footer">
-        <span className="p-logo">
-          <span className="p-logo__marca">C</span> COPAC
-        </span>
-        <span>© 2026 COPAC — Sistema de Control</span>
+        <div className="p-footer__fila">
+          <span className="p-logo">
+            <span className="p-logo__marca">C</span> COPAC
+          </span>
+          <span>© {new Date().getFullYear()} COPAC — Sistema de Control</span>
+        </div>
       </footer>
 
       <nav className="p-bottom" aria-label="Navegación inferior">

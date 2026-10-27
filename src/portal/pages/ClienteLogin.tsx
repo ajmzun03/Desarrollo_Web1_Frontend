@@ -1,11 +1,13 @@
 import { useState, type FormEvent } from "react";
 import { Link, useLocation, useSearch } from "wouter";
 import { portalService } from "../services/portal.service";
-import { sesionCliente, type SesionCliente } from "../store/sesion";
+import { sesionCliente } from "../store/sesion";
 import { AuthLayout } from "../components/AuthLayout";
 import { destinoSeguro } from "../utils/destino";
 
-type Paso = "credenciales" | "codigo" | "recuperar" | "restablecer";
+// Los clientes inician sesion solo con correo y contrasena (sin segundo factor).
+// "Olvide mi contrasena" envia un correo; el enlace del correo abre /restablecer.
+type Paso = "credenciales" | "recuperar";
 
 const valor = (e: FormEvent<HTMLFormElement>, nombre: string) => String(new FormData(e.currentTarget).get(nombre) ?? "");
 
@@ -13,16 +15,9 @@ export default function ClienteLogin() {
   const [, navegar] = useLocation();
   const busqueda = useSearch();
   const [paso, setPaso] = useState<Paso>("credenciales");
-  const [correo, setCorreo] = useState("");
-  const [tmpToken, setTmpToken] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [aviso, setAviso] = useState<string | null>(null);
   const [cargando, setCargando] = useState(false);
-
-  const entrar = (sesion: SesionCliente) => {
-    sesionCliente.iniciar(sesion);
-    navegar(destinoSeguro(busqueda, "/mis-pedidos"));
-  };
 
   const ejecutar = async (accion: () => Promise<void>) => {
     setError(null);
@@ -45,44 +40,23 @@ export default function ClienteLogin() {
 
   const onCredenciales = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const c = valor(e, "correo").trim().toLowerCase();
+    const correo = valor(e, "correo").trim().toLowerCase();
     const contrasenia = valor(e, "contrasenia");
-    if (!c || !contrasenia) return setError("Ingresa tu correo y contraseña.");
+    if (!correo || !contrasenia) return setError("Ingresa tu correo y contraseña.");
     return ejecutar(async () => {
-      const r = await portalService.login(c, contrasenia);
-      if (r.tipo === "sesion") return entrar(r.sesion);
-      setCorreo(c);
-      setTmpToken(r.tmpToken);
-      setAviso(`Enviamos un código de 6 dígitos${r.canal ? ` por ${r.canal}` : ""}.`);
-      setPaso("codigo");
+      sesionCliente.iniciar(await portalService.login(correo, contrasenia));
+      navegar(destinoSeguro(busqueda, "/mis-pedidos"));
     });
-  };
-
-  const onCodigo = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const codigo = valor(e, "codigo").trim();
-    return ejecutar(async () => entrar(await portalService.verificar(tmpToken, codigo)));
   };
 
   const onRecuperar = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const c = valor(e, "correo").trim().toLowerCase();
+    const correo = valor(e, "correo").trim().toLowerCase();
+    if (!correo) return setError("Ingresa tu correo electrónico.");
     return ejecutar(async () => {
-      await portalService.recuperar(c);
-      setCorreo(c);
-      setAviso("Si el correo existe, enviamos un código de recuperación.");
-      setPaso("restablecer");
-    });
-  };
-
-  const onRestablecer = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const codigo = valor(e, "codigo").trim();
-    const nueva = valor(e, "nueva");
-    return ejecutar(async () => {
-      await portalService.restablecer(correo, codigo, nueva);
+      await portalService.recuperar(correo);
       setPaso("credenciales");
-      setAviso("Contraseña actualizada. Ya puedes iniciar sesión.");
+      setAviso("Si el correo está registrado, te enviamos un enlace para crear una contraseña nueva.");
     });
   };
 
@@ -95,7 +69,7 @@ export default function ClienteLogin() {
 
   return (
     <AuthLayout titulo={<>Bienvenido <em>de vuelta</em></>} texto="Inicia sesión para ver tus pedidos y hacer un checkout más rápido.">
-      {paso === "credenciales" && (
+      {paso === "credenciales" ? (
         <>
           <h2>Iniciar sesión</h2>
           <p className="p-sub">¿No tienes cuenta? <Link href={`/registro${busqueda ? `?${busqueda}` : ""}`} className="p-enlace">Crear cuenta</Link></p>
@@ -108,40 +82,14 @@ export default function ClienteLogin() {
           <button type="button" className="p-enlace" onClick={() => irA("recuperar")}>¿Olvidaste tu contraseña?</button>
           <Link href="/menu" className="p-enlace">Seguir viendo el menú →</Link>
         </>
-      )}
-
-      {paso === "codigo" && (
-        <>
-          <h2>Verifica tu identidad</h2>
-          <form onSubmit={onCodigo} noValidate>
-            <label>Código de 6 dígitos<input className="p-input" name="codigo" inputMode="numeric" maxLength={6} autoComplete="one-time-code" /></label>
-            {mensajes}
-            <button type="submit" className="p-btn p-btn--lg p-btn--bloque" disabled={cargando}>{cargando ? "VERIFICANDO…" : "VERIFICAR"}</button>
-          </form>
-          <button type="button" className="p-enlace" onClick={() => irA("credenciales")}>← Volver</button>
-        </>
-      )}
-
-      {paso === "recuperar" && (
+      ) : (
         <>
           <h2>Recuperar contraseña</h2>
+          <p className="p-sub">Te enviaremos un correo con un enlace para crear una contraseña nueva.</p>
           <form onSubmit={onRecuperar} noValidate>
             <label>Correo electrónico<input className="p-input" name="correo" type="email" autoComplete="email" /></label>
             {mensajes}
-            <button type="submit" className="p-btn p-btn--lg p-btn--bloque" disabled={cargando}>{cargando ? "ENVIANDO…" : "ENVIAR CÓDIGO"}</button>
-          </form>
-          <button type="button" className="p-enlace" onClick={() => irA("credenciales")}>← Volver</button>
-        </>
-      )}
-
-      {paso === "restablecer" && (
-        <>
-          <h2>Nueva contraseña</h2>
-          <form onSubmit={onRestablecer} noValidate>
-            <label>Código recibido<input className="p-input" name="codigo" inputMode="numeric" maxLength={6} autoComplete="one-time-code" /></label>
-            <label>Nueva contraseña<input className="p-input" name="nueva" type="password" autoComplete="new-password" minLength={8} /></label>
-            {mensajes}
-            <button type="submit" className="p-btn p-btn--lg p-btn--bloque" disabled={cargando}>{cargando ? "GUARDANDO…" : "CAMBIAR CONTRASEÑA"}</button>
+            <button type="submit" className="p-btn p-btn--lg p-btn--bloque" disabled={cargando}>{cargando ? "ENVIANDO…" : "ENVIAR ENLACE"}</button>
           </form>
           <button type="button" className="p-enlace" onClick={() => irA("credenciales")}>← Volver</button>
         </>

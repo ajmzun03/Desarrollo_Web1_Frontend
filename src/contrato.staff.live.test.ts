@@ -1,30 +1,25 @@
 import { beforeAll, describe, expect, it, vi } from "vitest";
 
-// Contrato del sistema interno contra el backend REAL con un usuario de personal. Solo lectura
-// (GET): recorre el getAll() de cada servicio y comprueba que responde y que los numeros ya vienen
-// convertidos. Las credenciales se pasan por entorno y no se guardan en ningun archivo:
-//   LIVE_API_URL=http://localhost:3000 LIVE_STAFF_USER=... LIVE_STAFF_PASS=... npm test
+// Contrato del sistema interno contra el backend REAL con un usuario de personal. Solo lectura (GET):
+// recorre el getAll() de cada servicio y comprueba que responde y que los numeros ya vienen convertidos.
+// El login del personal exige un codigo TOTP, asi que esta prueba recibe un token ya emitido
+// (JWT de personal con rol ADMIN) por entorno; no se guarda en ningun archivo:
+//   LIVE_API_URL=http://localhost:3000 LIVE_STAFF_TOKEN=<jwt> npm test
 const URL_API = process.env.LIVE_API_URL;
-const USUARIO = process.env.LIVE_STAFF_USER;
-const CLAVE = process.env.LIVE_STAFF_PASS;
+const TOKEN = process.env.LIVE_STAFF_TOKEN;
 
 type Servicio = Record<string, unknown> & { getAll?: () => Promise<unknown> };
 const modulos = import.meta.glob<Record<string, Servicio>>("./copac/services/*.service.ts");
 
-describe.skipIf(!URL_API || !USUARIO || !CLAVE)("sistema interno contra el backend real", () => {
+describe.skipIf(!URL_API || !TOKEN)("sistema interno contra el backend real", () => {
   const resultados: { servicio: string; estado: "ok" | "error"; detalle: string }[] = [];
 
   beforeAll(async () => {
     vi.stubEnv("VITE_API_URL", URL_API!);
     vi.stubEnv("VITE_USE_MOCKS", "false");
-    const { authService } = await import("./copac/services/auth.service");
-    const login = await authService.login(USUARIO!, CLAVE!);
-    expect(login.tipo, "el backend pidio codigo 2FA; arranca el backend sin Redis o usa una sesion ya verificada").toBe("sesion");
-    if (login.tipo !== "sesion") return;
     // El cliente HTTP toma el token de la cookie cuando la ruta empieza por /copac.
     window.history.pushState({}, "", "/copac/dashboard");
-    document.cookie = `token=${encodeURIComponent(login.sesion.token)}; path=/`;
-    expect(login.sesion.usuario.rol).toBeTruthy();
+    document.cookie = `token=${encodeURIComponent(TOKEN!)}; path=/`;
   }, 60_000);
 
   it("cada servicio de lectura responde sin error de servidor", async () => {

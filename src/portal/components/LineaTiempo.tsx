@@ -23,7 +23,7 @@ export const LineaTiempo = ({ estado, eventos }: Props) => {
             <span className="p-tiempo__punto" aria-hidden="true">{n <= actual ? "✓" : ""}</span>
             <div>
               <strong>{paso.etiqueta}</strong>
-              <small>{evento ? hora(evento.hora) : "—"}</small>
+              {evento && <small>{hora(evento.hora)}</small>}
             </div>
           </li>
         );

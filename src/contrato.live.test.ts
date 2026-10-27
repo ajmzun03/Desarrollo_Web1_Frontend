@@ -30,6 +30,22 @@ describe.skipIf(!URL_API)("contrato con el backend real", () => {
     expect(typeof p.activo).toBe("boolean");
   }, 30_000);
 
+  it("las imágenes de productos y combos se cargan de verdad a través del backend (el bucket es privado)", async () => {
+    const { urlImagen } = await import("./copac/utils/imagenes");
+    const productos = await request<{ imagen_url: string | null }[]>("producto", "/productos");
+    const combos = await request<{ imagen: string | null }[]>("combo", "/combos");
+    const urls = [...productos.map((p) => p.imagen_url), ...combos.map((c) => c.imagen)].filter((u): u is string => !!u).slice(0, 12);
+    if (urls.length === 0) return console.warn("La API no trae imágenes: nada que comprobar.");
+
+    for (const url of urls) {
+      const origen = urlImagen(url)!;
+      expect(origen, "debe pasar por el backend").toContain("/archivos/imagen?key=");
+      const res = await fetch(origen); // sigue la redirección a la URL firmada
+      expect(res.status, origen).toBe(200);
+      expect(res.headers.get("content-type") ?? "").toMatch(/^image\//);
+    }
+  }, 120_000);
+
   it("combos y extras: responden como lista", async () => {
     expect(Array.isArray(await request("combo", "/combos"))).toBe(true);
     expect(Array.isArray(await request("producto-extra", "/productos-extra/producto/1"))).toBe(true);
@@ -70,4 +86,27 @@ describe.skipIf(!URL_API)("contrato con el backend real", () => {
     expect((error as InstanceType<typeof ApiError>).status).toBe(400);
     expect((error as Error).message).toMatch(/8 caracteres/);
   }, 30_000);
+});
+
+// Paso 1 del login del personal con credenciales reales: el backend debe pedir el segundo factor.
+// No enrola ni verifica nada (eso requiere el telefono de la persona). LIVE_STAFF_USER/LIVE_STAFF_PASS.
+describe.skipIf(!URL_API || !process.env.LIVE_STAFF_USER || !process.env.LIVE_STAFF_PASS)("login del personal con segundo factor (paso 1 real)", () => {
+  it("credenciales validas => pide verificar o enrolar el autenticador (nunca entrega sesion directa)", async () => {
+    vi.stubEnv("VITE_API_URL", URL_API!);
+    vi.stubEnv("VITE_USE_MOCKS", "false");
+    const { authService } = await import("./copac/services/auth.service");
+    const r = await authService.login(process.env.LIVE_STAFF_USER!, process.env.LIVE_STAFF_PASS!);
+    expect(r.tipo).toBe("verificacion");
+    if (r.tipo === "verificacion") {
+      expect(["verificar", "enrolar"]).toContain(r.mfa);
+      expect(r.tmpToken.length).toBeGreaterThan(20);
+    }
+  }, 60_000);
+
+  it("un tmpToken inventado no sirve para enrolar ni verificar (401)", async () => {
+    const { authService } = await import("./copac/services/auth.service");
+    const falso = "x.y.z";
+    await expect(authService.enrolar(falso)).rejects.toMatchObject({ status: 401 });
+    await expect(authService.verificar(falso, "123456")).rejects.toMatchObject({ status: 401 });
+  }, 60_000);
 });

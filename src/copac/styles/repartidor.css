@@ -586,3 +586,24 @@ button.repartidor__card:active {
     border-radius: 1.5rem 1.5rem 0 0;
   }
 }
+
+/* Enlaces de la vista: teléfono y mapa */
+.repartidor__dato a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+a.repartidor__mapa {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Móvil: la vista ocupa la pantalla completa, sin marco de teléfono. */
+@media (max-width: 768px) {
+  .repartidor__phone {
+    max-width: none;
+    min-height: calc(100vh - 7rem);
+    border-radius: 1rem;
+    box-shadow: none;
+  }
+}

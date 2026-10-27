@@ -35,18 +35,6 @@ export interface DatosRegistro {
   contrasenia: string;
 }
 
-export type ResultadoLoginCliente =
-  | { tipo: "sesion"; sesion: SesionCliente }
-  | { tipo: "verificacion"; tmpToken: string; canal: string };
-
-interface RespuestaLoginCliente {
-  requiereVerificacion?: boolean;
-  tmpToken?: string;
-  canal?: string;
-  token?: string;
-  cliente?: Cliente;
-}
-
 export interface ItemPago {
   nombre: string;
   cantidad: number;
@@ -95,26 +83,21 @@ export const portalService = {
     return { cliente: r.cliente, token: r.token };
   },
 
-  // 202 -> pide el codigo de 6 digitos; 200 -> sesion directa (solo cuando el backend corre sin Redis en desarrollo).
-  async login(correo_electronico: string, contrasenia: string): Promise<ResultadoLoginCliente> {
-    if (USE_MOCKS) return { tipo: "sesion", sesion: clienteDemo() };
-    const r = await post<RespuestaLoginCliente>("/cliente/auth/login", { correo_electronico, contrasenia });
-    if (r.requiereVerificacion && r.tmpToken) return { tipo: "verificacion", tmpToken: r.tmpToken, canal: r.canal ?? "" };
-    if (r.token && r.cliente) return { tipo: "sesion", sesion: { cliente: r.cliente, token: r.token } };
-    throw new ApiError("Respuesta de inicio de sesión inesperada.");
-  },
-
-  async verificar(tmpToken: string, codigo: string): Promise<SesionCliente> {
-    const r = await post<{ cliente: Cliente; token: string }>("/cliente/auth/verificar", { tmpToken, codigo });
+  // Los clientes NO tienen segundo factor: correo y contrasena devuelven la sesion directamente.
+  async login(correo_electronico: string, contrasenia: string): Promise<SesionCliente> {
+    if (USE_MOCKS) return clienteDemo();
+    const r = await post<{ cliente: Cliente; token: string }>("/cliente/auth/login", { correo_electronico, contrasenia });
     return { cliente: r.cliente, token: r.token };
   },
 
+  // Siempre responde 202 (anti-enumeracion): Supabase envia un correo con un enlace de un solo uso.
   async recuperar(correo_electronico: string): Promise<void> {
     await post<unknown>("/cliente/auth/recuperar", { correo_electronico });
   },
 
-  async restablecer(correo_electronico: string, codigo: string, nuevaContrasenia: string): Promise<void> {
-    await post<unknown>("/cliente/auth/restablecer", { correo_electronico, codigo, nuevaContrasenia });
+  // tokenHash viene en el enlace del correo (?token_hash=...). 401 = enlace invalido, vencido o ya usado.
+  async restablecer(tokenHash: string, nuevaContrasenia: string): Promise<void> {
+    await post<unknown>("/cliente/auth/restablecer", { tokenHash, nuevaContrasenia });
   },
 
   async logout(): Promise<void> {

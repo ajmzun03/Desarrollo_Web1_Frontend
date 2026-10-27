@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import { Redirect } from "wouter";
 import { getCookie } from "../utils/cookies";
+import { leerVistas } from "../utils/sesion";
+import { tieneAcceso } from "../config/roles";
 import type { RolUsuario } from "../types";
 import { Layout } from "./Layout";
 
@@ -19,17 +21,19 @@ export const RutaProtegida = ({ ruta, roles, children }: Props) => {
     return <Redirect to="/copac/login" replace />;
   }
 
-  if (roles && roles.length > 0) {
-    let rol: RolUsuario | null = null;
-    try {
-      const usuario = JSON.parse(getCookie("usuario") ?? "null");
-      rol = usuario?.rol ?? null;
-    } catch {
-      // cookie de usuario no legible; se trata como sin rol
-    }
-    if (!rol || !roles.includes(rol)) {
-      return <Redirect to="/copac/login" replace />;
-    }
+  let rol: RolUsuario | null = null;
+  try {
+    const usuario = JSON.parse(getCookie("usuario") ?? "null");
+    rol = usuario?.rol ?? null;
+  } catch {
+    // cookie de usuario no legible; se trata como sin rol
+  }
+
+  // Acceso por vistas del backend; `roles` (mapa estatico) solo se usa si la sesion aun no trae vistas.
+  const vistas = leerVistas();
+  const permitido = vistas ? tieneAcceso(rol, ruta, vistas) : !roles || roles.length === 0 || (!!rol && roles.includes(rol));
+  if (!permitido) {
+    return <Redirect to="/copac/login" replace />;
   }
 
   return <Layout rutaActiva={ruta}>{children}</Layout>;

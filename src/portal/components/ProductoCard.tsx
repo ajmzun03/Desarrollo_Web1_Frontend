@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { Plus } from "lucide-react";
 import { carrito } from "../store/carrito";
-import { quetzales } from "../utils/formato";
+import { descripcionUtil, quetzales } from "../utils/formato";
 import { ProductImage } from "./ProductImage";
 
 export interface ItemCatalogo {
@@ -38,7 +38,7 @@ export const ProductoCard = ({ item, emoji, disponible = true }: Props) => {
       )}
       <div className="p-card__cuerpo">
         <h3>{item.tipo === "producto" ? <Link href={`/menu/${item.id}`}>{item.nombre}</Link> : item.nombre}</h3>
-        {item.descripcion && <p className="p-sub">{item.descripcion}</p>}
+        {descripcionUtil(item.nombre, item.descripcion) && <p className="p-sub">{descripcionUtil(item.nombre, item.descripcion)}</p>}
         <div className="p-card__pie">
           <strong className="p-precio">{quetzales(item.precio)}</strong>
           <button

@@ -290,6 +290,7 @@ export interface OrdenTrabajo {
 export interface ProductoLote {
   id: number;
   orden_id: number | null;
+  producto_id: number;
   cantidad_inicial: number | null;
   cantidad_actual: number | null;
   estado: EstadoLote | null;
@@ -316,6 +317,7 @@ export interface HojaDespacho {
   pedido_id: number | null;
   sucursal_despacho: number | null;
   despachado_en: string;
+  repartidor_id?: number | null;
 }
 
 export interface HojaDespachoDetalle {
@@ -493,6 +495,7 @@ export interface HojaDespachoItemInput {
 export interface HojaDespachoCreateInput {
   pedido_id: number;
   sucursal_despacho: number;
+  repartidor_id?: number;
   items?: HojaDespachoItemInput[];
 }
 

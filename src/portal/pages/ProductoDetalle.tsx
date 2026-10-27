@@ -8,7 +8,7 @@ import { useCatalogo } from "../hooks/useCatalogo";
 import { useDatos } from "../../hooks/useDatos";
 import { productosExtraService } from "../../copac/services/combos.service";
 import { carrito } from "../store/carrito";
-import { quetzales } from "../utils/formato";
+import { descripcionUtil, quetzales } from "../utils/formato";
 
 // Atajos de personalizacion: viajan como texto en las observaciones del pedido (no tienen precio).
 const SIN = ["Sin cebolla", "Sin tomate", "Sin lechuga", "Sin pepino", "Sin salsa"];
@@ -63,7 +63,7 @@ export default function ProductoDetalle() {
               <ProductImage src={producto.imagen_url} alt={producto.producto} emoji={datos!.emojiDe(producto.categoria_id)} className="p-detalle__img" />
               <div className="p-detalle__info">
                 <h1 className="p-titulo">{producto.producto}</h1>
-                {producto.descripcion && <p className="p-sub">{producto.descripcion}</p>}
+                {descripcionUtil(producto.producto, producto.descripcion) && <p className="p-sub">{descripcionUtil(producto.producto, producto.descripcion)}</p>}
                 <strong className="p-precio p-precio--lg">{quetzales(unitario)}</strong>
                 {!disponible && <p className="p-estado p-estado--error">Este producto no está disponible por ahora.</p>}
 
@@ -90,7 +90,7 @@ export default function ProductoDetalle() {
                 </div>
 
                 <h2 className="p-sobretitulo">OBSERVACIONES ESPECIALES</h2>
-                <textarea className="p-input" rows={3} maxLength={120} value={obs} onChange={(e) => setObs(e.target.value)} placeholder="Ej.: bien cocida, sin sal…" />
+                <textarea className="p-input" aria-label="Observaciones especiales" rows={3} maxLength={120} value={obs} onChange={(e) => setObs(e.target.value)} placeholder="Ej.: bien cocida, sin sal…" />
 
                 <div className="p-detalle__accion">
                   <div className="p-cantidad" role="group" aria-label="Cantidad">

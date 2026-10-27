@@ -6,6 +6,9 @@ import { pedidosService } from "../services/pedidos.service";
 import { clientesService } from "../services/clientes.service";
 import { direccionesService } from "../services/direcciones.service";
 import { usuariosService } from "../services/usuarios.service";
+import { hojasDespachoService } from "../services/hojasDespacho.service";
+import { productosService } from "../services/productos.service";
+import { sucursalesService } from "../services/sucursales.service";
 import { cajasService } from "../services/cajas.service";
 import { turnosService } from "../services/turnos.service";
 import { liquidacionesService } from "../services/liquidaciones.service";
@@ -71,7 +74,7 @@ export default function Despacho() {
   const [cajas, setCajas] = useState<Caja[]>([]);
   const [turnos, setTurnos] = useState<TurnoDespachador[]>([]);
   const [liquidaciones, setLiquidaciones] = useState<LiquidacionRepartidor[]>([]);
-  // Asignación repartidor->pedido (solo visual: no existe campo de repartidor en el pedido).
+  // Asignación pedido->repartidor: sale de las hojas de despacho (campo repartidor_id).
   const [asignaciones, setAsignaciones] = useState<Record<number, number>>({});
   const [modalPedido, setModalPedido] = useState<Pedido | null>(null);
   const [selRepartidor, setSelRepartidor] = useState(0);
@@ -95,7 +98,7 @@ export default function Despacho() {
 
   const cargar = useCallback(async () => {
     try {
-      const [peds, clis, dirs, usrs, cjs, trns, liqs] = await Promise.all([
+      const [peds, clis, dirs, usrs, cjs, trns, liqs, hojas] = await Promise.all([
         pedidosService.getAll(),
         clientesService.getAll(),
         direccionesService.getAll(),
@@ -103,6 +106,7 @@ export default function Despacho() {
         cajasService.getAll(),
         turnosService.getAll(),
         liquidacionesService.getAll(),
+        hojasDespachoService.getAll(),
       ]);
       const despacho = peds.filter((p) => p.estado === "LISTO" || p.estado === "EN_DESPACHO" || p.estado === "EN_RUTA");
       const dets = await Promise.all(despacho.map((p) => pedidosService.getById(p.id)));
@@ -118,6 +122,12 @@ export default function Despacho() {
       setTurnos(trns);
       setLiquidaciones(liqs);
       setDetalles(mapa);
+      const enRutaIds = new Set(peds.filter((p) => p.estado === "EN_RUTA").map((p) => p.id));
+      const guardadas: Record<number, number> = {};
+      for (const h of hojas) {
+        if (h.pedido_id && h.repartidor_id && enRutaIds.has(h.pedido_id)) guardadas[h.pedido_id] = h.repartidor_id;
+      }
+      setAsignaciones(guardadas);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error al cargar el centro de despacho.");
     }
@@ -172,10 +182,46 @@ export default function Despacho() {
     setModalPedido(p);
   };
 
+  // Busca lotes vigentes que cubran el pedido (primero la sucursal del pedido, luego las demás).
+  const prepararDespacho = async (pedido: Pedido) => {
+    const lineas = detalles[pedido.id] ?? [];
+    if (lineas.length === 0) throw new Error("El pedido no tiene productos registrados.");
+    const sucursales = await sucursalesService.getAll();
+    const candidatas = [...new Set([pedido.sucursal_id, ...sucursales.map((s) => s.id)].filter((x): x is number => !!x))];
+    for (const sucursal of candidatas) {
+      const lotes = (await productosService.getStock(sucursal)).filter(
+        (l) => l.estado === "VIGENTE" && (l.cantidad_actual ?? 0) > 0
+      );
+      const restante = new Map(lotes.map((l) => [l.id, l.cantidad_actual ?? 0]));
+      const items: { producto_lote_id: number; cantidad_despachada: number }[] = [];
+      let completo = true;
+      for (const linea of lineas) {
+        let falta = linea.cantidad;
+        for (const lote of lotes.filter((l) => l.producto_id === linea.producto_id)) {
+          if (falta <= 0) break;
+          const toma = Math.min(falta, restante.get(lote.id) ?? 0);
+          if (toma <= 0) continue;
+          items.push({ producto_lote_id: lote.id, cantidad_despachada: Math.round(toma * 100) / 100 });
+          restante.set(lote.id, (restante.get(lote.id) ?? 0) - toma);
+          falta -= toma;
+        }
+        if (falta > 0) completo = false;
+      }
+      if (completo) return { sucursal, items };
+    }
+    throw new Error("No hay stock de producto terminado suficiente para despachar este pedido.");
+  };
+
   const confirmarAsignacion = async () => {
     if (!modalPedido || !selRepartidor) return;
     try {
-      await pedidosService.updateEstado(modalPedido.id, "EN_RUTA");
+      const { sucursal, items } = await prepararDespacho(modalPedido);
+      await hojasDespachoService.create({
+        pedido_id: modalPedido.id,
+        sucursal_despacho: sucursal,
+        repartidor_id: selRepartidor,
+        items,
+      });
       setAsignaciones((prev) => ({ ...prev, [modalPedido.id]: selRepartidor }));
       setPedidos((prev) =>
         prev.map((p) => (p.id === modalPedido.id ? { ...p, estado: "EN_RUTA" } : p))

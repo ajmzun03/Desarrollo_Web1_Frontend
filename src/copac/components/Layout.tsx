@@ -13,9 +13,12 @@ import {
   Utensils,
   Warehouse,
 } from "lucide-react";
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import type { RolUsuario } from "../types";
 import { getCookie, deleteCookie } from "../utils/cookies";
 import { authService } from "../services/auth.service";
+import { tieneAcceso } from "../config/roles";
+import { borrarVistas, guardarVistas, leerVistas } from "../utils/sesion";
 import "../styles/layout.css";
 
 const NAV_ITEMS = [
@@ -38,6 +41,33 @@ interface Props {
 }
 
 export const Layout = ({ rutaActiva, children }: Props) => {
+  // Vistas permitidas segun el backend. Las sesiones anteriores a este cambio no las tienen guardadas:
+  // se piden una vez a /auth/me (mientras tanto el menu se arma por rol).
+  const [vistas, setVistas] = useState<string[] | null>(() => leerVistas());
+  useEffect(() => {
+    if (vistas) return;
+    let vigente = true;
+    authService
+      .me()
+      .then((v) => {
+        if (!v) return;
+        guardarVistas(v);
+        if (vigente) setVistas(v);
+      })
+      .catch(() => undefined);
+    return () => {
+      vigente = false;
+    };
+  }, [vistas]);
+
+  const rolActual = (): RolUsuario | null => {
+    try {
+      return JSON.parse(getCookie("usuario") ?? "null")?.rol ?? null;
+    } catch {
+      return null;
+    }
+  };
+
   const nombreUsuario = () => {
     try {
       const usuario = JSON.parse(getCookie("usuario") ?? "null");
@@ -52,6 +82,7 @@ export const Layout = ({ rutaActiva, children }: Props) => {
     await authService.logout();
     deleteCookie("token");
     deleteCookie("usuario");
+    borrarVistas();
     window.location.assign("/copac/login");
   };
 
@@ -60,7 +91,7 @@ export const Layout = ({ rutaActiva, children }: Props) => {
       <aside className="layout__sidebar">
         <div className="layout__brand">COPAC</div>
         <nav className="layout__nav">
-          {NAV_ITEMS.map(({ path, label, icon: Icon }) => (
+          {NAV_ITEMS.filter(({ path }) => tieneAcceso(rolActual(), path, vistas)).map(({ path, label, icon: Icon }) => (
             <Link
               key={path}
               href={path}

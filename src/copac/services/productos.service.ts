@@ -1,5 +1,5 @@
 import { request, toQuery } from "./http";
-import type { Producto, ProductoInput } from "../types";
+import type { Producto, ProductoInput, ProductoLote } from "../types";
 
 export interface ProductoDisponibilidad extends Producto {
   disponible: number;
@@ -8,6 +8,10 @@ export interface ProductoDisponibilidad extends Producto {
 }
 
 export const productosService = {
+  // Lotes de producto terminado de una sucursal (requiere sesion de personal).
+  async getStock(sucursalId: number): Promise<ProductoLote[]> {
+    return request<ProductoLote[]>("producto-lote", `/productos/stock${toQuery({ sucursal_id: sucursalId })}`);
+  },
   async getAll(): Promise<Producto[]> {
     return request<Producto[]>("producto", "/productos");
   },

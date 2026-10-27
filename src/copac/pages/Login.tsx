@@ -10,7 +10,7 @@ export default function Login() {
         <h2>Iniciar sesión</h2>
         <p>Ingresa tus credenciales para continuar</p>
         <Form/>
-        <p className="login__footer">COPAC v2.4 · © 2024 Sistema Empresarial · Todos los derechos reservados</p>
+        <p className="login__footer">COPAC · © {new Date().getFullYear()} Sistema Empresarial · Todos los derechos reservados</p>
       </section>
     </div>
   )

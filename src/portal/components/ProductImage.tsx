@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { urlImagen } from "../../copac/utils/imagenes";
 
 interface Props {
   src?: string | null;
@@ -7,15 +8,17 @@ interface Props {
   className?: string;
 }
 
-// Muestra imagen_url del producto; si no existe o falla la carga, cae a un emoji de categoria.
+// Muestra la imagen del producto (imagen_url / imagen de la API). Las URLs del bucket privado de S3 se
+// sirven a traves del backend (ver utils/imagenes.ts). Si no hay imagen o falla la carga, cae a un emoji.
 export const ProductImage = ({ src, alt, emoji, className = "" }: Props) => {
   const [fallo, setFallo] = useState<string | null>(null);
-  const usable = src && fallo !== src;
+  const origen = urlImagen(src);
+  const usable = origen && fallo !== origen;
 
   return (
     <div className={`p-img ${className}`}>
       {usable ? (
-        <img src={src} alt={alt} loading="lazy" onError={() => setFallo(src)} />
+        <img src={origen} alt={alt} loading="lazy" onError={() => setFallo(origen)} />
       ) : (
         <span className="p-img__emoji" role="img" aria-label={alt}>
           {emoji}

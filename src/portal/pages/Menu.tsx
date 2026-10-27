@@ -36,7 +36,8 @@ export default function Menu() {
         ...datos.combos.map((c): Entrada => ({
           item: { tipo: "combo", id: c.id, nombre: c.nombre, precio: c.precio, imagen: c.imagen },
           categoriaId: COMBOS,
-          disponible: true,
+          // Un combo sin precio (0) no se puede vender: el backend rechaza el pedido, asi que no se ofrece.
+          disponible: c.precio > 0,
         })),
       ]
     : [];

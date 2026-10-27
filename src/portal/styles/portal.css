@@ -246,3 +246,23 @@
 
 .p-estado--ok { color: var(--color-success-text-dark); background: var(--color-success-bg); border-radius: 10px; padding: 12px 14px; margin: 12px 0; font-size: 14px; }
 .p-card__etiqueta--combo { background: var(--color-primary); }
+
+/* --- Pulido de diseno (revision visual) --- */
+.p-footer { padding: 0; }
+.p-footer__fila { width: 100%; max-width: 1200px; margin: 0 auto; padding: 24px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+
+/* Los titulos de seccion quedaban pegados a la cuadricula que sigue */
+.p-seccion > .p-titulo { margin-bottom: 18px; }
+.p-seccion > .p-sobretitulo { margin-top: 0; }
+
+/* Tarjetas de categoria: nombres largos ("Acompañamientos") se salian de la tarjeta */
+.p-categorias { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+.p-categoria { padding: 16px 10px; }
+.p-categoria strong { font-size: 0.9rem; overflow-wrap: anywhere; line-height: 1.25; }
+
+@media (max-width: 560px) {
+  /* En la cuadricula de 2 columnas el precio y el boton "Agregar" no caben en una fila */
+  .p-card__pie { flex-direction: column; align-items: stretch; gap: 8px; }
+  .p-card__pie .p-btn { width: 100%; }
+  .p-card h3 { font-size: 0.95rem; }
+}
