@@ -1,6 +1,7 @@
 import { ApiError, request } from "../../copac/services/http";
 import { USE_MOCKS } from "../../copac/config/api";
 import { pedidosService } from "../../copac/services/pedidos.service";
+import type { DatosTarjeta } from "../utils/tarjeta";
 import type {
   Cliente,
   DetallePedido,
@@ -176,15 +177,16 @@ export const portalService = {
     return pedido;
   },
 
-  // Crea la sesion de Stripe Checkout y devuelve la URL de pago. El monto lo calcula el servidor
-  // a partir del pedido; `items` solo describe la compra.
-  async iniciarPago(pedidoId: number, items: ItemPago[]): Promise<string> {
-    const r = await post<{ url: string | null }>("/pagos/checkout", {
+  // Cobra el pedido con la pasarela de COPAC: el backend usa la API de Stripe (PaymentIntent), sin
+  // redirigir al cliente. El monto lo calcula el servidor a partir del pedido; `items` solo describe la compra.
+  async pagarConTarjeta(pedidoId: number, items: ItemPago[], tarjeta: DatosTarjeta): Promise<{ id: string; status: string }> {
+    const r = await post<{ id: string; status: string }>("/pagos/payment-intent", {
       pedido_id: pedidoId,
       items: items.map((i) => ({ nombre: i.nombre, cantidad: Math.max(1, Math.round(i.cantidad)), monto: Math.max(0.01, i.monto) })),
+      tarjeta,
     });
-    if (!r.url) throw new ApiError("No se pudo obtener el enlace de pago.");
-    return r.url;
+    if (r.status !== "succeeded") throw new ApiError("El pago no se completó. Intenta con otra tarjeta.");
+    return r;
   },
 
   async getPedidosDeCliente(clienteId: number): Promise<Pedido[]> {

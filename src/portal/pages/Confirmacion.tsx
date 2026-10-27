@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link, useParams } from "wouter";
 import { PortalLayout } from "../components/PortalLayout";
 import { Cargando, ErrorMsg } from "../components/Estados";
@@ -11,24 +10,9 @@ export default function Confirmacion() {
   const { id } = useParams<{ id: string }>();
   const { datos: pedido, cargando, error } = useDatos(() => portalService.getPedido(Number(id)), id);
   const nombreDe = useNombresProducto();
-  const [pagando, setPagando] = useState(false);
-  const [falloPago, setFalloPago] = useState<string | null>(null);
 
-  // Pedido con tarjeta que aun no se pagó (por ejemplo, el cliente canceló en Stripe): permite reintentar.
+  // Pedido con tarjeta que aun no se pagó (por ejemplo, el cliente eligió "pagar después"): permite pagarlo.
   const pendienteDePago = pedido?.metodo_pago === "TARJETA" && !pedido.pagado && pedido.estado !== "ANULADO";
-
-  const pagar = async () => {
-    if (!pedido) return;
-    setPagando(true);
-    setFalloPago(null);
-    try {
-      const items = pedido.detalles.map((d) => ({ nombre: nombreDe(d.producto_id), cantidad: d.cantidad, monto: d.precio_unitario }));
-      window.location.assign(await portalService.iniciarPago(pedido.id, items));
-    } catch (e) {
-      setFalloPago(e instanceof Error ? e.message : "No se pudo iniciar el pago.");
-      setPagando(false);
-    }
-  };
 
   return (
     <PortalLayout>
@@ -59,10 +43,9 @@ export default function Confirmacion() {
               ))}
             </ul>
             {pedido.observaciones && <p className="p-sub">Notas: {pedido.observaciones}</p>}
-            {falloPago && <ErrorMsg mensaje={falloPago} />}
 
             <div className="p-acciones p-acciones--centro">
-              {pendienteDePago && <button type="button" className="p-btn p-btn--acento" disabled={pagando} onClick={pagar}>{pagando ? "REDIRIGIENDO…" : "PAGAR AHORA"}</button>}
+              {pendienteDePago && <Link href={`/pago/${pedido.id}`} className="p-btn p-btn--acento">PAGAR AHORA</Link>}
               <Link href={`/pedido/${pedido.id}/seguimiento`} className="p-btn">VER ESTADO DEL PEDIDO</Link>
               <Link href="/menu" className="p-btn p-btn--fantasma">VOLVER AL MENÚ</Link>
             </div>

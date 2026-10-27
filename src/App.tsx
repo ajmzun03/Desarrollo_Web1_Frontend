@@ -26,7 +26,7 @@ import PedidoDetalle from "./portal/pages/PedidoDetalle";
 import Sucursales from "./portal/pages/Sucursales";
 import ClienteLogin from "./portal/pages/ClienteLogin";
 import Registro from "./portal/pages/Registro";
-import PagoRetorno from "./portal/pages/PagoRetorno";
+import Pasarela from "./portal/pages/Pasarela";
 import RestablecerCliente from "./portal/pages/RestablecerCliente";
 import Restablecer from "./copac/pages/Restablecer";
 
@@ -53,8 +53,7 @@ export const App = () => {
       <Route path="/login" component={ClienteLogin} />
       <Route path="/registro" component={Registro} />
       <Route path="/restablecer" component={RestablecerCliente} />
-      <Route path="/pago/exito">{() => <PagoRetorno resultado="exito" />}</Route>
-      <Route path="/pago/cancelado">{() => <PagoRetorno resultado="cancelado" />}</Route>
+      <Route path="/pago/:id" component={Pasarela} />
 
       {/* Sistema interno (personal) */}
       <Route path="/copac/login" component={Login} />

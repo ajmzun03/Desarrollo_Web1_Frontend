@@ -98,10 +98,13 @@ describe.skipIf(!ACTIVO)("flujo de cliente contra el backend real", () => {
     expect(pedido.metodo_pago).toBe("TARJETA");
     expect(pedido.pagado).toBe(false);
 
-    // Si Stripe no esta configurado en el backend (clave de prueba pendiente) responde 500: se informa, no se oculta.
-    const resultado = await portal.iniciarPago(pedido.id, [{ nombre: "Producto de prueba", cantidad: 1, monto: pedido.total }]).catch((e: unknown) => e);
-    if (typeof resultado === "string") expect(resultado).toMatch(/^https:\/\/checkout\.stripe\.com/);
-    else console.warn("Stripe no disponible en este entorno:", (resultado as Error).message);
+    // Pasarela propia: el backend cobra con la API de Stripe (tarjeta de prueba). Si Stripe no esta
+    // configurado en este entorno responde 500: se informa, no se oculta.
+    const resultado = await portal
+      .pagarConTarjeta(pedido.id, [{ nombre: "Producto de prueba", cantidad: 1, monto: pedido.total }], { number: "4242424242424242", exp_month: 12, exp_year: 2030, cvc: "123" })
+      .catch((e: unknown) => e);
+    if (resultado instanceof Error) console.warn("Stripe no disponible en este entorno:", resultado.message);
+    else expect((resultado as { status: string }).status).toBe("succeeded");
   }, 90_000);
 
   it("limpieza: el personal anula los pedidos de prueba", async ({ skip }) => {

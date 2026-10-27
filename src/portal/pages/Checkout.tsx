@@ -102,14 +102,9 @@ export default function Checkout() {
         entrega.direccionId = nueva.id;
       }
       const pedido = await portalService.crearPedido(cliente, items, entrega);
-      const aPagar = items.map((i) => ({ nombre: i.nombre, cantidad: i.cantidad, monto: precioUnitario(i) }));
       carrito.vaciar();
-      if (metodoPago === "TARJETA") {
-        // Redirige a Stripe; al volver, /pago/exito o /pago/cancelado reciben el pedido.
-        window.location.assign(await portalService.iniciarPago(pedido.id, aPagar));
-        return;
-      }
-      navegar(`/pedido/${pedido.id}/confirmacion`);
+      // Con tarjeta se cobra en la pasarela de COPAC; el pedido ya existe, así que se puede pagar después.
+      navegar(metodoPago === "TARJETA" ? `/pago/${pedido.id}` : `/pedido/${pedido.id}/confirmacion`);
     } catch (e) {
       setError(e instanceof Error ? e.message : "No se pudo crear el pedido.");
       setEnviando(false);
@@ -195,7 +190,7 @@ export default function Checkout() {
                   <input type="radio" name="pago" checked={metodoPago === "EFECTIVO"} onChange={() => setMetodoPago("EFECTIVO")} /> 💵 Efectivo contra entrega
                 </label>
                 <label className={metodoPago === "TARJETA" ? "p-opcion p-opcion--on" : "p-opcion"}>
-                  <input type="radio" name="pago" checked={metodoPago === "TARJETA"} onChange={() => setMetodoPago("TARJETA")} /> 💳 Tarjeta (pago seguro con Stripe)
+                  <input type="radio" name="pago" checked={metodoPago === "TARJETA"} onChange={() => setMetodoPago("TARJETA")} /> 💳 Tarjeta de crédito o débito
                 </label>
               </>
             )}
@@ -215,9 +210,9 @@ export default function Checkout() {
                           : `${direccion}, ${municipio?.municipio ?? ""} (${referencia})`}
                     </dd>
                   </div>
-                  <div><dt>PAGO</dt><dd>{metodoPago === "TARJETA" ? "Tarjeta (Stripe)" : "Efectivo contra entrega"}</dd></div>
+                  <div><dt>PAGO</dt><dd>{metodoPago === "TARJETA" ? "Tarjeta de crédito o débito" : "Efectivo contra entrega"}</dd></div>
                 </dl>
-                {metodoPago === "TARJETA" && <p className="p-sub">Al confirmar te llevaremos a la página segura de Stripe para pagar.</p>}
+                {metodoPago === "TARJETA" && <p className="p-sub">Al confirmar pasarás a la pantalla de pago con tarjeta.</p>}
               </>
             )}
 
