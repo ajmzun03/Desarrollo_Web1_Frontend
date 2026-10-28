@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "wouter";
 import { PortalLayout } from "../components/PortalLayout";
 import { LineaTiempo } from "../components/LineaTiempo";
+import { PagoPendiente } from "../components/PagoPendiente";
 import { Cargando, ErrorMsg } from "../components/Estados";
 import { useDatos } from "../../hooks/useDatos";
 import { useNombresProducto } from "../hooks/useNombresProducto";
@@ -61,6 +62,9 @@ export default function PedidoDetalle() {
                   <div><dt>ENTREGA</dt><dd>{pedido.tipo_entrega === "RECOGER" ? "Recoger en sucursal" : "A domicilio"}</dd></div>
                   <div><dt>PAGO</dt><dd>{pedido.metodo_pago === "TARJETA" ? (pedido.pagado ? "Tarjeta · pagado" : "Tarjeta · pendiente") : "Efectivo contra entrega"}</dd></div>
                 </dl>
+                {pedido.metodo_pago === "TARJETA" && !pedido.pagado && pedido.estado !== "ANULADO" && (
+                  <PagoPendiente pedidoId={pedido.id} alCambiar={() => setTick((n) => n + 1)} />
+                )}
                 {fallo && <ErrorMsg mensaje={fallo} />}
                 <div className="p-acciones">
                   <Link href="/mis-pedidos" className="p-btn p-btn--fantasma">← Volver</Link>

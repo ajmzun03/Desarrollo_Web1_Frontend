@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "wouter";
 import { PortalLayout } from "../components/PortalLayout";
 import { LineaTiempo } from "../components/LineaTiempo";
+import { PagoPendiente } from "../components/PagoPendiente";
 import { Cargando, ErrorMsg } from "../components/Estados";
 import { useDatos } from "../../hooks/useDatos";
 import { useNombresProducto } from "../hooks/useNombresProducto";
@@ -39,7 +40,10 @@ export default function Seguimiento() {
               <section className="p-panel">
                 <h2>Estado del pedido</h2>
                 <LineaTiempo estado={pedido.estado} eventos={pedido.eventos} />
-                {pedido.estado !== "ANULADO" && (
+                {pedido.metodo_pago === "TARJETA" && !pedido.pagado && pedido.estado !== "ANULADO" && (
+                  <PagoPendiente pedidoId={pedido.id} alCambiar={() => setTick((n) => n + 1)} />
+                )}
+                {pedido.estado !== "ANULADO" && (pedido.metodo_pago !== "TARJETA" || pedido.pagado) && (
                   <div className="p-aviso">
                     <strong>{paso.etiqueta}</strong>
                     <p>{paso.mensaje}</p>

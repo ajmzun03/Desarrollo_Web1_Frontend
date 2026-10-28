@@ -51,6 +51,9 @@ const OT_CLASE: Record<EstadoOrdenTrabajo, string> = {
   ANULADA: "cocina__tag--anulada",
 };
 
+// A cocina solo llegan pedidos pagados: los de tarjeta esperan a que Stripe confirme el cobro.
+const pagoVerificado = (p: { metodo_pago?: string; pagado?: boolean }) => p.metodo_pago !== "TARJETA" || p.pagado === true;
+
 const horaPedido = (iso: string) =>
   new Date(iso).toLocaleTimeString("es-GT", { hour: "2-digit", minute: "2-digit" });
 
@@ -160,7 +163,7 @@ export default function Cocina() {
       const lotesPorMp = await Promise.all(mats.map((m) => lotesMateriaPrimaService.getFefo(1, m.id)));
       const loteLista = Array.from(new Map(lotesPorMp.flat().map((l) => [l.id, l])).values());
 
-      const activos = peds.filter((p) => p.estado === "CREADO" || p.estado === "LISTO");
+      const activos = peds.filter((p) => (p.estado === "CREADO" || p.estado === "LISTO") && pagoVerificado(p));
       const dets = await Promise.all(activos.map((p) => pedidosService.getById(p.id)));
       const mapa: Record<number, DetallePedido[]> = {};
       dets.forEach((d) => {
@@ -267,7 +270,7 @@ export default function Cocina() {
     recetas.find((r) => r.id === recetaId)?.nombre ?? "Sin receta";
 
   const listaKDS = (() => {
-    const activos = pedidos.filter((p) => p.estado === "CREADO" || p.estado === "LISTO");
+    const activos = pedidos.filter((p) => (p.estado === "CREADO" || p.estado === "LISTO") && pagoVerificado(p));
     const prioridad: Record<CardStatus, number> = { pending: 0, cooking: 1, ready: 2 };
     return activos
       .map((p) => ({ p, s: statusDe(p) }))

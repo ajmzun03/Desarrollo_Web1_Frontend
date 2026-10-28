@@ -294,3 +294,4 @@
   .p-btn:hover:not(:disabled), .p-chip-btn:hover, .p-icono:hover, .p-card:hover { transform: none; }
 }
 .p-pasarela__stripe { padding: 12px; min-height: 44px; background: #fff; }
+.p-pago-pendiente { margin: 14px 0; } .p-pago-pendiente .p-acciones { flex-wrap: wrap; } .p-acciones--col { flex-direction: column; align-items: stretch; }

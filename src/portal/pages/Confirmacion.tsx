@@ -1,17 +1,20 @@
+import { useState } from "react";
 import { Link, useParams } from "wouter";
 import { PortalLayout } from "../components/PortalLayout";
 import { Cargando, ErrorMsg } from "../components/Estados";
 import { useDatos } from "../../hooks/useDatos";
 import { portalService } from "../services/portal.service";
 import { useNombresProducto } from "../hooks/useNombresProducto";
+import { PagoPendiente } from "../components/PagoPendiente";
 import { numeroPedido, quetzales } from "../utils/formato";
 
 export default function Confirmacion() {
   const { id } = useParams<{ id: string }>();
-  const { datos: pedido, cargando, error } = useDatos(() => portalService.getPedido(Number(id)), id);
+  const [version, setVersion] = useState(0);
+  const { datos: pedido, cargando, error } = useDatos(() => portalService.getPedido(Number(id)), `${id}-${version}`);
   const nombreDe = useNombresProducto();
 
-  // Pedido con tarjeta que aun no se pagó (por ejemplo, el cliente eligió "pagar después"): permite pagarlo.
+  // Pedido con tarjeta que aun no se pagó (se cerró la pasarela o el pago falló): permite retomarlo o pasar a efectivo.
   const pendienteDePago = pedido?.metodo_pago === "TARJETA" && !pedido.pagado && pedido.estado !== "ANULADO";
 
   return (
@@ -44,8 +47,9 @@ export default function Confirmacion() {
             </ul>
             {pedido.observaciones && <p className="p-sub">Notas: {pedido.observaciones}</p>}
 
+            {pendienteDePago && <PagoPendiente pedidoId={pedido.id} alCambiar={() => setVersion((n) => n + 1)} />}
+
             <div className="p-acciones p-acciones--centro">
-              {pendienteDePago && <Link href={`/pago/${pedido.id}`} className="p-btn p-btn--acento">PAGAR AHORA</Link>}
               <Link href={`/pedido/${pedido.id}/seguimiento`} className="p-btn">VER ESTADO DEL PEDIDO</Link>
               <Link href="/menu" className="p-btn p-btn--fantasma">VOLVER AL MENÚ</Link>
             </div>

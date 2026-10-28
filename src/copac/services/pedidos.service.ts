@@ -31,6 +31,10 @@ export const pedidosService = {
   async entregado(id: number): Promise<Pedido> {
     return request<Pedido>("pedido", `/pedidos/${id}/entregado`, { method: "PATCH" });
   },
+  // El cliente deja la tarjeta (sin cobrar) y paga en efectivo contra entrega.
+  async cambiarAEfectivo(id: number): Promise<Pedido> {
+    return request<Pedido>("pedido", `/pedidos/${id}/metodo-efectivo`, { method: "PATCH" });
+  },
   async updateEstado(id: number, estado: EstadoPedido): Promise<Pedido> {
     return request<Pedido>("pedido", `/pedidos/${id}/estado`, {
       method: "PATCH",

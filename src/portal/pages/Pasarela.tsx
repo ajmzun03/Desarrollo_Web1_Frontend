@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Link, useLocation, useParams } from "wouter";
 import { loadStripe, type Stripe, type StripeCardElement } from "@stripe/stripe-js";
+import { pedidosService } from "../../copac/services/pedidos.service";
 import { PortalLayout } from "../components/PortalLayout";
 import { Cargando, ErrorMsg } from "../components/Estados";
 import { useDatos } from "../../hooks/useDatos";
@@ -90,6 +91,19 @@ export default function Pasarela() {
     }
   };
 
+  const aEfectivo = async () => {
+    if (!pedido || !window.confirm("¿Pagar en efectivo contra entrega? Ya no se te cobrará con tarjeta.")) return;
+    setProcesando(true);
+    setFallo(null);
+    try {
+      await pedidosService.cambiarAEfectivo(pedido.id);
+      navegar(`/pedido/${pedido.id}/confirmacion`);
+    } catch (err) {
+      setFallo(err instanceof Error ? err.message : "No se pudo cambiar el método de pago.");
+      setProcesando(false);
+    }
+  };
+
   return (
     <PortalLayout>
       <div className="p-contenedor p-contenedor--angosto">
@@ -139,9 +153,12 @@ export default function Pasarela() {
             <p className="p-sub p-pasarela__nota">Modo de pruebas: usa la tarjeta 4242 4242 4242 4242, cualquier fecha futura y cualquier CVC.</p>
             {fallo && <p className="p-estado p-estado--error" role="alert">{fallo}</p>}
 
-            <div className="p-acciones">
+            <div className="p-acciones p-acciones--col">
               <button type="submit" className="p-btn p-btn--acento p-btn--bloque" disabled={procesando || (usaElements && !tarjetaLista)}>
                 {procesando ? "VERIFICANDO PAGO…" : `PAGAR ${quetzales(pedido.total)}`}
+              </button>
+              <button type="button" className="p-btn p-btn--fantasma p-btn--bloque" disabled={procesando} onClick={aEfectivo}>
+                💵 CAMBIAR A EFECTIVO CONTRA ENTREGA
               </button>
             </div>
           </form>
