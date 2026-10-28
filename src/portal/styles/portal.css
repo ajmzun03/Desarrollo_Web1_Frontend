@@ -295,3 +295,12 @@
 }
 .p-pasarela__stripe { padding: 12px; min-height: 44px; background: #fff; }
 .p-pago-pendiente { margin: 14px 0; } .p-pago-pendiente .p-acciones { flex-wrap: wrap; } .p-acciones--col { flex-direction: column; align-items: stretch; }
+
+/* ---------- Buscador del menu ---------- */
+.p-buscador { position: relative; display: flex; align-items: center; gap: 10px; background: #fff; border: 1.5px solid var(--color-border-strong); border-radius: 12px; padding: 0 12px; margin-bottom: 14px; transition: border-color 0.15s, box-shadow 0.15s; }
+.p-buscador:focus-within { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(139, 18, 8, 0.12); }
+.p-buscador svg { flex: none; color: var(--color-text-secondary); }
+.p-buscador__input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; padding: 13px 0; color: inherit; }
+.p-buscador__input::-webkit-search-cancel-button { display: none; }
+.p-buscador__borrar { display: grid; place-items: center; border: 0; background: var(--color-bg-soft); border-radius: 50%; width: 26px; height: 26px; color: var(--color-text-secondary); }
+.p-buscador__borrar:hover { background: var(--color-border); color: var(--color-carbon); }
