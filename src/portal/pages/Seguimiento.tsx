@@ -14,11 +14,11 @@ export default function Seguimiento() {
   const { datos: pedido, cargando, error } = useDatos(() => portalService.getPedido(Number(id)), `${id}-${tick}`);
   const nombreDe = useNombresProducto();
 
-  // Refresca el estado cada 20 s mientras el pedido siga en curso.
+  // Refresca el estado cada 10 s mientras el pedido siga en curso.
   const enCurso = !pedido || (pedido.estado !== "ENTREGADO" && pedido.estado !== "ANULADO");
   useEffect(() => {
     if (!enCurso) return;
-    const t = setInterval(() => setTick((n) => n + 1), 20000);
+    const t = setInterval(() => { if (!document.hidden) setTick((n) => n + 1); }, 10000);
     return () => clearInterval(t);
   }, [enCurso]);
 

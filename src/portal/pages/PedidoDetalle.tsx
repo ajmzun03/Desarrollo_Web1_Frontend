@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "wouter";
 import { PortalLayout } from "../components/PortalLayout";
 import { LineaTiempo } from "../components/LineaTiempo";
@@ -12,10 +12,19 @@ import { fechaCorta, hora, numeroPedido, quetzales } from "../utils/formato";
 
 export default function PedidoDetalle() {
   const { id } = useParams<{ id: string }>();
-  const { datos: pedido, cargando, error } = useDatos(() => portalService.getPedido(Number(id)), id);
+  const [tick, setTick] = useState(0);
+  const { datos: pedido, cargando, error } = useDatos(() => portalService.getPedido(Number(id)), `${id}-${tick}`);
   const nombreDe = useNombresProducto();
   const repetir = useRepetirPedido();
   const [fallo, setFallo] = useState<string | null>(null);
+
+  // Mantiene al dia el tracker: refresca cada 10 s mientras el pedido siga en curso.
+  const enCurso = !pedido || (pedido.estado !== "ENTREGADO" && pedido.estado !== "ANULADO");
+  useEffect(() => {
+    if (!enCurso) return;
+    const t = setInterval(() => { if (!document.hidden) setTick((n) => n + 1); }, 10000);
+    return () => clearInterval(t);
+  }, [enCurso]);
 
   return (
     <PortalLayout>
