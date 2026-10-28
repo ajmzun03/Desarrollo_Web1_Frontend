@@ -35,6 +35,13 @@ export const pedidosService = {
   async cambiarAEfectivo(id: number): Promise<Pedido> {
     return request<Pedido>("pedido", `/pedidos/${id}/metodo-efectivo`, { method: "PATCH" });
   },
+  // Cocina empieza el pedido (EN_PREPARACION): el backend descuenta los insumos de la receta del stock.
+  async preparar(id: number): Promise<Pedido> {
+    return request<Pedido>("pedido", `/pedidos/${id}/preparar`, { method: "PATCH" });
+  },
+  async listo(id: number): Promise<Pedido> {
+    return request<Pedido>("pedido", `/pedidos/${id}/listo`, { method: "PATCH" });
+  },
   async updateEstado(id: number, estado: EstadoPedido): Promise<Pedido> {
     return request<Pedido>("pedido", `/pedidos/${id}/estado`, {
       method: "PATCH",

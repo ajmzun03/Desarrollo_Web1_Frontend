@@ -52,6 +52,7 @@ const OT_CLASE: Record<EstadoOrdenTrabajo, string> = {
 };
 
 // A cocina solo llegan pedidos pagados: los de tarjeta esperan a que Stripe confirme el cobro.
+const ESTADOS_COCINA: Pedido["estado"][] = ["CREADO", "EN_PREPARACION", "LISTO"];
 const pagoVerificado = (p: { metodo_pago?: string; pagado?: boolean }) => p.metodo_pago !== "TARJETA" || p.pagado === true;
 
 const horaPedido = (iso: string) =>
@@ -141,7 +142,8 @@ export default function Cocina() {
   const [ordenesTrabajo, setOrdenesTrabajo] = useState<OrdenTrabajo[]>([]);
   const [recetas, setRecetas] = useState<Receta[]>([]);
   const [sucursales, setSucursales] = useState<Sucursal[]>([]);
-  const [enCocina, setEnCocina] = useState<Set<number>>(new Set());
+  const [errorAccion, setErrorAccion] = useState<string | null>(null);
+  const [accionando, setAccionando] = useState<number | null>(null);
   const [mermFormOpen, setMermFormOpen] = useState(false);
   const [otFormOpen, setOtFormOpen] = useState(false);
   const [otForm, setOtForm] = useState({ sucursal_id: 0, receta_id: 0, cantidad_produccion: 1 });
@@ -149,7 +151,7 @@ export default function Cocina() {
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const cargar = useCallback(async () => {
+  const cargar = useCallback(async (silencioso = false) => {
     try {
       const [peds, prods, mats, unis, ots, recs, sers] = await Promise.all([
         pedidosService.getAll(),
@@ -163,7 +165,7 @@ export default function Cocina() {
       const lotesPorMp = await Promise.all(mats.map((m) => lotesMateriaPrimaService.getFefo(1, m.id)));
       const loteLista = Array.from(new Map(lotesPorMp.flat().map((l) => [l.id, l])).values());
 
-      const activos = peds.filter((p) => (p.estado === "CREADO" || p.estado === "LISTO") && pagoVerificado(p));
+      const activos = peds.filter((p) => ESTADOS_COCINA.includes(p.estado) && pagoVerificado(p));
       const dets = await Promise.all(activos.map((p) => pedidosService.getById(p.id)));
       const mapa: Record<number, DetallePedido[]> = {};
       dets.forEach((d) => {
@@ -180,7 +182,8 @@ export default function Cocina() {
       setSucursales(sers);
       setDetalles(mapa);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Error al cargar el módulo de cocina.");
+      // En el refresco automatico un fallo pasajero no debe tumbar la pantalla.
+      if (!silencioso) setError(e instanceof Error ? e.message : "Error al cargar el módulo de cocina.");
     } finally {
       setCargando(false);
     }
@@ -200,6 +203,21 @@ export default function Cocina() {
     };
   }, [cargar]);
 
+  // Refresco automatico cada 10 s (sin tocar el boton) mientras la pestaña este visible.
+  useEffect(() => {
+    let enCurso = false;
+    const t = setInterval(async () => {
+      if (document.hidden || enCurso) return;
+      enCurso = true;
+      try {
+        await cargar(true);
+      } finally {
+        enCurso = false;
+      }
+    }, 10000);
+    return () => clearInterval(t);
+  }, [cargar]);
+
   const refrescar = async () => {
     setCargando(true);
     try {
@@ -211,28 +229,30 @@ export default function Cocina() {
 
   const statusDe = (p: Pedido): CardStatus => {
     if (p.estado === "LISTO") return "ready";
-    if (enCocina.has(p.id)) return "cooking";
+    if (p.estado === "EN_PREPARACION") return "cooking";
     return "pending";
   };
 
-  const iniciar = (id: number) => setEnCocina((prev) => new Set(prev).add(id));
-
-  // El flujo "En preparación" es local/visual; solo el estado LISTO se persiste.
-  const marcarListo = async (id: number) => {
-    await pedidosService.updateEstado(id, "LISTO");
-    setPedidos((prev) => prev.map((p) => (p.id === id ? { ...p, estado: "LISTO" } : p)));
-    setEnCocina((prev) => {
-      const s = new Set(prev);
-      s.delete(id);
-      return s;
-    });
+  // Cada paso se guarda en el backend: EN_PREPARACION descuenta los insumos de la receta del stock de la sucursal.
+  const cambiarEstado = async (id: number, nuevo: "EN_PREPARACION" | "LISTO") => {
+    setAccionando(id);
+    setErrorAccion(null);
+    try {
+      const actualizado = nuevo === "EN_PREPARACION" ? await pedidosService.preparar(id) : await pedidosService.listo(id);
+      setPedidos((prev) => prev.map((p) => (p.id === id ? { ...p, estado: actualizado.estado ?? nuevo } : p)));
+      if (nuevo === "EN_PREPARACION") cargar(true); // el stock de insumos cambio
+    } catch (e) {
+      setErrorAccion(e instanceof Error ? e.message : "No se pudo actualizar el pedido.");
+    } finally {
+      setAccionando(null);
+    }
   };
 
   const accionKDS = (id: number) => {
     const pedido = pedidos.find((p) => p.id === id);
-    if (!pedido) return;
-    if (statusDe(pedido) === "pending") iniciar(id);
-    else marcarListo(id);
+    if (!pedido || accionando !== null) return;
+    if (pedido.estado === "CREADO") cambiarEstado(id, "EN_PREPARACION");
+    else if (pedido.estado === "EN_PREPARACION") cambiarEstado(id, "LISTO");
   };
 
   const iniciarOt = async (id: number) => {
@@ -270,7 +290,7 @@ export default function Cocina() {
     recetas.find((r) => r.id === recetaId)?.nombre ?? "Sin receta";
 
   const listaKDS = (() => {
-    const activos = pedidos.filter((p) => (p.estado === "CREADO" || p.estado === "LISTO") && pagoVerificado(p));
+    const activos = pedidos.filter((p) => ESTADOS_COCINA.includes(p.estado) && pagoVerificado(p));
     const prioridad: Record<CardStatus, number> = { pending: 0, cooking: 1, ready: 2 };
     return activos
       .map((p) => ({ p, s: statusDe(p) }))
@@ -278,7 +298,7 @@ export default function Cocina() {
       .map((x) => x.p);
   })();
 
-  const grupos = usoComun(pedidos, enCocina);
+  const grupos = usoComun(pedidos);
   const { pendientes, enPreparacion, listos } = grupos;
   const criticos = lotes.filter((l) => clasificarLote(l).label !== "Vigente");
 
@@ -426,6 +446,7 @@ export default function Cocina() {
                 <RotateCcw size={12} /> Actualizar
               </button>
             </div>
+            {errorAccion && <div className="ui-error" role="alert">{errorAccion}</div>}
             <div className="cocina__kds-grid">
               {listaKDS.map((p) => (
                 <KDSCard
@@ -660,9 +681,10 @@ export default function Cocina() {
 }
 
 // Cómputos compartidos entre tabs.
-function usoComun(pedidos: Pedido[], enCocina: Set<number>) {
-  const pendientes = pedidos.filter((p) => p.estado === "CREADO" && !enCocina.has(p.id));
-  const enPreparacion = pedidos.filter((p) => p.estado === "CREADO" && enCocina.has(p.id));
-  const listos = pedidos.filter((p) => p.estado === "LISTO");
+function usoComun(pedidos: Pedido[]) {
+  const cobrables = pedidos.filter(pagoVerificado);
+  const pendientes = cobrables.filter((p) => p.estado === "CREADO");
+  const enPreparacion = cobrables.filter((p) => p.estado === "EN_PREPARACION");
+  const listos = cobrables.filter((p) => p.estado === "LISTO");
   return { pendientes, enPreparacion, listos };
 }
