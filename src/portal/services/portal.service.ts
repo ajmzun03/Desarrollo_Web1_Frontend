@@ -179,14 +179,31 @@ export const portalService = {
 
   // Cobra el pedido con la pasarela de COPAC: el backend usa la API de Stripe (PaymentIntent), sin
   // redirigir al cliente. El monto lo calcula el servidor a partir del pedido; `items` solo describe la compra.
-  async pagarConTarjeta(pedidoId: number, items: ItemPago[], tarjeta: DatosTarjeta): Promise<{ id: string; status: string }> {
+  // `medio` es un payment_method de Stripe Elements (produccion) o los datos de la tarjeta de prueba (solo local).
+  // El pago NO se da por bueno con la respuesta del cobro: se consulta a Stripe (por el backend) y se relee el pedido.
+  async pagarConTarjeta(
+    pedidoId: number,
+    items: ItemPago[],
+    medio: DatosTarjeta | { payment_method: string },
+  ): Promise<{ id: string; status: string }> {
     const r = await post<{ id: string; status: string }>("/pagos/payment-intent", {
       pedido_id: pedidoId,
       items: items.map((i) => ({ nombre: i.nombre, cantidad: Math.max(1, Math.round(i.cantidad)), monto: Math.max(0.01, i.monto) })),
-      tarjeta,
+      ...("payment_method" in medio ? { payment_method: medio.payment_method } : { tarjeta: medio }),
     });
     if (r.status !== "succeeded") throw new ApiError("El pago no se completó. Intenta con otra tarjeta.");
+    await portalService.verificarPago(pedidoId, r.id);
     return r;
+  },
+
+  // Confirma con Stripe (GET /pagos/:id) que el cobro quedó en "succeeded" y que el pedido figura como pagado.
+  async verificarPago(pedidoId: number, intentId: string): Promise<void> {
+    const pago = await request<{ status: string; pedido_id: string | number }>("cliente", `/pagos/${encodeURIComponent(intentId)}`);
+    if (pago.status !== "succeeded" || Number(pago.pedido_id) !== pedidoId) {
+      throw new ApiError("No pudimos confirmar el pago con Stripe. No se te cobró; intenta de nuevo.");
+    }
+    const pedido = await pedidosService.getById(pedidoId);
+    if (!pedido.pagado) throw new ApiError("Stripe aún no confirma el pago de tu pedido. Revisa Mis pedidos en unos minutos.");
   },
 
   async getPedidosDeCliente(clienteId: number): Promise<Pedido[]> {

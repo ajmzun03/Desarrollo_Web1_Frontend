@@ -293,3 +293,4 @@
   .p-btn, .p-chip-btn, .p-icono, .p-link, .p-card, .p-contador { transition: none; animation: none; }
   .p-btn:hover:not(:disabled), .p-chip-btn:hover, .p-icono:hover, .p-card:hover { transform: none; }
 }
+.p-pasarela__stripe { padding: 12px; min-height: 44px; background: #fff; }
