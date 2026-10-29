@@ -186,7 +186,8 @@ export default function Bodega() {
         materiasPrimasService.getAll(),
         unidadesMedidaService.getAll(),
         categoriasService.getAll(),
-        usuariosService.getAll(),
+        // Solo el ADMIN puede listar usuarios; el resto de roles (p. ej. bodeguero) ve los nombres como #id.
+        usuariosService.getAll().catch(() => [] as Usuario[]),
         proveedoresService.getAll(),
         ordenesCompraService.getAll(),
         hojasRecepcionService.getAll(),

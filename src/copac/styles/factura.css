@@ -1,0 +1,30 @@
+.factura-overlay { position: fixed; inset: 0; background: rgba(33, 29, 27, 0.6); display: grid; place-items: start center; overflow: auto; padding: 24px 12px; z-index: 100; }
+.factura-modal { width: min(720px, 100%); }
+.factura-acciones { display: flex; gap: 8px; justify-content: flex-end; margin-bottom: 10px; }
+.factura-hoja { background: #fff; color: #211d1b; border-radius: 10px; padding: 32px; font-size: 14px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); }
+.factura-cab { display: flex; justify-content: space-between; gap: 16px; border-bottom: 2px solid #8b1208; padding-bottom: 14px; margin-bottom: 16px; }
+.factura-cab h1 { font-size: 28px; color: #8b1208; margin: 0; }
+.factura-cab p { margin: 2px 0 0; color: #6b6560; }
+.factura-num { text-align: right; display: grid; gap: 2px; }
+.factura-num span { font-size: 12px; letter-spacing: 0.1em; color: #6b6560; }
+.factura-num strong { font-size: 22px; }
+.factura-num small { color: #6b6560; }
+.factura-datos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 24px; margin: 0 0 18px; }
+.factura-datos dt { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #6b6560; }
+.factura-datos dd { margin: 0; font-weight: 600; }
+.factura-tabla { width: 100%; border-collapse: collapse; }
+.factura-tabla th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #6b6560; border-bottom: 1px solid #d8d3ce; padding: 8px 6px; }
+.factura-tabla td { padding: 8px 6px; border-bottom: 1px solid #efebe6; }
+.factura-tabla th:nth-child(n+3), .factura-tabla td:nth-child(n+3) { text-align: right; }
+.factura-tabla tfoot td { border: 0; font-weight: 800; font-size: 16px; padding-top: 12px; }
+.factura-tabla tfoot td:first-child { text-align: right; }
+.factura-pie { margin: 22px 0 0; text-align: center; color: #6b6560; font-size: 12px; }
+.ventas__factura { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--color-border); display: grid; gap: 8px; }
+
+@media print {
+  body * { visibility: hidden !important; }
+  .factura-overlay, .factura-overlay * { visibility: visible !important; }
+  .factura-overlay { position: absolute; inset: 0; background: #fff; padding: 0; overflow: visible; }
+  .factura-acciones { display: none !important; }
+  .factura-hoja { box-shadow: none; border-radius: 0; padding: 0; }
+}

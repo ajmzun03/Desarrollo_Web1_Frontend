@@ -1,4 +1,5 @@
 import { request, toQuery } from "./http";
+import { USE_MOCKS } from "../config/api";
 import type { DetalleSolicitudInsumo, EstadoSolicitudInsumo, SolicitudInsumo } from "../types";
 
 export interface SolicitudInsumoItemInput {
@@ -23,11 +24,20 @@ export const solicitudesInsumoService = {
   async getById(id: number): Promise<SolicitudInsumo> {
     return request<SolicitudInsumo>("solicitud-insumo", `/solicitudes-insumo/${id}`);
   },
+  // El backend no tiene un listado de detalles (GET /solicitudes-insumo/detalles lo toma como un id y responde
+  // 400 "Dato con formato inválido"): el detalle viene dentro de cada solicitud (GET /solicitudes-insumo/:id).
   async getDetalles(solicitudId?: number): Promise<DetalleSolicitudInsumo[]> {
-    return request<DetalleSolicitudInsumo[]>(
-      "detalle-solicitud-insumo",
-      `/solicitudes-insumo/detalles${toQuery({ solicitud_id: solicitudId })}`
+    if (USE_MOCKS) {
+      return request<DetalleSolicitudInsumo[]>(
+        "detalle-solicitud-insumo",
+        `/solicitudes-insumo/detalles${toQuery({ solicitud_id: solicitudId })}`
+      );
+    }
+    const ids = solicitudId !== undefined ? [solicitudId] : (await this.getAll()).map((s) => s.id);
+    const completas = await Promise.all(
+      ids.map((id) => request<SolicitudInsumo & { detalles?: DetalleSolicitudInsumo[] }>("solicitud-insumo", `/solicitudes-insumo/${id}`)),
     );
+    return completas.flatMap((s) => s.detalles ?? []);
   },
   async create(data: SolicitudInsumoInput): Promise<SolicitudInsumo> {
     return request<SolicitudInsumo>("solicitud-insumo", "/solicitudes-insumo", { method: "POST", body: JSON.stringify(data) });

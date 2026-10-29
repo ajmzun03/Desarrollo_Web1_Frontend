@@ -25,6 +25,8 @@ import { direccionesService } from "../services/direcciones.service";
 import { facturasVentaService } from "../services/facturasVenta.service";
 import { schemaCliente, schemaPedidoCreate } from "../schemas";
 import { BadgeEstado } from "../components/BadgeEstado";
+import { FacturaImprimible } from "../components/FacturaImprimible";
+import { SERIE_FACTURA, codigoFactura, siguienteNumeroFactura } from "../utils/factura";
 import { ESTADO_LABEL } from "../utils/pedidoEstados";
 import type {
   Cliente,
@@ -834,14 +836,19 @@ function pedidosPorCliente(clienteId: number, pedidos: Pedido[]): number {
 }
 
 interface TrackingProps {
+  facturas: FacturaVenta[];
+  onGenerarFactura: (pedidoId: number) => Promise<FacturaVenta>;
   pedidos: Pedido[];
   clientes: Cliente[];
   productos: Producto[];
   onCargarDetalle: (id: number) => Promise<PedidoConDetalles>;
 }
 
-function Tracking({ pedidos, clientes, productos, onCargarDetalle }: TrackingProps) {
+function Tracking({ pedidos, clientes, productos, onCargarDetalle, facturas, onGenerarFactura }: TrackingProps) {
   const [seleccionado, setSeleccionado] = useState<Pedido | null>(null);
+  const [verFactura, setVerFactura] = useState(false);
+  const [generando, setGenerando] = useState(false);
+  const [errorFactura, setErrorFactura] = useState<string | null>(null);
   const [detalle, setDetalle] = useState<PedidoConDetalles | null>(null);
 
   const ordenados = [...pedidos].sort(
@@ -851,6 +858,8 @@ function Tracking({ pedidos, clientes, productos, onCargarDetalle }: TrackingPro
   const seleccionar = async (p: Pedido) => {
     setSeleccionado(p);
     setDetalle(null);
+    setVerFactura(false);
+    setErrorFactura(null);
     try {
       setDetalle(await onCargarDetalle(p.id));
     } catch {
@@ -861,8 +870,34 @@ function Tracking({ pedidos, clientes, productos, onCargarDetalle }: TrackingPro
   const nombreProducto = (id: number) =>
     productos.find((pr) => pr.id === id)?.producto ?? `Producto #${id}`;
 
+  const facturaDe = seleccionado ? facturas.find((f) => f.pedido_id === seleccionado.id) : undefined;
+
+  const generar = async () => {
+    if (!seleccionado) return;
+    setGenerando(true);
+    setErrorFactura(null);
+    try {
+      await onGenerarFactura(seleccionado.id);
+      setVerFactura(true);
+    } catch (e) {
+      setErrorFactura(e instanceof Error ? e.message : "No se pudo generar la factura.");
+    } finally {
+      setGenerando(false);
+    }
+  };
+
   return (
     <div className="ventas__content">
+      {verFactura && facturaDe && seleccionado && detalle && (
+        <FacturaImprimible
+          factura={facturaDe}
+          pedido={seleccionado}
+          detalles={detalle.detalles}
+          cliente={clienteNombre(seleccionado.cliente_id, clientes)}
+          nombreProducto={nombreProducto}
+          onCerrar={() => setVerFactura(false)}
+        />
+      )}
       <div className="ventas__track">
         <div className="ventas__track-list">
           <h2 className="ventas__title">Seguimiento de pedidos</h2>
@@ -974,6 +1009,21 @@ function Tracking({ pedidos, clientes, productos, onCargarDetalle }: TrackingPro
                       Obs: {detalle.observaciones}
                     </p>
                   )}
+                  {seleccionado.estado !== "ANULADO" && (
+                    <div className="ventas__factura">
+                      <p className="ventas__detail-items-title">Factura</p>
+                      {facturaDe ? (
+                        <button type="button" className="ui-btn ui-btn--secondary" onClick={() => setVerFactura(true)}>
+                          Ver factura {codigoFactura(facturaDe)}
+                        </button>
+                      ) : (
+                        <button type="button" className="ui-btn ui-btn--primary" onClick={generar} disabled={generando}>
+                          {generando ? "Generando…" : "Generar factura"}
+                        </button>
+                      )}
+                      {errorFactura && <p className="ventas__form-error" role="alert">{errorFactura}</p>}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -1044,6 +1094,31 @@ export default function Ventas() {
     return creado;
   };
 
+  // Serie A con numero correlativo. Si dos cajeros chocan en el mismo numero se reintenta con el siguiente.
+  const generarFactura = async (pedidoId: number): Promise<FacturaVenta> => {
+    const pedido = pedidos.find((p) => p.id === pedidoId);
+    if (!pedido) throw new Error("Pedido no encontrado.");
+    let base = facturas;
+    for (let intento = 0; intento < 3; intento++) {
+      const numero = siguienteNumeroFactura(base, SERIE_FACTURA);
+      try {
+        const creada = await facturasVentaService.create({
+          pedido_id: pedidoId,
+          serie: SERIE_FACTURA,
+          numero,
+          total: Number(pedido.total),
+        });
+        setFacturas((prev) => [creada, ...prev]);
+        return creada;
+      } catch (e) {
+        const repetido = e instanceof Error && /serie|numero|duplic|unique|ya existe/i.test(e.message) && !/pedido ya tiene/i.test(e.message);
+        if (!repetido || intento === 2) throw e;
+        base = [...base, { serie: SERIE_FACTURA, numero } as FacturaVenta];
+      }
+    }
+    throw new Error("No se pudo generar la factura.");
+  };
+
   const TABS: { id: Tab; label: string }[] = [
     { id: "dashboard", label: "Mi Dashboard" },
     { id: "clientes", label: "Clientes" },
@@ -1112,6 +1187,8 @@ export default function Ventas() {
       )}
       {tab === "seguimiento" && (
         <Tracking
+          facturas={facturas}
+          onGenerarFactura={generarFactura}
           pedidos={pedidos}
           clientes={clientes}
           productos={productos}
